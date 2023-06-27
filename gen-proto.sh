@@ -1,0 +1,1 @@
+protoc --dart_out=grpc:packages/trip_brain_data/lib/src/generated/ --proto_path='C:/Users/Pr0nE/Developer/gpt_app/packages/trip_brain_data/lib/src/generated' gpt.proto

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option go_package = "./;main";
+
+message TravelSuggestionRequest {
+    string accessToken = 1;
+    string basePlace = 2;
+    repeated string likes = 3;
+    repeated string dislikes = 4;
+}
+
+message TravelSuggestionResponse {
+    repeated TravelPlace places = 1;
+}
+
+message PlaceImageRequest {
+    string accessToken = 1;
+    string place = 2;
+}
+
+message PlaceImageResponse {
+    repeated string imageUrls = 1;
+}
+
+message TravelPlace {
+    string title = 1;
+    string description = 2;
+}
+
+service TravelSuggestion {
+    rpc Suggest(TravelSuggestionRequest) returns (stream TravelSuggestionResponse) {}
+    rpc GetPlaceImage(PlaceImageRequest) returns (PlaceImageResponse) {}
+}
+
+message SocialAuthorizeRequest {
+    string token = 1;
+    string provider = 2;
+}
+
+message SocialAuthorizeResponse {
+    User user = 1;
+}
+
+message TokenAuthorizeRequest {
+    string token = 1;
+}
+
+message TokenAuthorizeResponse {
+    User user = 1;
+}
+
+message User {
+    string id = 1;
+    string name = 2;
+    string token = 3;
+}
+
+service Auth {
+    rpc SocialAuthorize(SocialAuthorizeRequest) returns (SocialAuthorizeResponse) {}
+    rpc TokenAuthorize(TokenAuthorizeRequest) returns (TokenAuthorizeResponse) {} 
+}
