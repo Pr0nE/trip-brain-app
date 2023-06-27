@@ -3,7 +3,6 @@ export 'src/question_flow_step.dart';
 export 'src/place_image_fetcher.dart';
 export 'src/place_model.dart';
 export 'src/place_suggester.dart';
-export 'src/image_response_model.dart';
 export 'src/storage.dart';
 export 'src/object_extensions.dart';
 
