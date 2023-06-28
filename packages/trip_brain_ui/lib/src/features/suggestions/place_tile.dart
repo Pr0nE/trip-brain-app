@@ -38,13 +38,15 @@ class _PlaceTileState extends State<PlaceTile> {
             widget.title,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 16),
-          Text(
-            widget.description,
-            style: Theme.of(context).textTheme.bodySmall,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.description,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ),
           SizedBox(
-            height: 400,
+            height: 200,
             child: FutureBuilder<List<String>>(
               future: imageUrls,
               builder: (context, snapshot) {
@@ -54,7 +56,6 @@ class _PlaceTileState extends State<PlaceTile> {
 
                 if (snapshot.hasData) {
                   final urls = snapshot.data!;
-                  print(urls);
 
                   return ListView.separated(
                     scrollDirection: Axis.horizontal,

@@ -39,25 +39,29 @@ class SuggestionsLayout extends StatelessWidget {
               child: Builder(
                 builder: (context) => Column(
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('I want travel to ${queryModel.basePlace}'),
-                            Text('I Like ${queryModel.likes.join(',')}'),
-                            Text('I Dislike ${queryModel.dislikes.join(',')}'),
-                          ],
-                        ),
-                        TextButton.icon(
-                          onPressed: () => onChangeSuggestionQuery(
-                            queryModel: queryModel.copyWith(),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('I want travel to ${queryModel.basePlace}'),
+                              Text('I Like ${queryModel.likes.join(',')}'),
+                              Text(
+                                  'I Dislike ${queryModel.dislikes.join(',')}'),
+                            ],
                           ),
-                          icon: Icon(Icons.settings),
-                          label: Text('Change'),
-                        )
-                      ],
+                          TextButton.icon(
+                            onPressed: () => onChangeSuggestionQuery(
+                              queryModel: queryModel.copyWith(),
+                            ),
+                            icon: Icon(Icons.settings),
+                            label: Text('Change'),
+                          )
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: BlocBuilder<SuggestionsPageCubit,

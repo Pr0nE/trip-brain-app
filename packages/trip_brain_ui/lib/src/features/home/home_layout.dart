@@ -25,25 +25,21 @@ class _HomeLayoutState extends State<HomeLayout> {
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
           body: Padding(
-            //padding: const EdgeInsets.all(0),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                const SizedBox(
+                  height: 38,
+                ),
                 Text(
                   'I want travel to ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 TextField(
                   controller: _travelPlaceTextFieldController,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.headlineMedium,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Beach places',
@@ -55,15 +51,6 @@ class _HomeLayoutState extends State<HomeLayout> {
                 TextButton.icon(
                   onPressed: () =>
                       widget.onSuggestPlacesTapped(basePlace: travelPlace),
-                  // onPressed: () => context.pushQuestionFlow(
-                  //   QuestionFlowPageDependencies(
-                  //     PlaceSuggestionQueryModel(
-                  //       basePlace: travelPlace,
-                  //       dislikes: [],
-                  //       likes: [],
-                  //     ),
-                  //   ),
-                  // ),
                   icon: const Icon(Icons.search),
                   label: const Text('Suggest'),
                 ),

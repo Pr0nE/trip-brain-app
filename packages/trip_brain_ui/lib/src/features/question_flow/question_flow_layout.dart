@@ -74,7 +74,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
         children: [
           ListItemPreviewWidget<String>(
             items: [_queryModel.basePlace],
-            prefixWidget: const Text('I want travel to '),
+            prefixTitle: 'I want travel to ',
             isEnabled: _step == QuestionFlowStep.basePlace,
             closeIcon: false,
             onWidgetTap: () =>
@@ -83,7 +83,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
           ListItemPreviewWidget<String>(
             items: _queryModel.likes,
             isEnabled: _step == QuestionFlowStep.likes,
-            prefixWidget: const Text('I like '),
+            prefixTitle: 'I like ',
             onItemTap: (item) => setState(
                 () => _queryModel = _queryModel.copyWith(removeLike: item)),
             onWidgetTap: () => setState(() => _step = QuestionFlowStep.likes),
@@ -91,7 +91,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
           ListItemPreviewWidget<String>(
             items: _queryModel.dislikes,
             isEnabled: _step == QuestionFlowStep.dislikes,
-            prefixWidget: const Text('I dislike '),
+            prefixTitle: 'I dislike ',
             onItemTap: (item) => setState(
                 () => _queryModel = _queryModel.copyWith(removeDislike: item)),
             onWidgetTap: () =>
@@ -101,6 +101,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
       );
 
   IconButton _buildNextStepButton() => IconButton(
+        iconSize: 50,
         onPressed: () {
           switch (_step) {
             case QuestionFlowStep.basePlace:
@@ -130,6 +131,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
       );
 
   IconButton _buildPreviousStepButton() => IconButton(
+        iconSize: 50,
         onPressed: () {
           switch (_step) {
             case QuestionFlowStep.basePlace:

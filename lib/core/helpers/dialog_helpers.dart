@@ -37,7 +37,7 @@ class DialogManager {
     overlay!.insert(entry);
   }
 
-  remove() {
+  void remove() {
     _activeDialog?.remove();
     _activeDialog = null;
   }

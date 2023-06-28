@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class ListItemPreviewWidget<T> extends StatelessWidget {
   const ListItemPreviewWidget({
     required this.items,
+    required this.prefixTitle,
     this.isEnabled = false,
     this.closeIcon = true,
-    this.prefixWidget,
     this.onItemTap,
     this.onWidgetTap,
     super.key,
   });
 
   final List<T> items;
-  final Widget? prefixWidget;
+  final String prefixTitle;
   final bool isEnabled;
   final bool closeIcon;
   final Function(T)? onItemTap;
@@ -22,10 +22,12 @@ class ListItemPreviewWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: isEnabled ? null : onWidgetTap,
         child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
-          if (prefixWidget != null) prefixWidget!,
+          _buildPrefixTitle(context, prefixTitle),
           ..._buildItems(context)
         ]),
       );
+
+  Widget _buildPrefixTitle(BuildContext context, String title) => Text(title);
   List<Widget> _buildItems(BuildContext context) =>
       items.map((item) => _buildItem(context, item)).toList();
 
@@ -38,18 +40,19 @@ class ListItemPreviewWidget<T> extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 item.toString(),
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: isEnabled ? Colors.red : Colors.white,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(fontSize: isEnabled ? 30 : 12),
               ),
             ),
             if (isEnabled && closeIcon)
-              const Positioned(
+              Positioned(
                 top: 0,
                 right: 0,
                 child: Icon(
                   Icons.close_rounded,
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               )
           ],

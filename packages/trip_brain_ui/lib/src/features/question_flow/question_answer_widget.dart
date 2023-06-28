@@ -30,7 +30,14 @@ class _QuestionAnswerWidgetState extends State<QuestionAnswerWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Question
-          Text(widget.question),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.question,
+              style: Theme.of(context).textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(height: 16),
           // Input field
           TextField(
