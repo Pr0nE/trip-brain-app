@@ -17,9 +17,10 @@ class TripBrainApp extends StatelessWidget {
         create: (context) => APIClient(
           //host: '23.94.120.138',
           grpcClientInfo: GRPClientInfo(
-              host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051),
-          //host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
-          //  port: 5051),
+            //  host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051,
+            host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
+            port: 5051,
+          ),
         ),
         child: Provider<AppLocalRepository>(
           create: (context) => AppLocalRepository(storage: SecureStorage()),
@@ -28,8 +29,9 @@ class TripBrainApp extends StatelessWidget {
                 AuthRepository(apiClient: context.read<APIClient>()),
             child: Provider(
               create: (context) => AuthCubit(
-                  authenticator: context.read<AuthRepository>(),
-                  storage: context.read<AppLocalRepository>()),
+                authenticator: context.read<AuthRepository>(),
+                storage: context.read<AppLocalRepository>(),
+              ),
               child: Provider<TravelSuggestionRepository>(
                 create: (context) => TravelSuggestionRepository(
                   authProvider: context.read<AuthCubit>(),
@@ -38,8 +40,11 @@ class TripBrainApp extends StatelessWidget {
                 ),
                 child: MaterialApp.router(
                   theme: ThemeData(
-                      brightness: Brightness.dark,
-                      textTheme: GoogleFonts.robotoTextTheme()),
+                    colorScheme: const ColorScheme.dark(),
+                    brightness: Brightness.dark,
+                    textTheme:
+                        GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
+                  ),
                   // TOODO: theme:
                   // TODO: localizationsDelegates:
                   builder: (context, child) => child ?? ErrorWidget('Error'),
