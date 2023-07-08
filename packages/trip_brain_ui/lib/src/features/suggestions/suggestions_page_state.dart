@@ -1,5 +1,6 @@
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
+// TODO: change to abstract form
 class SuggestionsPageState {
   SuggestionsPageState({
     this.isLoading = false,

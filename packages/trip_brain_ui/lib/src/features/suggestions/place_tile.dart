@@ -4,77 +4,107 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class PlaceTile extends StatefulWidget {
   const PlaceTile({
-    required this.title,
-    required this.description,
+    required this.place,
     required this.imageFetcher,
-    this.basePlace,
+    required this.onPlaceTapped,
     super.key,
   });
 
-  final String title;
-  final String description;
-  final String? basePlace;
+  final Place place;
   final PlaceImageFetcher imageFetcher;
+  final void Function(Place place) onPlaceTapped;
 
   @override
   State<PlaceTile> createState() => _PlaceTileState();
 }
 
 class _PlaceTileState extends State<PlaceTile> {
+  late Future<List<String>> imageUrls;
+  late Place place;
+
+  @override
+  void didUpdateWidget(covariant PlaceTile oldWidget) {
+    place = widget.place.copyWith();
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    final place = '${widget.basePlace ?? ''} ${widget.title}';
-    imageUrls = widget.imageFetcher.getPlaceImageUrls(place);
+    place = widget.place.copyWith();
+
+    _getImageUrls();
   }
 
-  late Future<List<String>> imageUrls;
+  Future<void> _getImageUrls() async {
+    imageUrls = widget.imageFetcher.getPlaceImageUrls(place)
+      ..then(
+        (urls) => place = place.copyWith(imageUrls: urls),
+      );
+  }
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Text(
-            widget.title,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              widget.description,
-              style: Theme.of(context).textTheme.bodySmall,
+  Widget build(BuildContext context) => InkWell(
+        onTap: () => widget.onPlaceTapped(place),
+        child: Column(
+          children: [
+            Hero(
+              tag: place.title,
+              child: Text(
+                place.title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 200,
-            child: FutureBuilder<List<String>>(
-              future: imageUrls,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-
-                if (snapshot.hasData) {
-                  final urls = snapshot.data!;
-
-                  return ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: urls.length,
-                    itemBuilder: (context, index) => CachedNetworkImage(
-                      imageUrl: urls[index],
-                      fit: BoxFit.cover,
-                      width: 300,
-                      height: 300,
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 10),
-                  );
-                }
-
-                return const SizedBox();
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Hero(
+                tag: place.description,
+                child: Text(
+                  place.description,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
             ),
-          )
-        ],
+            SizedBox(
+              height: 200,
+              child: FutureBuilder<List<String>>(
+                future: imageUrls,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+
+                  if (snapshot.hasData) {
+                    final urls = snapshot.data!;
+
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: urls.length,
+                        itemBuilder: (context, index) => Hero(
+                          tag: urls[index],
+                          child: CachedNetworkImage(
+                            imageUrl: urls[index],
+                            fit: BoxFit.cover,
+                            width: 300,
+                            height: 300,
+                          ),
+                        ),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 10),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox();
+                },
+              ),
+            )
+          ],
+        ),
       );
 }

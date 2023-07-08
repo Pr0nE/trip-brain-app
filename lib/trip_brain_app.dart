@@ -17,9 +17,9 @@ class TripBrainApp extends StatelessWidget {
         create: (context) => APIClient(
           //host: '23.94.120.138',
           grpcClientInfo: GRPClientInfo(
-            //  host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051,
-            host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
-            port: 5051,
+            host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051,
+            // host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
+            // port: 5051,
           ),
         ),
         child: Provider<AppLocalRepository>(
@@ -32,30 +32,45 @@ class TripBrainApp extends StatelessWidget {
                 authenticator: context.read<AuthRepository>(),
                 storage: context.read<AppLocalRepository>(),
               ),
-              child: Provider<TravelSuggestionRepository>(
-                create: (context) => TravelSuggestionRepository(
+              child: Provider(
+                create: (context) => PlaceDetailsRepository(
+                  cacheManager: MapCacheManager(),
                   authProvider: context.read<AuthCubit>(),
                   client: context.read<APIClient>(),
-                  cacheManager: MapCacheManager(),
                 ),
-                child: MaterialApp.router(
-                  theme: ThemeData(
-                    colorScheme: const ColorScheme.dark(),
-                    brightness: Brightness.dark,
-                    textTheme:
-                        GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
+                child: Provider<TravelSuggestionRepository>(
+                  create: (context) => TravelSuggestionRepository(
+                    authProvider: context.read<AuthCubit>(),
+                    client: context.read<APIClient>(),
+                    cacheManager: MapCacheManager(),
                   ),
-                  // TOODO: theme:
-                  // TODO: localizationsDelegates:
-                  builder: (context, child) => child ?? ErrorWidget('Error'),
-                  //  Provider<ImageRepository>(
-                  //   create: (context) => ImageRepository(context.read<APIClient>()),
-                  //   child: Provider<DialogManager>(
-                  //     create: (context) => DialogManager(context),
-                  //     child: ,
-                  //   ),
-                  // ),
-                  routerConfig: appRouterConfig,
+                  child: Provider<PaymentRepository>(
+                    create: (context) => PaymentRepository(
+                      client: context.read<APIClient>(),
+                      authProvider: context.read<AuthCubit>(),
+                    ),
+                    child: MaterialApp.router(
+                      theme: ThemeData(
+                        useMaterial3: true,
+                        colorScheme: const ColorScheme.dark(),
+                        brightness: Brightness.dark,
+                        textTheme: GoogleFonts.robotoTextTheme(
+                            ThemeData.dark().textTheme),
+                      ),
+                      // TOODO: theme:
+                      // TODO: localizationsDelegates:
+                      builder: (context, child) =>
+                          child ?? ErrorWidget('Error'),
+                      //  Provider<ImageRepository>(
+                      //   create: (context) => ImageRepository(context.read<APIClient>()),
+                      //   child: Provider<DialogManager>(
+                      //     create: (context) => DialogManager(context),
+                      //     child: ,
+                      //   ),
+                      // ),
+                      routerConfig: appRouterConfig,
+                    ),
+                  ),
                 ),
               ),
             ),

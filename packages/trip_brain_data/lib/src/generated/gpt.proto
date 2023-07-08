@@ -53,9 +53,40 @@ message User {
     string id = 1;
     string name = 2;
     string token = 3;
+    int32 balance = 4;
 }
 
 service Auth {
     rpc SocialAuthorize(SocialAuthorizeRequest) returns (SocialAuthorizeResponse) {}
     rpc TokenAuthorize(TokenAuthorizeRequest) returns (TokenAuthorizeResponse) {} 
+}
+
+message GetDetailRequest {
+    string token = 1;
+    string place = 2;
+    string detail = 3;
+}
+
+message GetDetailResponse {
+    string content = 1;
+}
+
+service PlaceDetails {
+    rpc GetDetail(GetDetailRequest) returns (stream GetDetailResponse) {}
+}
+
+message BuyCreditRequest {
+    string token = 1;
+    int32 amount = 2;
+    string currency = 3;
+    
+}
+
+message BuyCreditResponse {
+    string clientSecret = 1;
+}
+
+
+service Payment {
+    rpc BuyCredit(BuyCreditRequest) returns (BuyCreditResponse) {}
 }

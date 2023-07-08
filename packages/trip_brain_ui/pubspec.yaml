@@ -14,6 +14,7 @@ dependencies:
 
   flutter_bloc: ^8.1.3
   cached_network_image: ^3.2.3
+  flutter_markdown: ^0.6.15
   trip_brain_domain:
     path: ../trip_brain_domain/
 

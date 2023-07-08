@@ -47,6 +47,9 @@
     "packages/trip_brain_data/pubspec.lock": true,
     "packages/trip_brain_data/README.md": true,
     "README.md": true,
+    "back-go": true,
+    "packages/trip_brain_ui/.flutter-plugins": true,
+    "packages/trip_brain_ui/.flutter-plugins-dependencies": true,
     "android": true
   },
   "hide-files.files": [
@@ -91,6 +94,9 @@
     "packages/trip_brain_data/pubspec.lock",
     "packages/trip_brain_data/README.md",
     "README.md",
+    "back-go",
+    "packages/trip_brain_ui/.flutter-plugins",
+    "packages/trip_brain_ui/.flutter-plugins-dependencies",
     "android"
   ]
 }

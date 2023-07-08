@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trip_brain_app/pages/auth/auth_page.dart';
+import 'package:trip_brain_app/pages/details/place_details_page.dart';
 import 'package:trip_brain_app/pages/home/home_page.dart';
 import 'package:trip_brain_app/pages/question_flow/question_flow_page.dart';
 import 'package:trip_brain_app/pages/question_flow/question_flow_page_dependencies.dart';
 import 'package:trip_brain_app/pages/splash/splash_page.dart';
 import 'package:trip_brain_app/pages/suggestions/suggestions_page.dart';
 import 'package:trip_brain_app/pages/suggestions/suggestions_page_dependencies.dart';
+import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 const _homePagePath = '/home';
 const _splashPagePath = '/splash';
 const _authPagePath = '/auth';
 const _questionFlowPagePath = 'question-flow';
 const _suggestionsPagePath = 'suggestions';
+const _detailsPagePath = 'details';
 
 final appRouterConfig = GoRouter(
   routes: [
@@ -31,15 +34,23 @@ final appRouterConfig = GoRouter(
           GoRoute(
             path: _questionFlowPagePath,
             builder: (context, state) => QuestionFlowPage(
+              //TODO: move depedecies to query parameters
               dependencies: state.extra as QuestionFlowPageDependencies,
             ),
           ),
           GoRoute(
-            path: _suggestionsPagePath,
-            builder: (context, state) => SuggestionsPage(
-              dependencies: state.extra as SuggestionsPageDependencies,
-            ),
-          ),
+              path: _suggestionsPagePath,
+              builder: (context, state) => SuggestionsPage(
+                    dependencies: state.extra as SuggestionsPageDependencies,
+                  ),
+              routes: [
+                GoRoute(
+                  path: _detailsPagePath,
+                  builder: (context, state) => PlaceDetailsPage(
+                    place: state.extra as Place,
+                  ),
+                )
+              ]),
         ]),
   ],
   initialLocation: _splashPagePath,
@@ -50,10 +61,14 @@ extension RouterExtension on BuildContext {
       '$_homePagePath/$_questionFlowPagePath';
 
   String get _fullSuggestionsPagePath => '$_homePagePath/$_suggestionsPagePath';
+  String get _fullDetailsPagePath =>
+      '$_homePagePath/$_suggestionsPagePath/$_detailsPagePath';
 
   void pushHome<T>() => push(_homePagePath);
 
   void pushAuth<T>() => push(_authPagePath);
+
+  void pushDetails<T>(Place place) => push(_fullDetailsPagePath, extra: place);
 
   void pushQuestionFlow<T>(QuestionFlowPageDependencies dependencies,
           {bool replacement = false}) =>

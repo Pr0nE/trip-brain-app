@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trip_brain_app/core/helpers/router_config.dart';
 import 'package:trip_brain_app/pages/question_flow/question_flow_page_dependencies.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
+import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/trip_brain_ui.dart';
 
 import 'suggestions_page_dependencies.dart';
@@ -17,14 +18,18 @@ class SuggestionsPage extends StatelessWidget {
         imageFetcher: context.read<TravelSuggestionRepository>(),
         placeSuggester: context.read<TravelSuggestionRepository>(),
         onChangeSuggestionQuery: ({required queryModel}) =>
-            onChangeSuggestionQuery(context: context, queryModel: queryModel),
+            onChangeSuggestionQuery(context, queryModel),
         queryModel: dependencies.queryModel,
+        onPlaceTapped: (place) => onPlaceTapped(context, place),
       );
 
-  void onChangeSuggestionQuery({
-    required BuildContext context,
-    required queryModel,
-  }) =>
+  void onPlaceTapped(BuildContext context, Place place) =>
+      context.pushDetails(place);
+
+  void onChangeSuggestionQuery(
+    BuildContext context,
+    queryModel,
+  ) =>
       context.pushQuestionFlow(
         QuestionFlowPageDependencies(baseQueryModel: queryModel),
         replacement: true,

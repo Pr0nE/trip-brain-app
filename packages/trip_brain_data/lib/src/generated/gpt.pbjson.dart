@@ -111,8 +111,53 @@ const User$json = const {
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'token', '3': 3, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'balance', '3': 4, '4': 1, '5': 5, '10': 'balance'},
   ],
 };
 
 /// Descriptor for `User`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List userDescriptor = $convert.base64Decode('CgRVc2VyEg4KAmlkGAEgASgJUgJpZBISCgRuYW1lGAIgASgJUgRuYW1lEhQKBXRva2VuGAMgASgJUgV0b2tlbg==');
+final $typed_data.Uint8List userDescriptor = $convert.base64Decode('CgRVc2VyEg4KAmlkGAEgASgJUgJpZBISCgRuYW1lGAIgASgJUgRuYW1lEhQKBXRva2VuGAMgASgJUgV0b2tlbhIYCgdiYWxhbmNlGAQgASgFUgdiYWxhbmNl');
+@$core.Deprecated('Use getDetailRequestDescriptor instead')
+const GetDetailRequest$json = const {
+  '1': 'GetDetailRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'place', '3': 2, '4': 1, '5': 9, '10': 'place'},
+    const {'1': 'detail', '3': 3, '4': 1, '5': 9, '10': 'detail'},
+  ],
+};
+
+/// Descriptor for `GetDetailRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDetailRequestDescriptor = $convert.base64Decode('ChBHZXREZXRhaWxSZXF1ZXN0EhQKBXRva2VuGAEgASgJUgV0b2tlbhIUCgVwbGFjZRgCIAEoCVIFcGxhY2USFgoGZGV0YWlsGAMgASgJUgZkZXRhaWw=');
+@$core.Deprecated('Use getDetailResponseDescriptor instead')
+const GetDetailResponse$json = const {
+  '1': 'GetDetailResponse',
+  '2': const [
+    const {'1': 'content', '3': 1, '4': 1, '5': 9, '10': 'content'},
+  ],
+};
+
+/// Descriptor for `GetDetailResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getDetailResponseDescriptor = $convert.base64Decode('ChFHZXREZXRhaWxSZXNwb25zZRIYCgdjb250ZW50GAEgASgJUgdjb250ZW50');
+@$core.Deprecated('Use buyCreditRequestDescriptor instead')
+const BuyCreditRequest$json = const {
+  '1': 'BuyCreditRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'amount', '3': 2, '4': 1, '5': 5, '10': 'amount'},
+    const {'1': 'currency', '3': 3, '4': 1, '5': 9, '10': 'currency'},
+  ],
+};
+
+/// Descriptor for `BuyCreditRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List buyCreditRequestDescriptor = $convert.base64Decode('ChBCdXlDcmVkaXRSZXF1ZXN0EhQKBXRva2VuGAEgASgJUgV0b2tlbhIWCgZhbW91bnQYAiABKAVSBmFtb3VudBIaCghjdXJyZW5jeRgDIAEoCVIIY3VycmVuY3k=');
+@$core.Deprecated('Use buyCreditResponseDescriptor instead')
+const BuyCreditResponse$json = const {
+  '1': 'BuyCreditResponse',
+  '2': const [
+    const {'1': 'clientSecret', '3': 1, '4': 1, '5': 9, '10': 'clientSecret'},
+  ],
+};
+
+/// Descriptor for `BuyCreditResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List buyCreditResponseDescriptor = $convert.base64Decode('ChFCdXlDcmVkaXRSZXNwb25zZRIiCgxjbGllbnRTZWNyZXQYASABKAlSDGNsaWVudFNlY3JldA==');

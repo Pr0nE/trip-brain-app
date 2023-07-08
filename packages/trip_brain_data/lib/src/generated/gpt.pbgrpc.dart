@@ -158,3 +158,89 @@ abstract class AuthServiceBase extends $grpc.Service {
   $async.Future<$0.TokenAuthorizeResponse> tokenAuthorize(
       $grpc.ServiceCall call, $0.TokenAuthorizeRequest request);
 }
+
+class PlaceDetailsClient extends $grpc.Client {
+  static final _$getDetail =
+      $grpc.ClientMethod<$0.GetDetailRequest, $0.GetDetailResponse>(
+          '/PlaceDetails/GetDetail',
+          ($0.GetDetailRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.GetDetailResponse.fromBuffer(value));
+
+  PlaceDetailsClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
+
+  $grpc.ResponseStream<$0.GetDetailResponse> getDetail(
+      $0.GetDetailRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createStreamingCall(
+        _$getDetail, $async.Stream.fromIterable([request]),
+        options: options);
+  }
+}
+
+abstract class PlaceDetailsServiceBase extends $grpc.Service {
+  $core.String get $name => 'PlaceDetails';
+
+  PlaceDetailsServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.GetDetailRequest, $0.GetDetailResponse>(
+        'GetDetail',
+        getDetail_Pre,
+        false,
+        true,
+        ($core.List<$core.int> value) => $0.GetDetailRequest.fromBuffer(value),
+        ($0.GetDetailResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Stream<$0.GetDetailResponse> getDetail_Pre($grpc.ServiceCall call,
+      $async.Future<$0.GetDetailRequest> request) async* {
+    yield* getDetail(call, await request);
+  }
+
+  $async.Stream<$0.GetDetailResponse> getDetail(
+      $grpc.ServiceCall call, $0.GetDetailRequest request);
+}
+
+class PaymentClient extends $grpc.Client {
+  static final _$buyCredit =
+      $grpc.ClientMethod<$0.BuyCreditRequest, $0.BuyCreditResponse>(
+          '/Payment/BuyCredit',
+          ($0.BuyCreditRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.BuyCreditResponse.fromBuffer(value));
+
+  PaymentClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
+
+  $grpc.ResponseFuture<$0.BuyCreditResponse> buyCredit(
+      $0.BuyCreditRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$buyCredit, request, options: options);
+  }
+}
+
+abstract class PaymentServiceBase extends $grpc.Service {
+  $core.String get $name => 'Payment';
+
+  PaymentServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.BuyCreditRequest, $0.BuyCreditResponse>(
+        'BuyCredit',
+        buyCredit_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.BuyCreditRequest.fromBuffer(value),
+        ($0.BuyCreditResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$0.BuyCreditResponse> buyCredit_Pre($grpc.ServiceCall call,
+      $async.Future<$0.BuyCreditRequest> request) async {
+    return buyCredit(call, await request);
+  }
+
+  $async.Future<$0.BuyCreditResponse> buyCredit(
+      $grpc.ServiceCall call, $0.BuyCreditRequest request);
+}

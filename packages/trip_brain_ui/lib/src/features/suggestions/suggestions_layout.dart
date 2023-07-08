@@ -13,6 +13,7 @@ class SuggestionsLayout extends StatelessWidget {
     required this.placeSuggester,
     required this.imageFetcher,
     required this.onChangeSuggestionQuery,
+    required this.onPlaceTapped,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class SuggestionsLayout extends StatelessWidget {
   final PlaceImageFetcher imageFetcher;
   final void Function({required PlaceSuggestionQueryModel queryModel})
       onChangeSuggestionQuery;
+  final void Function(Place place) onPlaceTapped;
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -75,12 +77,13 @@ class SuggestionsLayout extends StatelessWidget {
                                 itemCount: state.suggestionPlaces.length,
                                 itemBuilder: (context, index) => PlaceTile(
                                   key: ValueKey(
-                                      state.suggestionPlaces[index].title),
-                                  title: state.suggestionPlaces[index].title,
-                                  description:
-                                      state.suggestionPlaces[index].description,
+                                    state.suggestionPlaces[index].title,
+                                  ),
+                                  place: state.suggestionPlaces[index].copyWith(
+                                    basePlace: queryModel.basePlace,
+                                  ),
                                   imageFetcher: imageFetcher,
-                                  basePlace: queryModel.basePlace,
+                                  onPlaceTapped: onPlaceTapped,
                                 ),
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(height: 48),

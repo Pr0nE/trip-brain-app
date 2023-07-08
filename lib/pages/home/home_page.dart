@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trip_brain_app/core/helpers/router_config.dart';
 import 'package:trip_brain_app/pages/question_flow/question_flow_page_dependencies.dart';
+import 'package:trip_brain_data/trip_brain_data.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/trip_brain_ui.dart';
 
@@ -14,6 +16,8 @@ class HomePage extends StatelessWidget {
         context: context,
         basePlace: basePlace,
       ),
+      paymentManager: context.read<PaymentRepository>(),
+      userFetcher: context.read<AuthCubit>(),
     );
   }
 

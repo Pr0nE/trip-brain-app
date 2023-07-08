@@ -55,6 +55,7 @@ class AuthRepository implements Authenticator {
           id: response.user.id,
           name: response.user.name,
           token: response.user.token,
+          balance: response.user.balance,
         );
     }
   }
@@ -69,6 +70,7 @@ class AuthRepository implements Authenticator {
       id: response.user.id,
       name: response.user.name,
       token: response.user.token,
+      balance: response.user.balance,
     );
   }
 }
