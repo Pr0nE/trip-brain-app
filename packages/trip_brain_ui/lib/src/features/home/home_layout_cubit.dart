@@ -26,15 +26,11 @@ class HomeLayoutCubit extends CubitPlus<HomeLayoutState> {
       .whereType<HomeLayoutUserLoadedState>()
       .map((state) => state.user.balance);
 
-  void onLayoutInit() => _fetchUser();
-  Future<void> onBuyBalance(int amount) async {
-    final isSuccess = await paymentManager.buyBalance(amount);
+  void onLayoutInit() => addSubscription(
+        Stream.periodic(const Duration(seconds: 2)).listen((_) => _fetchUser()),
+      );
 
-    if (isSuccess) {
-      await Future.delayed(const Duration(seconds: 1));
-      _fetchUser();
-    }
-  }
+  Future<void> onBuyBalance(int amount) => paymentManager.buyBalance(amount);
 
   Future<void> _fetchUser() async {
     emit(HomeLayoutLoadingState());
