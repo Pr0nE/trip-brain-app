@@ -42,6 +42,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Column(
             children: [
               Container(
