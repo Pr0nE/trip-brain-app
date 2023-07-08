@@ -23,13 +23,6 @@ class _PlaceTileState extends State<PlaceTile> {
   late Place place;
 
   @override
-  void didUpdateWidget(covariant PlaceTile oldWidget) {
-    place = widget.place.copyWith();
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   void initState() {
     super.initState();
 
@@ -47,7 +40,7 @@ class _PlaceTileState extends State<PlaceTile> {
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: () => widget.onPlaceTapped(place),
+        onTap: () => widget.onPlaceTapped(place.copyWith()),
         child: Column(
           children: [
             Hero(

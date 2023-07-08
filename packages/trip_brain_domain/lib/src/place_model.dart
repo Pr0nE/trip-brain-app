@@ -19,18 +19,11 @@ class Place {
     String? description,
     String? basePlace,
     List<String>? imageUrls,
-    String? addImageUrl,
-  }) {
-    final updatedImageUrls = List<String>.from(this.imageUrls);
-    if (addImageUrl != null) {
-      updatedImageUrls.add(addImageUrl);
-    }
-
-    return Place(
-      title: title ?? this.title,
-      description: description ?? this.description,
-      basePlace: basePlace ?? this.basePlace,
-      imageUrls: imageUrls ?? updatedImageUrls,
-    );
-  }
+  }) =>
+      Place(
+        title: title ?? this.title,
+        description: description ?? this.description,
+        basePlace: basePlace ?? this.basePlace,
+        imageUrls: imageUrls ?? this.imageUrls,
+      );
 }
