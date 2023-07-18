@@ -1,4 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:grpc/grpc.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart' hide User;
@@ -8,9 +9,14 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 class AuthRepository implements Authenticator {
   AuthRepository({
     required APIClient apiClient,
-  }) : authClient = AuthClient(apiClient.grpcChannel);
+    required this.appModeProvider,
+  }) : authClient = AuthClient(
+          apiClient.grpcChannel,
+          //  options: CallOptions(timeout: Duration(seconds: 5)),
+        );
 
   final AuthClient authClient;
+  final AppModeProvider appModeProvider;
 
   @override
   Future<User> googleLogin() async {
@@ -18,8 +24,7 @@ class AuthRepository implements Authenticator {
       final GoogleSignInAccount? account = await GoogleSignIn().signIn();
 
       if (account == null) {
-        // TODO: auht exception
-        throw Exception('Auth Error');
+        throw AppException(AppErrorType.expiredToken);
       }
 
       final authentication = await account.authentication;
@@ -33,9 +38,16 @@ class AuthRepository implements Authenticator {
         idToken: idToken,
         provider: AuthProvider.google,
       );
-    } catch (e) {
-      print(e);
-      rethrow;
+    } catch (error) {
+      if (error is GrpcError) {
+        switch (error.code) {
+          case StatusCode.unavailable:
+            throw AppException(AppErrorType.network);
+          default:
+            throw AppException(AppErrorType.unknown, message: error.message);
+        }
+      }
+      throw AppException(AppErrorType.unknown, message: error.toString());
     }
   }
 
@@ -43,34 +55,69 @@ class AuthRepository implements Authenticator {
     required String idToken,
     required AuthProvider provider,
   }) async {
-    switch (provider) {
-      case AuthProvider.google:
-        final response = await authClient.socialAuthorize(
-          SocialAuthorizeRequest(
-              token: idToken,
-              provider: switch (provider) { AuthProvider.google => 'google' }),
-        );
+    try {
+      switch (provider) {
+        case AuthProvider.google:
+          final response = await authClient.socialAuthorize(
+            SocialAuthorizeRequest(
+                token: idToken,
+                provider: switch (provider) {
+                  AuthProvider.google => 'google'
+                }),
+          );
 
-        return User(
-          id: response.user.id,
-          name: response.user.name,
-          token: response.user.token,
-          balance: response.user.balance,
-        );
+          return User(
+            id: response.user.id,
+            name: response.user.name,
+            token: response.user.token,
+            balance: response.user.balance,
+          );
+      }
+    } catch (error) {
+      if (error is GrpcError) {
+        switch (error.code) {
+          case StatusCode.unavailable:
+            throw AppException(AppErrorType.network);
+          case StatusCode.unauthenticated:
+            throw AppException(AppErrorType.expiredToken);
+
+          default:
+            throw AppException(AppErrorType.unknown, message: error.message);
+        }
+      }
+      throw AppException(AppErrorType.unknown, message: error.toString());
     }
   }
 
   @override
   Future<User> accessTokenLogin(String token) async {
-    final response = await authClient.tokenAuthorize(
-      TokenAuthorizeRequest(token: token),
-    );
+    if (appModeProvider.isAppOffline) {
+      return User(id: '', token: token, name: '', balance: 0);
+    }
 
-    return User(
-      id: response.user.id,
-      name: response.user.name,
-      token: response.user.token,
-      balance: response.user.balance,
-    );
+    try {
+      final response =
+          await authClient.tokenAuthorize(TokenAuthorizeRequest(token: token));
+
+      return User(
+        id: response.user.id,
+        name: response.user.name,
+        token: response.user.token,
+        balance: response.user.balance,
+      );
+    } catch (error) {
+      if (error is GrpcError) {
+        switch (error.code) {
+          case StatusCode.unavailable:
+            throw AppException(AppErrorType.network);
+          case StatusCode.unauthenticated:
+            throw AppException(AppErrorType.expiredToken);
+
+          default:
+            throw AppException(AppErrorType.unknown, message: error.message);
+        }
+      }
+      throw AppException(AppErrorType.unknown, message: error.toString());
+    }
   }
 }

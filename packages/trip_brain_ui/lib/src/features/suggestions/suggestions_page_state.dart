@@ -4,19 +4,19 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 class SuggestionsPageState {
   SuggestionsPageState({
     this.isLoading = false,
-    this.error = '',
+    this.error,
     List<Place>? suggestionPlaces,
   }) {
     this.suggestionPlaces.addAll(suggestionPlaces ?? []);
   }
 
   final bool isLoading;
-  final String error;
+  final AppException? error;
   final List<Place> suggestionPlaces = [];
 
   SuggestionsPageState copyWith({
     bool? isLoading,
-    String? error,
+    AppException? error,
     List<Place>? suggestionPlaces,
   }) =>
       SuggestionsPageState(
@@ -27,8 +27,8 @@ class SuggestionsPageState {
 }
 
 extension Status on SuggestionsPageState {
-  bool get isIdle => !isLoading && suggestionPlaces.isEmpty && error.isEmpty;
-  bool get hasError => error.isNotEmpty;
+  bool get isIdle => !isLoading && suggestionPlaces.isEmpty && error == null;
+  bool get hasError => error != null;
   bool get isSuggestionsFinished =>
       suggestionPlaces.isNotEmpty && !hasError && !isLoading;
 }

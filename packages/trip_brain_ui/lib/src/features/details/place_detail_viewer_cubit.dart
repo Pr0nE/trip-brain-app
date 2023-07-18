@@ -10,7 +10,12 @@ class PlaceDetailViewerInitialState extends PlaceDetailViewerState {}
 
 class PlaceDetailViewerLoadingState extends PlaceDetailViewerState {}
 
-class PlaceDetailViewerErrorState extends PlaceDetailViewerState {}
+class PlaceDetailViewerErrorState extends PlaceDetailViewerState {
+  PlaceDetailViewerErrorState(this.error, this.retryCallback);
+
+  final AppException error;
+  final void Function() retryCallback;
+}
 
 class PlaceDetailViewerLoadedState extends PlaceDetailViewerState {
   PlaceDetailViewerLoadedState(this.content);
@@ -31,7 +36,14 @@ class PlaceDetailViewerCubit extends CubitPlus<PlaceDetailViewerState> {
       fetcher.fetchDetail(place: place, detail: detail).listen(
         (details) => emit(PlaceDetailViewerLoadedState(details)),
         onError: (Object error) {
-          emit(PlaceDetailViewerErrorState());
+          if (error is AppException) {
+            emit(
+              PlaceDetailViewerErrorState(
+                error,
+                () => fetchDetails(place, detail),
+              ),
+            );
+          }
         },
       ),
     );

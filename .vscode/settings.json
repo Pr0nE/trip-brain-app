@@ -1,4 +1,5 @@
 {
+  
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -8,7 +9,6 @@
     "**/Thumbs.db": true,
     ".dart_tool": true,
     ".idea": true,
-    ".vscode": true,
     "build": true,
     "ios": true,
     "packages/trip_brain_domain/.dart_tool": true,
@@ -50,12 +50,12 @@
     "back-go": true,
     "packages/trip_brain_ui/.flutter-plugins": true,
     "packages/trip_brain_ui/.flutter-plugins-dependencies": true,
-    "android": true
+    "android": true,
+    ".vscode": true
   },
   "hide-files.files": [
     ".dart_tool",
     ".idea",
-    ".vscode",
     "build",
     "ios",
     "packages/trip_brain_domain/.dart_tool",
@@ -97,6 +97,7 @@
     "back-go",
     "packages/trip_brain_ui/.flutter-plugins",
     "packages/trip_brain_ui/.flutter-plugins-dependencies",
-    "android"
+    "android",
+    ".vscode"
   ]
 }

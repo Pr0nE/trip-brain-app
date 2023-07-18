@@ -64,9 +64,9 @@ extension RouterExtension on BuildContext {
   String get _fullDetailsPagePath =>
       '$_homePagePath/$_suggestionsPagePath/$_detailsPagePath';
 
-  void pushHome<T>() => push(_homePagePath);
+  void goHome<T>() => go(_homePagePath);
 
-  void pushAuth<T>() => push(_authPagePath);
+  void goAuth<T>() => go(_authPagePath);
 
   void pushDetails<T>(Place place) => push(_fullDetailsPagePath, extra: place);
 

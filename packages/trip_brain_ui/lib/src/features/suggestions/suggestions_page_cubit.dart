@@ -10,16 +10,21 @@ class SuggestionsPageCubit extends CubitPlus<SuggestionsPageState> {
   final PlaceSuggester suggester;
 
   void onSuggestRequest(PlaceSuggestionQueryModel query) {
-    emit(state.copyWith(isLoading: true, error: ''));
+    emit(state.copyWith(isLoading: true, error: null));
 
-    addSubscription(
-      suggester.suggestPlaces(query).listen(
-        (places) =>
-            emit(state.copyWith(suggestionPlaces: places, isLoading: false)),
-        onError: (Object error) {
-          emit(state.copyWith(error: error.toString(), isLoading: false));
-        },
-      ),
-    );
+    try {
+      addSubscription(
+        suggester.suggestPlaces(query).listen(
+          (places) =>
+              emit(state.copyWith(suggestionPlaces: places, isLoading: false)),
+          onError: (Object error) {
+            emit(state.copyWith(
+                error: error.asOrNull<AppException>(), isLoading: false));
+          },
+        ),
+      );
+    } on AppException catch (error) {
+      state.copyWith(error: error, isLoading: false);
+    }
   }
 }

@@ -31,6 +31,16 @@ class _PlaceTileState extends State<PlaceTile> {
     _getImageUrls();
   }
 
+  @override
+  void didUpdateWidget(covariant PlaceTile oldWidget) {
+    place = place.copyWith(
+      title: widget.place.title,
+      description: widget.place.description,
+    );
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   Future<void> _getImageUrls() async {
     imageUrls = widget.imageFetcher.getPlaceImageUrls(place)
       ..then(

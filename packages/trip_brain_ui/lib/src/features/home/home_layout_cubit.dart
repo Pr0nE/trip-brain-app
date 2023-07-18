@@ -7,7 +7,12 @@ class HomeLayoutInitialState extends HomeLayoutState {}
 
 class HomeLayoutLoadingState extends HomeLayoutState {}
 
-class HomeLayoutErrorState extends HomeLayoutState {}
+class HomeLayoutErrorState extends HomeLayoutState {
+  HomeLayoutErrorState(this.error, this.retryCallback);
+
+  final AppException error;
+  final void Function() retryCallback;
+}
 
 class HomeLayoutUserLoadedState extends HomeLayoutState {
   HomeLayoutUserLoadedState({required this.user});
@@ -30,13 +35,16 @@ class HomeLayoutCubit extends CubitPlus<HomeLayoutState> {
         Stream.periodic(const Duration(seconds: 2)).listen((_) => _fetchUser()),
       );
 
-  Future<void> onBuyBalance(int amount) => paymentManager.buyBalance(amount);
+  void onBuyBalance(int amount) => paymentManager.buyBalance(amount).on(
+        onLoading: () => emit(HomeLayoutLoadingState()),
+        onError: (AppException error) =>
+            emit(HomeLayoutErrorState(error, () => onBuyBalance(amount))),
+      );
 
-  Future<void> _fetchUser() async {
-    emit(HomeLayoutLoadingState());
-
-    final user = await userFetcher.fetchUser();
-
-    emit(HomeLayoutUserLoadedState(user: user));
-  }
+  void _fetchUser() => userFetcher.fetchUser().on(
+        onLoading: () => emit(HomeLayoutLoadingState()),
+        onData: (user) => emit(HomeLayoutUserLoadedState(user: user)),
+        onError: (AppException error) =>
+            emit(HomeLayoutErrorState(error, _fetchUser)),
+      );
 }

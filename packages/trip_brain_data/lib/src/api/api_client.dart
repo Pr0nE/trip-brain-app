@@ -37,7 +37,11 @@ class APIClient {
           grpcClientInfo.host,
           port: grpcClientInfo.port,
           options: // TODO: tls
-              const ChannelOptions(credentials: ChannelCredentials.insecure()),
+              const ChannelOptions(
+            connectTimeout: _timeoutDuration,
+            connectionTimeout: _timeoutDuration,
+            credentials: ChannelCredentials.insecure(),
+          ),
         );
 
   final GRPClientInfo grpcClientInfo;
@@ -47,6 +51,7 @@ class APIClient {
   static const _timeoutDuration = Duration(seconds: 5);
   static const defaultHeaders = {'Content-Type': 'application/json'};
 
+  //TODO remove
   Future<dynamic> request(
     Uri uri, {
     APIRequestMethod method = APIRequestMethod.get,

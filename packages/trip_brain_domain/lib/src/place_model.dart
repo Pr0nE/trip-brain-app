@@ -26,4 +26,22 @@ class Place {
         basePlace: basePlace ?? this.basePlace,
         imageUrls: imageUrls ?? this.imageUrls,
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'basePlace': basePlace,
+      'imageUrls': imageUrls,
+    };
+  }
+
+  factory Place.fromJson(Map<String, dynamic> json) {
+    return Place(
+      title: json['title'],
+      description: json['description'],
+      basePlace: json['basePlace'],
+      imageUrls: List<String>.from(json['imageUrls']),
+    );
+  }
 }

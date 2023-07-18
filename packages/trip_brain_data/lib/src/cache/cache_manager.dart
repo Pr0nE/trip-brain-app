@@ -1,4 +1,6 @@
 abstract class CacheManager {
-  (bool isFound, Object?) getCache(String key);
-  void cache(String key, Object value);
+  Future<String?> getJsonData(String key, {String? table});
+  void saveJsonData(String key, String value, {String? table});
+
+  Future<Map<String, String>> getTableEntries(String tableKey);
 }

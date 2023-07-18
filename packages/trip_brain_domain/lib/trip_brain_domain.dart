@@ -1,4 +1,5 @@
 export 'src/question_flow_step.dart';
+export 'src/app_error.dart';
 export 'src/place_suggestion_query_model.dart';
 export 'src/place_image_fetcher.dart';
 export 'src/place_model.dart';
@@ -7,15 +8,19 @@ export 'src/place_detail.dart';
 export 'src/place_detail_fetcher.dart';
 export 'src/storage.dart';
 export 'src/object_extensions.dart';
+export 'src/future_extensions.dart';
 export 'src/stream_extensions.dart';
 export 'src/payment_manager.dart';
+export 'src/recent_search_fetcher.dart';
 export 'src/user_fetcher.dart';
 
 export 'src/auth/user.dart';
 export 'src/auth/authenticator.dart';
 export 'src/auth/auth_provider.dart';
 export 'src/auth/auth_info_provider.dart';
-export 'src/auth/auth_cubit.dart';
 export 'src/auth/auth_state.dart';
 export 'src/auth/auth_io.dart';
 export 'src/auth/auth_storage.dart';
+export 'src/app_mode/app_mode.dart';
+export 'src/app_mode/app_mode_manager.dart';
+export 'src/app_mode/app_mode_provider.dart';

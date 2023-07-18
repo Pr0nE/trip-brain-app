@@ -23,6 +23,7 @@ dependencies:
     path: ./packages/trip_brain_ui
   trip_brain_data:
     path: ./packages/trip_brain_data
+  flutter_bloc: ^8.1.3
 
 dev_dependencies:
   flutter_test:

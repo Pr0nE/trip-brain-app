@@ -1,4 +1,6 @@
-class PlaceSuggestionQueryModel {
+import 'package:equatable/equatable.dart';
+
+class PlaceSuggestionQueryModel extends Equatable {
   PlaceSuggestionQueryModel({
     required this.basePlace,
     required this.likes,
@@ -49,4 +51,23 @@ class PlaceSuggestionQueryModel {
 
     return updatedList;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'basePlace': basePlace,
+      'likes': likes,
+      'dislikes': dislikes,
+    };
+  }
+
+  factory PlaceSuggestionQueryModel.fromJson(Map<String, dynamic> json) {
+    return PlaceSuggestionQueryModel(
+      basePlace: json['basePlace'],
+      likes: List<String>.from(json['likes']),
+      dislikes: List<String>.from(json['dislikes']),
+    );
+  }
+
+  @override
+  List<Object?> get props => [basePlace, likes, dislikes];
 }

@@ -14,6 +14,7 @@ class SuggestionsLayout extends StatelessWidget {
     required this.imageFetcher,
     required this.onChangeSuggestionQuery,
     required this.onPlaceTapped,
+    required this.onError,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class SuggestionsLayout extends StatelessWidget {
   final void Function({required PlaceSuggestionQueryModel queryModel})
       onChangeSuggestionQuery;
   final void Function(Place place) onPlaceTapped;
+  final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -33,9 +35,8 @@ class SuggestionsLayout extends StatelessWidget {
             child: BlocListener<SuggestionsPageCubit, SuggestionsPageState>(
               listener: (context, state) {
                 if (state.hasError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.error)),
-                  );
+                  onError(state.error!, () {} // TODO change after change state
+                      );
                 }
               },
               child: Builder(
@@ -68,26 +69,31 @@ class SuggestionsLayout extends StatelessWidget {
                     Expanded(
                       child: BlocBuilder<SuggestionsPageCubit,
                           SuggestionsPageState>(
-                        builder: (context, state) => state.isLoading
-                            ? const SizedBox.expand(
-                                child:
-                                    Center(child: CircularProgressIndicator()),
-                              )
-                            : ListView.separated(
-                                itemCount: state.suggestionPlaces.length,
-                                itemBuilder: (context, index) => PlaceTile(
-                                  key: ValueKey(
-                                    state.suggestionPlaces[index].title,
+                        builder: (context, state) {
+                          print(
+                              state.suggestionPlaces.firstOrNull?.description);
+                          return state.isLoading
+                              ? const SizedBox.expand(
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                )
+                              : ListView.separated(
+                                  itemCount: state.suggestionPlaces.length,
+                                  itemBuilder: (context, index) => PlaceTile(
+                                    key: ValueKey(
+                                      state.suggestionPlaces[index].title,
+                                    ),
+                                    place:
+                                        state.suggestionPlaces[index].copyWith(
+                                      basePlace: queryModel.basePlace,
+                                    ),
+                                    imageFetcher: imageFetcher,
+                                    onPlaceTapped: onPlaceTapped,
                                   ),
-                                  place: state.suggestionPlaces[index].copyWith(
-                                    basePlace: queryModel.basePlace,
-                                  ),
-                                  imageFetcher: imageFetcher,
-                                  onPlaceTapped: onPlaceTapped,
-                                ),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 48),
-                              ),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(height: 48),
+                                );
+                        },
                       ),
                     ),
                   ],

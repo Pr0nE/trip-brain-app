@@ -5,14 +5,16 @@ import 'package:trip_brain_ui/src/core/state_stream_listener.dart';
 class SplashLayout extends StatefulWidget {
   const SplashLayout({
     required this.authIO,
-    required this.onExistUser,
+    required this.onUserExist,
     required this.onNewUser,
+    required this.onError,
     super.key,
   });
 
   final AuthIO authIO;
-  final void Function(User user) onExistUser;
+  final void Function(User user) onUserExist;
   final VoidCallback onNewUser;
+  final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
   State<SplashLayout> createState() => _SplashLayoutState();
@@ -45,11 +47,19 @@ class _SplashLayoutState extends State<SplashLayout> {
 
   void onAuthState(AuthState state) {
     if (state is AuthLoggedInState) {
-      widget.onExistUser(state.loggedInUser);
+      widget.onUserExist(state.loggedInUser);
     }
 
-    if (state is AuthLoggedOutState) {
-      widget.onNewUser();
+    if (state is AuthErrorState) {
+      final error = state.error;
+
+      if (error.type == AppErrorType.expiredToken) {
+        widget.onNewUser();
+
+        return;
+      }
+
+      widget.onError(error, state.retryCallback);
     }
   }
 }

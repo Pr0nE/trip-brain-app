@@ -7,11 +7,13 @@ class PlaceDetailsLayout extends StatefulWidget {
   const PlaceDetailsLayout({
     required this.place,
     required this.detailFetcher,
+    required this.onError,
     super.key,
   });
 
   final Place place;
   final PlaceDetailFetcher detailFetcher;
+  final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
   State<PlaceDetailsLayout> createState() => _PlaceDetailsLayoutState();
@@ -114,6 +116,7 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                                       place: widget.place.title,
                                       detail: detail,
                                       fetcher: widget.detailFetcher,
+                                      onError: widget.onError,
                                     ),
                                   )
                                   .toList(),

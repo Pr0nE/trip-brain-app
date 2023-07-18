@@ -9,6 +9,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   bloc: ^8.1.2
+  equatable: ^2.0.5
   # path: ^1.8.0
 
 dev_dependencies:

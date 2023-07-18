@@ -10,12 +10,14 @@ class PlaceDetailViewer extends StatefulWidget {
     required this.place,
     required this.detail,
     required this.fetcher,
+    required this.onError,
     super.key,
   });
 
   final String place;
   final PlaceDetail detail;
   final PlaceDetailFetcher fetcher;
+  final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
   State<PlaceDetailViewer> createState() => _PlaceDetailViewerState();
@@ -34,8 +36,13 @@ class _PlaceDetailViewerState extends State<PlaceDetailViewer> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<PlaceDetailViewerCubit, PlaceDetailViewerState>(
+      BlocConsumer<PlaceDetailViewerCubit, PlaceDetailViewerState>(
         bloc: cubit,
+        listener: (context, state) {
+          if (state is PlaceDetailViewerErrorState) {
+            widget.onError(state.error, state.retryCallback);
+          }
+        },
         builder: (context, state) =>
             Markdown(data: state.loaded?.content ?? ''),
       );

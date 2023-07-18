@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/src/features/home/home_layout_cubit.dart';
+import 'package:trip_brain_ui/src/features/home/recent_search_list.dart';
 
 import 'balance_viewer.dart';
 
@@ -9,13 +10,19 @@ class HomeLayout extends StatefulWidget {
   const HomeLayout({
     required this.paymentManager,
     required this.userFetcher,
+    required this.recentSearchFetcher,
     required this.onSuggestPlacesTapped,
+    required this.onRecentSearchTapped,
+    required this.onError,
     super.key,
   });
 
   final PaymentManager paymentManager;
   final UserFetcher userFetcher;
-  final void Function({required String basePlace}) onSuggestPlacesTapped;
+  final RecentSearchFetcher recentSearchFetcher;
+  final void Function(String basePlace) onSuggestPlacesTapped;
+  final void Function(PlaceSuggestionQueryModel query) onRecentSearchTapped;
+  final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
   State<HomeLayout> createState() => _HomeLayoutState();
@@ -25,7 +32,7 @@ class _HomeLayoutState extends State<HomeLayout> {
   late final TextEditingController _travelPlaceTextFieldController;
   late final HomeLayoutCubit _cubit;
 
-  String get travelPlace => _travelPlaceTextFieldController.text;
+  String get travelPlace => _travelPlaceTextFieldController.text.toLowerCase();
 
   @override
   void initState() {
@@ -38,9 +45,15 @@ class _HomeLayoutState extends State<HomeLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocBuilder(
+  Widget build(BuildContext context) =>
+      BlocListener<HomeLayoutCubit, HomeLayoutState>(
         bloc: _cubit,
-        builder: (context, state) => SafeArea(
+        listener: (context, state) {
+          if (state is HomeLayoutErrorState) {
+            widget.onError(state.error, state.retryCallback);
+          }
+        },
+        child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
                 leading: BalanceViewer(
@@ -80,11 +93,16 @@ class _HomeLayoutState extends State<HomeLayout> {
                             ?.copyWith(color: Colors.white38)),
                   ),
                   TextButton.icon(
-                    onPressed: () =>
-                        widget.onSuggestPlacesTapped(basePlace: travelPlace),
+                    onPressed: () => widget.onSuggestPlacesTapped(travelPlace),
                     icon: const Icon(Icons.search),
                     label: const Text('Suggest'),
                   ),
+                  Expanded(
+                    child: RecentSearchList(
+                      fetcher: widget.recentSearchFetcher,
+                      onRecentSearchTapped: widget.onRecentSearchTapped,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -124,4 +142,11 @@ class _HomeLayoutState extends State<HomeLayout> {
           onClosing: () {},
         ),
       );
+
+  @override
+  void dispose() {
+    _cubit.close();
+
+    super.dispose();
+  }
 }

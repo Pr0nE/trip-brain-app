@@ -119,12 +119,6 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
               widget.onQuestionsFinished(
                 finishedQueryModel: _queryModel.copyWith(),
               );
-              // context.pushSuggestions(
-              //   SuggestionsPageDependencies(
-              //     _queryModel.copyWith(),
-              //   ),
-              //   replacement: true,
-              // );
               break;
           }
         },
