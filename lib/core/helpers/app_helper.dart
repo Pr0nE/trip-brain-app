@@ -16,8 +16,19 @@ void checkAppError({
   final appModeManager = context.read<AppModeCubit>();
 
   switch (error.type) {
-    case AppErrorType.expiredToken:
-      dialogManager.showExpiredTokenDialog(context);
+    case AppErrorType.payment:
+      dialogManager.showGeneralErrorDialog(
+        context: context,
+        errorMessage: error.toString(),
+        onCancel: () {},
+        onRetry: onRetry,
+      );
+      break;
+    case AppErrorType.insufficientBalance:
+      dialogManager.showInsufficientBalanceDialog(context);
+      break;
+    case AppErrorType.needAuth:
+      dialogManager.showNeedAuthDialog(context);
       break;
     case AppErrorType.needNetwork:
       dialogManager.showNeedNetworkDialog(context);
@@ -25,13 +36,6 @@ void checkAppError({
     case AppErrorType.network:
       appModeManager.setAppMode(AppMode.offline);
       onRetry?.call();
-      // TODO: for now we don't alert user about network
-      // manager.showGeneralErrorDialog(
-      //   context: context,
-      //   errorMessage: error.toString(),
-      //   onCancel: onCancel,
-      //   onRetry: onRetry,
-      // );
       break;
     case AppErrorType.unknown:
       dialogManager.showGeneralErrorDialog(
@@ -45,6 +49,26 @@ void checkAppError({
 }
 
 extension DialogExtension on DialogManager {
+  void showInsufficientBalanceDialog(BuildContext context) {
+    add(
+      (context, popDialog) => AlertDialog(
+        title: const Text('Error'),
+        content: Text("You don't have enough balance"),
+        actions: [
+          TextButton(
+            onPressed: () => popDialog(),
+            child: const Text("Cancel"),
+          ),
+          // TextButton( //TODO: buy from anywehre in app
+          //   onPressed: () => ,
+          //   child: const Text("Buy"),
+          // ),
+        ],
+      ),
+      dismissible: false,
+    );
+  }
+
   void showNeedNetworkDialog(BuildContext context) {
     add(
       (context, popDialog) => AlertDialog(
@@ -61,11 +85,11 @@ extension DialogExtension on DialogManager {
     );
   }
 
-  void showExpiredTokenDialog(BuildContext context) {
+  void showNeedAuthDialog(BuildContext context) {
     add(
       (context, popDialog) => AlertDialog(
         title: const Text('Error'),
-        content: Text('Your session is expired, please login again'),
+        content: Text('Please login to continue'),
         actions: [
           TextButton(
             onPressed: () {
@@ -76,7 +100,6 @@ extension DialogExtension on DialogManager {
           ),
         ],
       ),
-      dismissible: false,
     );
   }
 

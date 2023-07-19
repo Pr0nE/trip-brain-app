@@ -40,7 +40,7 @@ class SuggestionsPage extends StatelessWidget {
 
   void onChangeSuggestionQuery(
     BuildContext context,
-    queryModel,
+    PlaceSuggestionQueryModel queryModel,
   ) =>
       context.pushQuestionFlow(
         QuestionFlowPageDependencies(baseQueryModel: queryModel),

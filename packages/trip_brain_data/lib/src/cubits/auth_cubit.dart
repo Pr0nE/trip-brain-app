@@ -52,4 +52,19 @@ class AuthCubit extends Cubit<AuthState>
 
   @override
   Future<User> fetchUser() => authenticator.accessTokenLogin(accessToken ?? '');
+
+  @override
+  void guestLogin() {
+    final guestUser = User.guest();
+    storage.saveAccessToken(guestUser.token);
+
+    emit(AuthLoggedInState(guestUser));
+  }
+
+  @override
+  void logout() {
+    storage.clearAccessToken();
+
+    emit(AuthLoggedOutState());
+  }
 }

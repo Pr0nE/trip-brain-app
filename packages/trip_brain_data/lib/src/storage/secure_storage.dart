@@ -10,4 +10,7 @@ class SecureStorage implements StringStorage {
   @override
   Future<void> save(String key, String data) =>
       _storage.write(key: key, value: data);
+
+  @override
+  Future<void> clear(String key) => _storage.delete(key: key);
 }

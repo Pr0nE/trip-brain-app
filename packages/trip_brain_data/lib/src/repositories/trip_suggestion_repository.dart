@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:grpc/grpc.dart';
+import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
@@ -88,24 +88,18 @@ class TravelSuggestionRepository
               }
               controller.close();
             },
+            onError: (Object error) {
+              controller.addError(error.toAppException());
+              controller.close();
+              return;
+            },
           );
         }
       });
 
       return controller.stream;
     } catch (error) {
-      if (error is GrpcError) {
-        switch (error.code) {
-          case StatusCode.unavailable:
-            throw AppException(AppErrorType.network);
-          case StatusCode.unauthenticated:
-            throw AppException(AppErrorType.expiredToken);
-
-          default:
-            throw AppException(AppErrorType.unknown, message: error.message);
-        }
-      }
-      throw AppException(AppErrorType.unknown, message: error.toString());
+      throw error.toAppException();
     }
   }
 
@@ -116,6 +110,8 @@ class TravelSuggestionRepository
 
     return entries.keys
         .map((json) => PlaceSuggestionQueryModel.fromJson(jsonDecode(json)))
+        .toList()
+        .reversed
         .toList();
   }
 
@@ -129,7 +125,7 @@ class TravelSuggestionRepository
     final cachedData = await cacheManager.getJsonData(queryKey);
 
     if (cachedData != null) {
-      final List decoded = jsonDecode(cachedData);
+      final List<dynamic> decoded = jsonDecode(cachedData);
       return decoded.map((e) => e.toString()).toList();
     }
 

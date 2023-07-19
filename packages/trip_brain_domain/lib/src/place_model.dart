@@ -36,6 +36,7 @@ class Place {
     };
   }
 
+  // TODO: Move mapper to data
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
       title: json['title'],

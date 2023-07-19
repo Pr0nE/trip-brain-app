@@ -31,9 +31,9 @@ class HiveCacheManager implements CacheManager {
   Future<String?> getJsonData(String key, {String? table}) async {
     await initTasksCompleter.future;
     final box = table == null ? globalBox : await getBox(table);
-    final String data = box.get(key);
+    final String? data = box.get(key);
 
-    if (data == 'null' || data.isEmpty) {
+    if (data == 'null' || (data?.isEmpty ?? true)) {
       return null;
     }
 

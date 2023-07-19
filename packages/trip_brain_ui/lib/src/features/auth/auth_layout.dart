@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/src/core/state_stream_builder.dart';
@@ -21,7 +23,9 @@ class AuthLayout extends StatelessWidget {
               stream: authIO.out,
               onState: (authState) {
                 if (authState is AuthLoggedInState) {
-                  onSuccessLogin(authState.loggedInUser);
+                  Timer(const Duration(seconds: 1), () {
+                    onSuccessLogin(authState.loggedInUser);
+                  });
                 }
                 if (authState is AuthErrorState) {
                   onError(authState.error, authState.retryCallback);
@@ -36,13 +40,21 @@ class AuthLayout extends StatelessWidget {
                   return Text('Welcome ${authState.loggedInUser.name}');
                 }
 
-                return _buildLoginButton();
+                return _buildLoginButtons();
               }),
         ),
       );
 
-  Widget _buildLoginButton() => IconButton(
-        onPressed: authIO.googleLogin,
-        icon: const Icon(Icons.login_outlined),
+  Widget _buildLoginButtons() => Row(
+        children: [
+          TextButton.icon(
+              onPressed: authIO.guestLogin,
+              icon: Icon(Icons.person),
+              label: Text('Login as guest')),
+          TextButton.icon(
+              onPressed: authIO.googleLogin,
+              icon: Icon(Icons.login),
+              label: Text('Google Login')),
+        ],
       );
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:grpc/grpc.dart';
 import 'package:trip_brain_data/src/api/api_client.dart';
+import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
@@ -38,25 +38,7 @@ class PaymentRepository implements PaymentManager {
 
       return true;
     } catch (error) {
-      if (error is GrpcError) {
-        switch (error.code) {
-          case StatusCode.unavailable:
-            throw AppException(AppErrorType.network);
-          case StatusCode.unauthenticated:
-            throw AppException(AppErrorType.expiredToken);
-
-          default:
-            throw AppException(AppErrorType.unknown, message: error.message);
-        }
-      }
-      if (error is StripeException) {
-        throw AppException(
-          AppErrorType.unknown,
-          message: error.error.localizedMessage,
-        );
-      }
-
-      throw AppException(AppErrorType.unknown, message: error.toString());
+      throw error.toAppException();
     }
   }
 
@@ -69,18 +51,7 @@ class PaymentRepository implements PaymentManager {
         ),
       );
     } catch (error) {
-      if (error is GrpcError) {
-        switch (error.code) {
-          case StatusCode.unavailable:
-            throw AppException(AppErrorType.network);
-          case StatusCode.unauthenticated:
-            throw AppException(AppErrorType.expiredToken);
-
-          default:
-            throw AppException(AppErrorType.unknown, message: error.message);
-        }
-      }
-      throw AppException(AppErrorType.unknown, message: error.toString());
+      throw error.toAppException();
     }
   }
 }

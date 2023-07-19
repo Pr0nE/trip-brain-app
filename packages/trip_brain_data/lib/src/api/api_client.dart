@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_connection_interface.dart';
 import 'package:trip_brain_data/src/api/api_exception.dart';
 
 enum APIRequestMethod { get, post, patch, delete, put }

@@ -13,4 +13,7 @@ class AppLocalRepository implements AuthStorage {
 
   @override
   Future<String?> getAccessToken() => storage.get(_accessTokenKey);
+
+  @override
+  Future<void> clearAccessToken() => storage.clear(_accessTokenKey);
 }

@@ -9,6 +9,9 @@ class User {
   factory User.empty() {
     return User(id: '', name: '', token: '');
   }
+  factory User.guest() {
+    return User(id: '', name: 'Guest', token: 'guest');
+  }
 
   final String id;
   final String name;

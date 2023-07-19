@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:grpc/grpc.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
+import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart' hide User;
 
 import 'package:trip_brain_domain/trip_brain_domain.dart';
@@ -24,7 +24,7 @@ class AuthRepository implements Authenticator {
       final GoogleSignInAccount? account = await GoogleSignIn().signIn();
 
       if (account == null) {
-        throw AppException(AppErrorType.expiredToken);
+        throw AppException(AppErrorType.needAuth);
       }
 
       final authentication = await account.authentication;
@@ -39,15 +39,7 @@ class AuthRepository implements Authenticator {
         provider: AuthProvider.google,
       );
     } catch (error) {
-      if (error is GrpcError) {
-        switch (error.code) {
-          case StatusCode.unavailable:
-            throw AppException(AppErrorType.network);
-          default:
-            throw AppException(AppErrorType.unknown, message: error.message);
-        }
-      }
-      throw AppException(AppErrorType.unknown, message: error.toString());
+      throw error.toAppException();
     }
   }
 
@@ -74,18 +66,7 @@ class AuthRepository implements Authenticator {
           );
       }
     } catch (error) {
-      if (error is GrpcError) {
-        switch (error.code) {
-          case StatusCode.unavailable:
-            throw AppException(AppErrorType.network);
-          case StatusCode.unauthenticated:
-            throw AppException(AppErrorType.expiredToken);
-
-          default:
-            throw AppException(AppErrorType.unknown, message: error.message);
-        }
-      }
-      throw AppException(AppErrorType.unknown, message: error.toString());
+      throw error.toAppException();
     }
   }
 
@@ -106,18 +87,7 @@ class AuthRepository implements Authenticator {
         balance: response.user.balance,
       );
     } catch (error) {
-      if (error is GrpcError) {
-        switch (error.code) {
-          case StatusCode.unavailable:
-            throw AppException(AppErrorType.network);
-          case StatusCode.unauthenticated:
-            throw AppException(AppErrorType.expiredToken);
-
-          default:
-            throw AppException(AppErrorType.unknown, message: error.message);
-        }
-      }
-      throw AppException(AppErrorType.unknown, message: error.toString());
+      throw error.toAppException();
     }
   }
 }

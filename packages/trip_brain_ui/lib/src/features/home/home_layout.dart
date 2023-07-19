@@ -13,6 +13,7 @@ class HomeLayout extends StatefulWidget {
     required this.recentSearchFetcher,
     required this.onSuggestPlacesTapped,
     required this.onRecentSearchTapped,
+    required this.onLogoutTapped,
     required this.onError,
     super.key,
   });
@@ -21,6 +22,7 @@ class HomeLayout extends StatefulWidget {
   final UserFetcher userFetcher;
   final RecentSearchFetcher recentSearchFetcher;
   final void Function(String basePlace) onSuggestPlacesTapped;
+  final VoidCallback onLogoutTapped;
   final void Function(PlaceSuggestionQueryModel query) onRecentSearchTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
@@ -56,8 +58,10 @@ class _HomeLayoutState extends State<HomeLayout> {
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
-                leading: BalanceViewer(
-                  balanceStream: _cubit.balanceStream,
+                leading: Center(
+                  child: BalanceViewer(
+                    balanceStream: _cubit.balanceStream,
+                  ),
                 ),
                 actions: [
                   Builder(
@@ -66,6 +70,11 @@ class _HomeLayoutState extends State<HomeLayout> {
                       icon: const Icon(Icons.credit_card),
                       label: const Text('Buy Credit'),
                     ),
+                  ),
+                  TextButton.icon(
+                    onPressed: widget.onLogoutTapped,
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Logout'),
                   ),
                 ]),
             body: Padding(

@@ -27,6 +27,10 @@ class HomePage extends StatelessWidget {
           recentSearchFetcher: context.read<TravelSuggestionRepository>(),
           onRecentSearchTapped: (query) =>
               onRecentSearchTapped(context: context, query: query),
+          onLogoutTapped: () {
+            context.read<AuthCubit>().logout();
+            context.goAuth();
+          },
           onError: (error, retryCallback) => checkAppError(
             context: context,
             error: error,

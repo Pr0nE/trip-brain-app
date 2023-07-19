@@ -60,6 +60,7 @@ class PlaceSuggestionQueryModel extends Equatable {
     };
   }
 
+  // TODO: Move mapper to data
   factory PlaceSuggestionQueryModel.fromJson(Map<String, dynamic> json) {
     return PlaceSuggestionQueryModel(
       basePlace: json['basePlace'],

@@ -1,7 +1,9 @@
 enum AppErrorType {
-  expiredToken,
+  needAuth,
   network, // when we find out network is off after calling an api
   needNetwork, // when we know network is off before calling an api that won't work without network
+  insufficientBalance,
+  payment,
   unknown,
 }
 
@@ -19,7 +21,11 @@ class AppException implements Exception {
     }
 
     switch (type) {
-      case AppErrorType.expiredToken:
+      case AppErrorType.payment:
+        return "You have payment error";
+      case AppErrorType.insufficientBalance:
+        return "You don't have enough balance";
+      case AppErrorType.needAuth:
         return 'Your token is expired';
       case AppErrorType.network:
         return 'You have internet connection problems';

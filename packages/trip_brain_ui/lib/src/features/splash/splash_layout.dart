@@ -53,13 +53,17 @@ class _SplashLayoutState extends State<SplashLayout> {
     if (state is AuthErrorState) {
       final error = state.error;
 
-      if (error.type == AppErrorType.expiredToken) {
+      if (error.type == AppErrorType.needAuth) {
         widget.onNewUser();
 
         return;
       }
 
       widget.onError(error, state.retryCallback);
+    }
+
+    if (state is AuthLoggedOutState) {
+      widget.onNewUser();
     }
   }
 }
