@@ -1,13 +1,14 @@
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class AppModeCubit extends Cubit<AppMode> implements AppModeManager {
-  AppModeCubit() : super(AppMode.online) {
+  AppModeCubit({required this.serverPinger}) : super(AppMode.online) {
     appModeStream
         .where((event) => event == AppMode.offline)
         .listen((event) => _listenOnConnectionBack());
   }
+
+  final Pinger serverPinger;
 
   @override
   void setAppMode(AppMode mode) => emit(mode);
@@ -38,10 +39,9 @@ class AppModeCubit extends Cubit<AppMode> implements AppModeManager {
 
   Future<bool> _hasConnection() async {
     try {
-      await http
-          .get(Uri.parse('https://google.com'))
-          .timeout(Duration(seconds: 5));
-      return true;
+      final result = await serverPinger.ping().timeout(Duration(seconds: 5));
+
+      return result;
     } catch (e) {
       return false;
     }

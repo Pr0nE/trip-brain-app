@@ -161,3 +161,17 @@ const BuyCreditResponse$json = const {
 
 /// Descriptor for `BuyCreditResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List buyCreditResponseDescriptor = $convert.base64Decode('ChFCdXlDcmVkaXRSZXNwb25zZRIiCgxjbGllbnRTZWNyZXQYASABKAlSDGNsaWVudFNlY3JldA==');
+@$core.Deprecated('Use pingRequestDescriptor instead')
+const PingRequest$json = const {
+  '1': 'PingRequest',
+};
+
+/// Descriptor for `PingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pingRequestDescriptor = $convert.base64Decode('CgtQaW5nUmVxdWVzdA==');
+@$core.Deprecated('Use pingResponseDescriptor instead')
+const PingResponse$json = const {
+  '1': 'PingResponse',
+};
+
+/// Descriptor for `PingResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pingResponseDescriptor = $convert.base64Decode('CgxQaW5nUmVzcG9uc2U=');

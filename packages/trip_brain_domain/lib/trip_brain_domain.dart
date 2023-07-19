@@ -13,6 +13,7 @@ export 'src/stream_extensions.dart';
 export 'src/payment_manager.dart';
 export 'src/recent_search_fetcher.dart';
 export 'src/user_fetcher.dart';
+export 'src/pinger.dart';
 
 export 'src/auth/user.dart';
 export 'src/auth/authenticator.dart';

@@ -244,3 +244,42 @@ abstract class PaymentServiceBase extends $grpc.Service {
   $async.Future<$0.BuyCreditResponse> buyCredit(
       $grpc.ServiceCall call, $0.BuyCreditRequest request);
 }
+
+class GeneralClient extends $grpc.Client {
+  static final _$ping = $grpc.ClientMethod<$0.PingRequest, $0.PingResponse>(
+      '/General/Ping',
+      ($0.PingRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.PingResponse.fromBuffer(value));
+
+  GeneralClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
+
+  $grpc.ResponseFuture<$0.PingResponse> ping($0.PingRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$ping, request, options: options);
+  }
+}
+
+abstract class GeneralServiceBase extends $grpc.Service {
+  $core.String get $name => 'General';
+
+  GeneralServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.PingRequest, $0.PingResponse>(
+        'Ping',
+        ping_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.PingRequest.fromBuffer(value),
+        ($0.PingResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$0.PingResponse> ping_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.PingRequest> request) async {
+    return ping(call, await request);
+  }
+
+  $async.Future<$0.PingResponse> ping(
+      $grpc.ServiceCall call, $0.PingRequest request);
+}

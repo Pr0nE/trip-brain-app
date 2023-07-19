@@ -29,8 +29,13 @@ class TripBrainApp extends StatelessWidget {
           Provider<AppLocalRepository>(
             create: (context) => AppLocalRepository(storage: SecureStorage()),
           ),
+          Provider<GeneralRepository>(
+            create: (context) =>
+                GeneralRepository(client: context.read<APIClient>()),
+          ),
           Provider<AppModeCubit>(
-            create: (context) => AppModeCubit(),
+            create: (context) =>
+                AppModeCubit(serverPinger: context.read<GeneralRepository>()),
           ),
           Provider<AuthRepository>(
             create: (context) => AuthRepository(

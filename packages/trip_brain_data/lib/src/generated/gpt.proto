@@ -86,7 +86,13 @@ message BuyCreditResponse {
     string clientSecret = 1;
 }
 
-
 service Payment {
     rpc BuyCredit(BuyCreditRequest) returns (BuyCreditResponse) {}
+}
+
+message PingRequest {}
+message PingResponse {}
+
+service General{
+    rpc Ping(PingRequest) returns (PingResponse){}
 }
