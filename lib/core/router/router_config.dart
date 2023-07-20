@@ -4,10 +4,8 @@ import 'package:trip_brain_app/pages/auth/auth_page.dart';
 import 'package:trip_brain_app/pages/details/place_details_page.dart';
 import 'package:trip_brain_app/pages/home/home_page.dart';
 import 'package:trip_brain_app/pages/question_flow/question_flow_page.dart';
-import 'package:trip_brain_app/pages/question_flow/question_flow_page_dependencies.dart';
 import 'package:trip_brain_app/pages/splash/splash_page.dart';
 import 'package:trip_brain_app/pages/suggestions/suggestions_page.dart';
-import 'package:trip_brain_app/pages/suggestions/suggestions_page_dependencies.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 const _homePagePath = '/home';
@@ -34,14 +32,13 @@ final appRouterConfig = GoRouter(
           GoRoute(
             path: _questionFlowPagePath,
             builder: (context, state) => QuestionFlowPage(
-              //TODO: move depedecies to query parameters
-              dependencies: state.extra as QuestionFlowPageDependencies,
+              queryModel: state.extra as PlaceSuggestionQueryModel,
             ),
           ),
           GoRoute(
               path: _suggestionsPagePath,
               builder: (context, state) => SuggestionsPage(
-                    dependencies: state.extra as SuggestionsPageDependencies,
+                    queryModel: state.extra as PlaceSuggestionQueryModel,
                   ),
               routes: [
                 GoRoute(
@@ -70,15 +67,15 @@ extension RouterExtension on BuildContext {
 
   void pushDetails<T>(Place place) => push(_fullDetailsPagePath, extra: place);
 
-  void pushQuestionFlow<T>(QuestionFlowPageDependencies dependencies,
+  void pushQuestionFlow<T>(PlaceSuggestionQueryModel queryModel,
           {bool replacement = false}) =>
       replacement
-          ? pushReplacement(_fullQuestionFlowPagePath, extra: dependencies)
-          : push(_fullQuestionFlowPagePath, extra: dependencies);
+          ? pushReplacement(_fullQuestionFlowPagePath, extra: queryModel)
+          : push(_fullQuestionFlowPagePath, extra: queryModel);
 
-  void pushSuggestions<T>(SuggestionsPageDependencies dependencies,
+  void pushSuggestions<T>(PlaceSuggestionQueryModel queryModel,
           {bool replacement = false}) =>
       replacement
-          ? pushReplacement(_fullSuggestionsPagePath, extra: dependencies)
-          : push(_fullSuggestionsPagePath, extra: dependencies);
+          ? pushReplacement(_fullSuggestionsPagePath, extra: queryModel)
+          : push(_fullSuggestionsPagePath, extra: queryModel);
 }

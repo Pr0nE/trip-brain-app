@@ -3,17 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:trip_brain_app/core/helpers/app_helper.dart';
 import 'package:trip_brain_app/core/dialog/dialog_manager.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
-import 'package:trip_brain_app/pages/question_flow/question_flow_page_dependencies.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/trip_brain_ui.dart';
 
-import 'suggestions_page_dependencies.dart';
-
 class SuggestionsPage extends StatelessWidget {
-  const SuggestionsPage({required this.dependencies, super.key});
+  const SuggestionsPage({required this.queryModel, super.key});
 
-  final SuggestionsPageDependencies dependencies;
+  final PlaceSuggestionQueryModel queryModel;
 
   @override
   Widget build(BuildContext context) => Provider(
@@ -24,7 +21,7 @@ class SuggestionsPage extends StatelessWidget {
             placeSuggester: context.read<TravelSuggestionRepository>(),
             onChangeSuggestionQuery: ({required queryModel}) =>
                 onChangeSuggestionQuery(context, queryModel),
-            queryModel: dependencies.queryModel,
+            queryModel: queryModel,
             onPlaceTapped: (place) => onPlaceTapped(context, place),
             onError: (error, retryCallback) => checkAppError(
               context: context,
@@ -43,7 +40,7 @@ class SuggestionsPage extends StatelessWidget {
     PlaceSuggestionQueryModel queryModel,
   ) =>
       context.pushQuestionFlow(
-        QuestionFlowPageDependencies(baseQueryModel: queryModel),
+        queryModel,
         replacement: true,
       );
 }

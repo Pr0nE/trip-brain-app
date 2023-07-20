@@ -3,23 +3,20 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:trip_brain_app/core/dialog/dialog_manager.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
-import 'package:trip_brain_app/pages/suggestions/suggestions_page_dependencies.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/trip_brain_ui.dart';
 
-import 'question_flow_page_dependencies.dart';
-
 class QuestionFlowPage extends StatelessWidget {
-  const QuestionFlowPage({required this.dependencies, super.key});
+  const QuestionFlowPage({required this.queryModel, super.key});
 
-  final QuestionFlowPageDependencies dependencies;
+  final PlaceSuggestionQueryModel queryModel;
 
   @override
   Widget build(BuildContext context) => Provider(
         create: (context) => DialogManager(context),
         child: Builder(
           builder: (context) => QuestionFlowLayout(
-            baseQueryModel: dependencies.baseQueryModel,
+            baseQueryModel: queryModel,
             onPagePop: context.pop,
             onQuestionsFinished: ({required finishedQueryModel}) =>
                 onQuestionsFinished(
@@ -34,7 +31,5 @@ class QuestionFlowPage extends StatelessWidget {
     required BuildContext context,
     required PlaceSuggestionQueryModel finishedQueryModel,
   }) =>
-      context.pushSuggestions(
-        SuggestionsPageDependencies(queryModel: finishedQueryModel),
-      );
+      context.pushSuggestions(finishedQueryModel);
 }
