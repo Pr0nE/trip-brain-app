@@ -14,6 +14,7 @@ class HomeLayout extends StatefulWidget {
     required this.onSuggestPlacesTapped,
     required this.onRecentSearchTapped,
     required this.onLogoutTapped,
+    required this.onBuyBalanceTapped,
     required this.onError,
     super.key,
   });
@@ -23,6 +24,7 @@ class HomeLayout extends StatefulWidget {
   final RecentSearchFetcher recentSearchFetcher;
   final void Function(String basePlace) onSuggestPlacesTapped;
   final VoidCallback onLogoutTapped;
+  final VoidCallback onBuyBalanceTapped;
   final void Function(PlaceSuggestionQueryModel query) onRecentSearchTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
@@ -66,7 +68,7 @@ class _HomeLayoutState extends State<HomeLayout> {
                 actions: [
                   Builder(
                     builder: (context) => TextButton.icon(
-                      onPressed: () => onBuyBalanceTapped(context),
+                      onPressed: widget.onBuyBalanceTapped,
                       icon: const Icon(Icons.credit_card),
                       label: const Text('Buy Credit'),
                     ),
@@ -116,39 +118,6 @@ class _HomeLayoutState extends State<HomeLayout> {
               ),
             ),
           ),
-        ),
-      );
-
-  Future<void> onBuyBalanceTapped(BuildContext context) async {
-    final int? selectedAmount = await _showBalanceSelector(context);
-    if (selectedAmount != null) {
-      _cubit.onBuyBalance(selectedAmount);
-    }
-  }
-
-  Future<int?> _showBalanceSelector(BuildContext context) async =>
-      showModalBottomSheet<int?>(
-        context: context,
-        enableDrag: false,
-        builder: (context) => BottomSheet(
-          builder: (context) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(10),
-                child: Text('10'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(25),
-                child: Text('25'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(50),
-                child: Text('50'),
-              ),
-            ],
-          ),
-          onClosing: () {},
         ),
       );
 

@@ -35,12 +35,6 @@ class HomeLayoutCubit extends CubitPlus<HomeLayoutState> {
         Stream.periodic(const Duration(seconds: 2)).listen((_) => _fetchUser()),
       );
 
-  void onBuyBalance(int amount) => paymentManager.buyBalance(amount).on(
-        onLoading: () => emit(HomeLayoutLoadingState()),
-        onError: (AppException error) =>
-            emit(HomeLayoutErrorState(error, () => onBuyBalance(amount))),
-      );
-
   void _fetchUser() => userFetcher.fetchUser().on(
         onLoading: () => emit(HomeLayoutLoadingState()),
         onData: (user) => emit(HomeLayoutUserLoadedState(user: user)),

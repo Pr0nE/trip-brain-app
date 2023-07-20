@@ -65,7 +65,7 @@ class TripBrainApp extends StatelessWidget {
               appModeProvider: context.read<AppModeCubit>(),
             ),
           ),
-          Provider<PaymentRepository>(
+          Provider<PaymentManager>(
             create: (context) => PaymentRepository(
               client: context.read<APIClient>(),
               appModeProvider: context.read<AppModeCubit>(),

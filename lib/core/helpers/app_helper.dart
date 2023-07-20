@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
@@ -59,10 +60,16 @@ extension DialogExtension on DialogManager {
             onPressed: () => popDialog(),
             child: const Text("Cancel"),
           ),
-          // TextButton( //TODO: buy from anywehre in app
-          //   onPressed: () => ,
-          //   child: const Text("Buy"),
-          // ),
+          TextButton(
+            onPressed: () {
+              showBuyBalanceBottomSheet(
+                context,
+                context.read<PaymentManager>(),
+              );
+              popDialog();
+            },
+            child: const Text("Buy balance"),
+          ),
         ],
       ),
       dismissible: false,
@@ -132,4 +139,78 @@ extension DialogExtension on DialogManager {
           ],
         ),
       );
+}
+
+void showBuyBalanceBottomSheet(
+        BuildContext context, PaymentManager paymentManager) =>
+    showModalBottomSheet(
+      context: context,
+      enableDrag: false,
+      builder: (context) => BuyBalanceBottomSheet(
+        paymentManager: context.read<PaymentManager>(),
+      ),
+    );
+
+class BuyBalanceBottomSheet extends StatefulWidget {
+  const BuyBalanceBottomSheet({required this.paymentManager, super.key});
+
+  final PaymentManager paymentManager;
+
+  @override
+  State<BuyBalanceBottomSheet> createState() => _BuyBalanceBottomSheetState();
+}
+
+class _BuyBalanceBottomSheetState extends State<BuyBalanceBottomSheet> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) => Provider(
+        create: (context) => DialogManager(context),
+        child: Builder(
+          builder: (context) => BottomSheet(
+            builder: (context) => Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Opacity(
+                  opacity: isLoading ? 0.1 : 1,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton(
+                        onPressed: () => onAmountSelected(context, 10),
+                        child: Text('10'),
+                      ),
+                      TextButton(
+                        onPressed: () => onAmountSelected(context, 25),
+                        child: Text('25'),
+                      ),
+                      TextButton(
+                        onPressed: () => onAmountSelected(context, 50),
+                        child: Text('50'),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isLoading) CircularProgressIndicator()
+              ],
+            ),
+            onClosing: () {},
+          ),
+        ),
+      );
+
+  void onAmountSelected(BuildContext context, int selectedAmount) =>
+      widget.paymentManager.buyBalance(selectedAmount).on(
+            onLoading: () => setState(() => isLoading = true),
+            onError: (AppException error) {
+              context.pop();
+              setState(() => isLoading = false);
+              checkAppError(context: context, error: error);
+            },
+            onData: (result) {
+              // TODO: show success message
+              context.pop();
+              setState(() => isLoading = false);
+            },
+          );
 }
