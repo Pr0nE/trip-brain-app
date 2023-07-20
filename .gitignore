@@ -44,6 +44,9 @@ app.*.map.json
 /android/app/release
 
 # Custom
-/android/key.properties
-/android/app/google-services.json
-/back-go
+android/key.properties
+android/app/google-services.json
+back-go
+lib/firebase_options.dart
+ios/firebase_app_id_file.json
+ios/Runner/GoogleService-Info.plist

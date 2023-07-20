@@ -8,6 +8,8 @@ import 'package:trip_brain_app/pages/splash/splash_page.dart';
 import 'package:trip_brain_app/pages/suggestions/suggestions_page.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
+import 'route_observer.dart';
+
 const _homePagePath = '/home';
 const _splashPagePath = '/splash';
 const _authPagePath = '/auth';
@@ -16,6 +18,7 @@ const _suggestionsPagePath = 'suggestions';
 const _detailsPagePath = 'details';
 
 final appRouterConfig = GoRouter(
+  observers: [AnalyticRouterObserver()],
   routes: [
     GoRoute(
       path: _splashPagePath,

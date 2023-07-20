@@ -8,12 +8,16 @@ class AuthLayout extends StatelessWidget {
   const AuthLayout({
     required this.authIO,
     required this.onSuccessLogin,
+    required this.onGuestLoginTapped,
+    required this.onSocialLoginTapped,
     required this.onError,
     super.key,
   });
 
   final AuthIO authIO;
   final void Function(User user) onSuccessLogin;
+  final void Function() onGuestLoginTapped;
+  final void Function() onSocialLoginTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
@@ -48,11 +52,17 @@ class AuthLayout extends StatelessWidget {
   Widget _buildLoginButtons() => Row(
         children: [
           TextButton.icon(
-              onPressed: authIO.guestLogin,
+              onPressed: () {
+                onGuestLoginTapped();
+                authIO.guestLogin();
+              },
               icon: Icon(Icons.person),
               label: Text('Login as guest')),
           TextButton.icon(
-              onPressed: authIO.googleLogin,
+              onPressed: () {
+                onSocialLoginTapped();
+                authIO.googleLogin();
+              },
               icon: Icon(Icons.login),
               label: Text('Google Login')),
         ],

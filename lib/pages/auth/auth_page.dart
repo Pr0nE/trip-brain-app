@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trip_brain_app/core/helpers/app_helper.dart';
 import 'package:trip_brain_app/core/dialog/dialog_manager.dart';
+import 'package:trip_brain_app/core/helpers/event_helper.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
 
@@ -18,6 +19,8 @@ class AuthPage extends StatelessWidget {
         builder: (context) => AuthLayout(
           authIO: context.read<AuthCubit>(),
           onSuccessLogin: (_) => context.goHome(),
+          onGuestLoginTapped: onGuestLoginTappedEvent,
+          onSocialLoginTapped: onSocialLoginTappedEvent,
           onError: (error, retryCallback) => checkAppError(
             context: context,
             error: error,

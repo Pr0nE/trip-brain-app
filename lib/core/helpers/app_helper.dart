@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:trip_brain_app/core/helpers/event_helper.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
@@ -15,6 +16,8 @@ void checkAppError({
 }) {
   final dialogManager = context.read<DialogManager>();
   final appModeManager = context.read<AppModeCubit>();
+
+  onAppExceptionEvent(error);
 
   switch (error.type) {
     case AppErrorType.payment:
@@ -144,6 +147,7 @@ extension DialogExtension on DialogManager {
 void showBuyBalanceBottomSheet(
         BuildContext context, PaymentManager paymentManager) =>
     showModalBottomSheet(
+      routeSettings: const RouteSettings(name: 'BalanceSelectorBottomSheet'),
       context: context,
       enableDrag: false,
       builder: (context) => BuyBalanceBottomSheet(
@@ -199,18 +203,21 @@ class _BuyBalanceBottomSheetState extends State<BuyBalanceBottomSheet> {
         ),
       );
 
-  void onAmountSelected(BuildContext context, int selectedAmount) =>
-      widget.paymentManager.buyBalance(selectedAmount).on(
-            onLoading: () => setState(() => isLoading = true),
-            onError: (AppException error) {
-              context.pop();
-              setState(() => isLoading = false);
-              checkAppError(context: context, error: error);
-            },
-            onData: (result) {
-              // TODO: show success message
-              context.pop();
-              setState(() => isLoading = false);
-            },
-          );
+  void onAmountSelected(BuildContext context, int selectedAmount) {
+    onBuyBalanceEvent(selectedAmount);
+
+    widget.paymentManager.buyBalance(selectedAmount).on(
+          onLoading: () => setState(() => isLoading = true),
+          onError: (AppException error) {
+            context.pop();
+            setState(() => isLoading = false);
+            checkAppError(context: context, error: error);
+          },
+          onData: (result) {
+            // TODO: show success message
+            context.pop();
+            setState(() => isLoading = false);
+          },
+        );
+  }
 }

@@ -6,6 +6,7 @@ import 'package:trip_brain_ui/src/details/place_detail_viewer.dart';
 class PlaceDetailsLayout extends StatefulWidget {
   const PlaceDetailsLayout({
     required this.place,
+    required this.onDetailTapped,
     required this.detailFetcher,
     required this.onError,
     super.key,
@@ -13,6 +14,8 @@ class PlaceDetailsLayout extends StatefulWidget {
 
   final Place place;
   final PlaceDetailFetcher detailFetcher;
+
+  final void Function(PlaceDetail detail) onDetailTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
@@ -90,18 +93,20 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                               spacing: 10,
                               children: PlaceDetail.values
                                   .map(
-                                    (e) => ChoiceChip(
+                                    (detail) => ChoiceChip(
                                       selectedColor:
                                           Theme.of(context).colorScheme.primary,
                                       onSelected: (value) => setState(() {
-                                        selectedDetail = e;
+                                        widget.onDetailTapped(detail);
+
+                                        selectedDetail = detail;
                                         if (!visitedDetails
                                             .contains(selectedDetail)) {
                                           visitedDetails.add(selectedDetail);
                                         }
                                       }),
-                                      label: Text(e.name),
-                                      selected: selectedDetail == e,
+                                      label: Text(detail.name),
+                                      selected: selectedDetail == detail,
                                     ),
                                   )
                                   .toList(),

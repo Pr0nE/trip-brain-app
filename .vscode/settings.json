@@ -48,7 +48,6 @@
     "back-go": true,
     "packages/trip_brain_ui/.flutter-plugins": true,
     "packages/trip_brain_ui/.flutter-plugins-dependencies": true,
-    "android": true,
     ".vscode": true,
     "analysis_options.yaml": true,
     "packages/trip_brain_data/analysis_options.yaml": true
@@ -95,7 +94,6 @@
     "back-go",
     "packages/trip_brain_ui/.flutter-plugins",
     "packages/trip_brain_ui/.flutter-plugins-dependencies",
-    "android",
     ".vscode",
     "analysis_options.yaml",
     "packages/trip_brain_data/analysis_options.yaml"
