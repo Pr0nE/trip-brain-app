@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:trip_brain_domain/trip_brain_domain.dart';
-
-import 'package:trip_brain_ui/src/features/suggestions/place_tile.dart';
-import 'package:trip_brain_ui/src/features/suggestions/suggestions_page_cubit.dart';
-import 'package:trip_brain_ui/src/features/suggestions/suggestions_page_state.dart';
+import 'package:trip_brain_ui/src/suggestions/place_tile.dart';
+import 'package:trip_brain_ui/src/suggestions/suggestions_page_cubit.dart';
+import 'package:trip_brain_ui/src/suggestions/suggestions_page_state.dart';
 
 class SuggestionsLayout extends StatelessWidget {
   const SuggestionsLayout({
@@ -18,10 +17,10 @@ class SuggestionsLayout extends StatelessWidget {
     super.key,
   });
 
-  final PlaceSuggestionQueryModel queryModel;
+  final PlaceSuggestionQuery queryModel;
   final PlaceSuggester placeSuggester;
   final PlaceImageFetcher imageFetcher;
-  final void Function({required PlaceSuggestionQueryModel queryModel})
+  final void Function({required PlaceSuggestionQuery queryModel})
       onChangeSuggestionQuery;
   final void Function(Place place) onPlaceTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
@@ -34,9 +33,8 @@ class SuggestionsLayout extends StatelessWidget {
               ..onSuggestRequest(queryModel),
             child: BlocListener<SuggestionsPageCubit, SuggestionsPageState>(
               listener: (context, state) {
-                if (state.hasError) {
-                  onError(state.error!, () {} // TODO change after change state
-                      );
+                if (state is SuggestionsPageErrorState) {
+                  onError(state.error, state.retryCallback);
                 }
               },
               child: Builder(
@@ -69,31 +67,28 @@ class SuggestionsLayout extends StatelessWidget {
                     Expanded(
                       child: BlocBuilder<SuggestionsPageCubit,
                           SuggestionsPageState>(
-                        builder: (context, state) {
-                          print(
-                              state.suggestionPlaces.firstOrNull?.description);
-                          return state.isLoading
-                              ? const SizedBox.expand(
-                                  child: Center(
-                                      child: CircularProgressIndicator()),
-                                )
-                              : ListView.separated(
-                                  itemCount: state.suggestionPlaces.length,
-                                  itemBuilder: (context, index) => PlaceTile(
-                                    key: ValueKey(
-                                      state.suggestionPlaces[index].title,
-                                    ),
-                                    place:
-                                        state.suggestionPlaces[index].copyWith(
-                                      basePlace: queryModel.basePlace,
-                                    ),
-                                    imageFetcher: imageFetcher,
-                                    onPlaceTapped: onPlaceTapped,
+                        builder: (context, state) => state
+                                is SuggestionsPageLoadingState
+                            ? const SizedBox.expand(
+                                child:
+                                    Center(child: CircularProgressIndicator()),
+                              )
+                            : ListView.separated(
+                                itemCount: state.getSuggestionPlaces.length,
+                                itemBuilder: (context, index) => PlaceTile(
+                                  key: ValueKey(
+                                    state.getSuggestionPlaces[index].title,
                                   ),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(height: 48),
-                                );
-                        },
+                                  place:
+                                      state.getSuggestionPlaces[index].copyWith(
+                                    basePlace: queryModel.basePlace,
+                                  ),
+                                  imageFetcher: imageFetcher,
+                                  onPlaceTapped: onPlaceTapped,
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 48),
+                              ),
                       ),
                     ),
                   ],

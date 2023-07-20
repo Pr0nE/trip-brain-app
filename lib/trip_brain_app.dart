@@ -80,7 +80,7 @@ class TripBrainApp extends StatelessWidget {
             brightness: Brightness.dark,
             textTheme: GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
           ),
-          // TOODO: theme:
+          // TODO: theme:
           // TODO: localizationsDelegates:
           builder: (context, child) => AppManager(child: child),
           routerConfig: appRouterConfig,

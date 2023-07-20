@@ -32,13 +32,13 @@ final appRouterConfig = GoRouter(
           GoRoute(
             path: _questionFlowPagePath,
             builder: (context, state) => QuestionFlowPage(
-              queryModel: state.extra as PlaceSuggestionQueryModel,
+              queryModel: state.extra as PlaceSuggestionQuery,
             ),
           ),
           GoRoute(
               path: _suggestionsPagePath,
               builder: (context, state) => SuggestionsPage(
-                    queryModel: state.extra as PlaceSuggestionQueryModel,
+                    queryModel: state.extra as PlaceSuggestionQuery,
                   ),
               routes: [
                 GoRoute(
@@ -67,13 +67,13 @@ extension RouterExtension on BuildContext {
 
   void pushDetails<T>(Place place) => push(_fullDetailsPagePath, extra: place);
 
-  void pushQuestionFlow<T>(PlaceSuggestionQueryModel queryModel,
+  void pushQuestionFlow<T>(PlaceSuggestionQuery queryModel,
           {bool replacement = false}) =>
       replacement
           ? pushReplacement(_fullQuestionFlowPagePath, extra: queryModel)
           : push(_fullQuestionFlowPagePath, extra: queryModel);
 
-  void pushSuggestions<T>(PlaceSuggestionQueryModel queryModel,
+  void pushSuggestions<T>(PlaceSuggestionQuery queryModel,
           {bool replacement = false}) =>
       replacement
           ? pushReplacement(_fullSuggestionsPagePath, extra: queryModel)

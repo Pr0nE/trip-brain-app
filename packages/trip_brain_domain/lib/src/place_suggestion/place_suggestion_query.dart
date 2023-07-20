@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class PlaceSuggestionQueryModel extends Equatable {
-  PlaceSuggestionQueryModel({
+class PlaceSuggestionQuery extends Equatable {
+  PlaceSuggestionQuery({
     required this.basePlace,
     required this.likes,
     required this.dislikes,
@@ -11,14 +11,14 @@ class PlaceSuggestionQueryModel extends Equatable {
   final List<String> likes;
   final List<String> dislikes;
 
-  factory PlaceSuggestionQueryModel.withBasePlace(String basePlace) =>
-      PlaceSuggestionQueryModel(
+  factory PlaceSuggestionQuery.withBasePlace(String basePlace) =>
+      PlaceSuggestionQuery(
         basePlace: basePlace,
         dislikes: [],
         likes: [],
       );
 
-  PlaceSuggestionQueryModel copyWith({
+  PlaceSuggestionQuery copyWith({
     String? basePlace,
     List<String>? likes,
     List<String>? dislikes,
@@ -27,7 +27,7 @@ class PlaceSuggestionQueryModel extends Equatable {
     String? addDislike,
     String? removeDislike,
   }) {
-    return PlaceSuggestionQueryModel(
+    return PlaceSuggestionQuery(
       basePlace: basePlace ?? this.basePlace,
       likes: _updateList(this.likes, addLike, removeLike),
       dislikes: _updateList(this.dislikes, addDislike, removeDislike),
@@ -50,23 +50,6 @@ class PlaceSuggestionQueryModel extends Equatable {
     }
 
     return updatedList;
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'basePlace': basePlace,
-      'likes': likes,
-      'dislikes': dislikes,
-    };
-  }
-
-  // TODO: Move mapper to data
-  factory PlaceSuggestionQueryModel.fromJson(Map<String, dynamic> json) {
-    return PlaceSuggestionQueryModel(
-      basePlace: json['basePlace'],
-      likes: List<String>.from(json['likes']),
-      dislikes: List<String>.from(json['dislikes']),
-    );
   }
 
   @override

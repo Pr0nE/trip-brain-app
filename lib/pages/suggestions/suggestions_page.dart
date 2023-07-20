@@ -10,7 +10,7 @@ import 'package:trip_brain_ui/trip_brain_ui.dart';
 class SuggestionsPage extends StatelessWidget {
   const SuggestionsPage({required this.queryModel, super.key});
 
-  final PlaceSuggestionQueryModel queryModel;
+  final PlaceSuggestionQuery queryModel;
 
   @override
   Widget build(BuildContext context) => Provider(
@@ -37,7 +37,7 @@ class SuggestionsPage extends StatelessWidget {
 
   void onChangeSuggestionQuery(
     BuildContext context,
-    PlaceSuggestionQueryModel queryModel,
+    PlaceSuggestionQuery queryModel,
   ) =>
       context.pushQuestionFlow(
         queryModel,

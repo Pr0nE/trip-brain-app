@@ -13,10 +13,10 @@ class QuestionFlowLayout extends StatefulWidget {
     super.key,
   });
 
-  final PlaceSuggestionQueryModel baseQueryModel;
+  final PlaceSuggestionQuery baseQueryModel;
   final void Function() onPagePop;
 
-  final Function({required PlaceSuggestionQueryModel finishedQueryModel})
+  final Function({required PlaceSuggestionQuery finishedQueryModel})
       onQuestionsFinished;
 
   @override
@@ -29,7 +29,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
   static const _dislikeSuggestions = ['crowded', 'rainy', 'cold'];
 
   late QuestionFlowStep _step;
-  late PlaceSuggestionQueryModel _queryModel;
+  late PlaceSuggestionQuery _queryModel;
 
   @override
   void initState() {

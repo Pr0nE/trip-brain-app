@@ -47,12 +47,11 @@ class HomePage extends StatelessWidget {
     required BuildContext context,
     required String basePlace,
   }) =>
-      context
-          .pushQuestionFlow(PlaceSuggestionQueryModel.withBasePlace(basePlace));
+      context.pushQuestionFlow(PlaceSuggestionQuery.withBasePlace(basePlace));
 
   void onRecentSearchTapped({
     required BuildContext context,
-    required PlaceSuggestionQueryModel query,
+    required PlaceSuggestionQuery query,
   }) =>
       context.pushSuggestions(query);
 }

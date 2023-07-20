@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
-class SecureStorage implements StringStorage {
+class SecureStorage implements Storage {
   final _storage = FlutterSecureStorage();
 
   @override

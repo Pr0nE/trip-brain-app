@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
+import 'package:trip_brain_data/src/mappers/place_dto_mappers.dart';
+import 'package:trip_brain_data/src/mappers/place_suggestion_query_dto_mappers.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
@@ -9,7 +11,7 @@ import 'package:trip_brain_data/src/cache/cache_manager.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
 
 class TravelSuggestionRepository
-    implements PlaceSuggester, PlaceImageFetcher, RecentSearchFetcher {
+    implements PlaceSuggester, PlaceImageFetcher, RecentSuggestionsFetcher {
   TravelSuggestionRepository({
     required this.cacheManager,
     required this.authProvider,
@@ -18,13 +20,14 @@ class TravelSuggestionRepository
   }) : client = TravelSuggestionClient(client.grpcChannel);
 
   static const _suggestionSearchesTableKey = 'suggestionSearchesTableKey';
+
   final TravelSuggestionClient client;
   final AuthInfoProvider authProvider;
   final AppModeProvider appModeProvider;
   final CacheManager cacheManager;
 
   @override
-  Stream<List<Place>> suggestPlaces(PlaceSuggestionQueryModel query) {
+  Stream<List<Place>> suggestPlaces(PlaceSuggestionQuery query) {
     try {
       final StreamController<List<Place>> controller =
           StreamController.broadcast();
@@ -40,7 +43,7 @@ class TravelSuggestionRepository
         if (cacheResponse != null) {
           final List<dynamic> jsonData = jsonDecode(cacheResponse);
           final List<Place> cachedPlaces = jsonData
-              .map((data) => Place.fromJson(data as Map<String, dynamic>))
+              .map((data) => (data as Map<String, dynamic>).toPlace())
               .toList();
 
           controller.add(cachedPlaces);
@@ -104,12 +107,15 @@ class TravelSuggestionRepository
   }
 
   @override
-  Future<List<PlaceSuggestionQueryModel>> fetchRecentSearch() async {
+  Future<List<PlaceSuggestionQuery>> fetchRecentSuggestions() async {
     final Map<String, String> entries =
         await cacheManager.getTableEntries(_suggestionSearchesTableKey);
 
     return entries.keys
-        .map((json) => PlaceSuggestionQueryModel.fromJson(jsonDecode(json)))
+        .map((json) {
+          final jsonMap = jsonDecode(json) as Map<String, dynamic>;
+          return jsonMap.toSuggestionQuery();
+        })
         .toList()
         .reversed
         .toList();

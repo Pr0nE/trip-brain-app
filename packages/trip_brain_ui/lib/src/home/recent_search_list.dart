@@ -8,12 +8,12 @@ class RecentSearchList extends StatelessWidget {
     super.key,
   });
 
-  final RecentSearchFetcher fetcher;
-  final void Function(PlaceSuggestionQueryModel query) onRecentSearchTapped;
+  final RecentSuggestionsFetcher fetcher;
+  final void Function(PlaceSuggestionQuery query) onRecentSearchTapped;
 
   @override
   Widget build(BuildContext context) => FutureBuilder(
-        future: fetcher.fetchRecentSearch(),
+        future: fetcher.fetchRecentSuggestions(),
         builder: (context, snapshot) {
           return ListView.separated(
             itemBuilder: (context, index) => ListTile(

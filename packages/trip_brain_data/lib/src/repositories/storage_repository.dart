@@ -3,7 +3,7 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 class AppLocalRepository implements AuthStorage {
   AppLocalRepository({required this.storage});
 
-  final StringStorage storage;
+  final Storage storage;
 
   static const _accessTokenKey = 'AccessTokenKey';
 

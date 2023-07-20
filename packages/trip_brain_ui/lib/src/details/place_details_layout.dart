@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
-import 'package:trip_brain_ui/src/features/details/place_detail_viewer.dart';
+import 'package:trip_brain_ui/src/details/place_detail_viewer.dart';
 
 class PlaceDetailsLayout extends StatefulWidget {
   const PlaceDetailsLayout({

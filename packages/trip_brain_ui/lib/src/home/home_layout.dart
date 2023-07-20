@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
-import 'package:trip_brain_ui/src/features/home/home_layout_cubit.dart';
-import 'package:trip_brain_ui/src/features/home/recent_search_list.dart';
+import 'package:trip_brain_ui/src/home/home_layout_cubit.dart';
+import 'package:trip_brain_ui/src/home/recent_search_list.dart';
 
 import 'balance_viewer.dart';
 
@@ -21,11 +21,11 @@ class HomeLayout extends StatefulWidget {
 
   final PaymentManager paymentManager;
   final UserFetcher userFetcher;
-  final RecentSearchFetcher recentSearchFetcher;
+  final RecentSuggestionsFetcher recentSearchFetcher;
   final void Function(String basePlace) onSuggestPlacesTapped;
   final VoidCallback onLogoutTapped;
   final VoidCallback onBuyBalanceTapped;
-  final void Function(PlaceSuggestionQueryModel query) onRecentSearchTapped;
+  final void Function(PlaceSuggestionQuery query) onRecentSearchTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
   @override
