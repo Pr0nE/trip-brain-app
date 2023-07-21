@@ -9,14 +9,14 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 class AuthRepository implements Authenticator {
   AuthRepository({
     required APIClient apiClient,
-    required this.appModeProvider,
+    required this.appSettingsProvider,
   }) : authClient = AuthClient(
           apiClient.grpcChannel,
           //  options: CallOptions(timeout: Duration(seconds: 5)),
         );
 
   final AuthClient authClient;
-  final AppModeProvider appModeProvider;
+  final AppSettingsProvider appSettingsProvider;
 
   @override
   Future<User> googleLogin() async {
@@ -72,7 +72,7 @@ class AuthRepository implements Authenticator {
 
   @override
   Future<User> accessTokenLogin(String token) async {
-    if (appModeProvider.isAppOffline) {
+    if (appSettingsProvider.isAppOffline) {
       return User(id: '', token: token, name: '', balance: 0);
     }
 

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +9,7 @@ import 'package:trip_brain_data/trip_brain_data.dart';
 
 import 'package:trip_brain_app/core/router/router_config.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
+import 'package:trip_brain_ui/trip_brain_ui.dart';
 
 class TripBrainApp extends StatelessWidget {
   const TripBrainApp({super.key});
@@ -33,14 +34,14 @@ class TripBrainApp extends StatelessWidget {
             create: (context) =>
                 GeneralRepository(client: context.read<APIClient>()),
           ),
-          Provider<AppModeCubit>(
-            create: (context) =>
-                AppModeCubit(serverPinger: context.read<GeneralRepository>()),
+          Provider<AppSettingsCubit>(
+            create: (context) => AppSettingsCubit(
+                serverPinger: context.read<GeneralRepository>()),
           ),
           Provider<AuthRepository>(
             create: (context) => AuthRepository(
               apiClient: context.read<APIClient>(),
-              appModeProvider: context.read<AppModeCubit>(),
+              appSettingsProvider: context.read<AppSettingsCubit>(),
             ),
           ),
           Provider(
@@ -54,7 +55,7 @@ class TripBrainApp extends StatelessWidget {
               cacheManager: HiveCacheManager(),
               authProvider: context.read<AuthCubit>(),
               client: context.read<APIClient>(),
-              appModeProvider: context.read<AppModeCubit>(),
+              appSettingsProvider: context.read<AppSettingsCubit>(),
             ),
           ),
           Provider<TravelSuggestionRepository>(
@@ -62,18 +63,25 @@ class TripBrainApp extends StatelessWidget {
               authProvider: context.read<AuthCubit>(),
               client: context.read<APIClient>(),
               cacheManager: HiveCacheManager(),
-              appModeProvider: context.read<AppModeCubit>(),
+              appSettingsProvider: context.read<AppSettingsCubit>(),
             ),
           ),
           Provider<PaymentManager>(
             create: (context) => PaymentRepository(
               client: context.read<APIClient>(),
-              appModeProvider: context.read<AppModeCubit>(),
+              appSettingsProvider: context.read<AppSettingsCubit>(),
               authProvider: context.read<AuthCubit>(),
             ),
           ),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalization.delegate,
+          ],
+          supportedLocales: AppLocalization.delegate.supportedLocales,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: const ColorScheme.dark(),
@@ -82,22 +90,41 @@ class TripBrainApp extends StatelessWidget {
           ),
           // TODO: theme:
           // TODO: localizationsDelegates:
-          builder: (context, child) => AppManager(child: child),
+          builder: (context, child) => AppManager(
+            appSettingsManager: context.read<AppSettingsCubit>(),
+            child: child ?? ErrorWidget('Empty App!'),
+          ),
           routerConfig: appRouterConfig,
         ),
       );
 }
 
-class AppManager extends StatelessWidget {
-  const AppManager({this.child, super.key});
+class AppManager extends StatefulWidget {
+  const AppManager(
+      {required this.appSettingsManager, required this.child, super.key});
 
-  final Widget? child;
+  final Widget child;
+  final AppSettingsManager appSettingsManager;
 
   @override
-  Widget build(BuildContext context) => BlocListener<AppModeCubit, AppMode>(
-        listener: (context, state) => ScaffoldMessenger.of(context)
-            .showSnackBar(
-                SnackBar(content: Text('App mode is now: ${state.name}'))),
-        child: child,
-      );
+  State<AppManager> createState() => _AppManagerState();
+}
+
+class _AppManagerState extends State<AppManager> {
+  @override
+  void didChangeDependencies() {
+    widget.appSettingsManager
+        .setAppLanguage(Localizations.localeOf(context).languageCode);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamListener<AppMode>(
+      stream: widget.appSettingsManager.appModeStream,
+      onState: (appMode) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('App mode is now: ${appMode.name}'))),
+      child: widget.child,
+    );
+  }
 }

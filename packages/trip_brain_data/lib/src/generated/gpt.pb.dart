@@ -15,6 +15,7 @@ class TravelSuggestionRequest extends $pb.GeneratedMessage {
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'basePlace', protoName: 'basePlace')
     ..pPS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'likes')
     ..pPS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dislikes')
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'language')
     ..hasRequiredFields = false
   ;
 
@@ -24,6 +25,7 @@ class TravelSuggestionRequest extends $pb.GeneratedMessage {
     $core.String? basePlace,
     $core.Iterable<$core.String>? likes,
     $core.Iterable<$core.String>? dislikes,
+    $core.String? language,
   }) {
     final _result = create();
     if (accessToken != null) {
@@ -37,6 +39,9 @@ class TravelSuggestionRequest extends $pb.GeneratedMessage {
     }
     if (dislikes != null) {
       _result.dislikes.addAll(dislikes);
+    }
+    if (language != null) {
+      _result.language = language;
     }
     return _result;
   }
@@ -84,6 +89,15 @@ class TravelSuggestionRequest extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(4)
   $core.List<$core.String> get dislikes => $_getList(3);
+
+  @$pb.TagNumber(5)
+  $core.String get language => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set language($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasLanguage() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearLanguage() => clearField(5);
 }
 
 class TravelSuggestionResponse extends $pb.GeneratedMessage {
@@ -590,6 +604,7 @@ class GetDetailRequest extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'place')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'detail')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'language')
     ..hasRequiredFields = false
   ;
 
@@ -598,6 +613,7 @@ class GetDetailRequest extends $pb.GeneratedMessage {
     $core.String? token,
     $core.String? place,
     $core.String? detail,
+    $core.String? language,
   }) {
     final _result = create();
     if (token != null) {
@@ -608,6 +624,9 @@ class GetDetailRequest extends $pb.GeneratedMessage {
     }
     if (detail != null) {
       _result.detail = detail;
+    }
+    if (language != null) {
+      _result.language = language;
     }
     return _result;
   }
@@ -658,6 +677,15 @@ class GetDetailRequest extends $pb.GeneratedMessage {
   $core.bool hasDetail() => $_has(2);
   @$pb.TagNumber(3)
   void clearDetail() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get language => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set language($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasLanguage() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLanguage() => clearField(4);
 }
 
 class GetDetailResponse extends $pb.GeneratedMessage {

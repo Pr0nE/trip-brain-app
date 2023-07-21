@@ -11,7 +11,7 @@ class PlaceDetailsRepository implements PlaceDetailFetcher {
   PlaceDetailsRepository({
     required this.cacheManager,
     required this.authProvider,
-    required this.appModeProvider,
+    required this.appSettingsProvider,
     required APIClient client,
   }) : client = PlaceDetailsClient(client.grpcChannel);
 
@@ -19,7 +19,7 @@ class PlaceDetailsRepository implements PlaceDetailFetcher {
   final PlaceDetailsClient client;
   final CacheManager cacheManager;
   final AuthInfoProvider authProvider;
-  final AppModeProvider appModeProvider;
+  final AppSettingsProvider appSettingsProvider;
 
   @override
   Stream<String> fetchDetail({
@@ -38,7 +38,7 @@ class PlaceDetailsRepository implements PlaceDetailFetcher {
           controller.add(cacheResponse);
           controller.close();
         } else {
-          if (appModeProvider.isAppOffline) {
+          if (appSettingsProvider.isAppOffline) {
             controller.addError(AppException(AppErrorType.needNetwork));
             controller.close();
             return;
@@ -52,6 +52,7 @@ class PlaceDetailsRepository implements PlaceDetailFetcher {
                   token: authProvider.accessToken,
                   place: place,
                   detail: detail.name,
+                  language: appSettingsProvider.appLanguage,
                 ),
               )
               .map((event) => event.content)

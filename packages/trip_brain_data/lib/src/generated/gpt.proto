@@ -7,6 +7,7 @@ message TravelSuggestionRequest {
     string basePlace = 2;
     repeated string likes = 3;
     repeated string dislikes = 4;
+    string language = 5;
 }
 
 message TravelSuggestionResponse {
@@ -65,6 +66,7 @@ message GetDetailRequest {
     string token = 1;
     string place = 2;
     string detail = 3;
+    string language = 4;
 }
 
 message GetDetailResponse {

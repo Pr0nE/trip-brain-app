@@ -15,7 +15,7 @@ class TravelSuggestionRepository
   TravelSuggestionRepository({
     required this.cacheManager,
     required this.authProvider,
-    required this.appModeProvider,
+    required this.appSettingsProvider,
     required APIClient client,
   }) : client = TravelSuggestionClient(client.grpcChannel);
 
@@ -23,8 +23,8 @@ class TravelSuggestionRepository
 
   final TravelSuggestionClient client;
   final AuthInfoProvider authProvider;
-  final AppModeProvider appModeProvider;
   final CacheManager cacheManager;
+  final AppSettingsProvider appSettingsProvider;
 
   @override
   Stream<List<Place>> suggestPlaces(PlaceSuggestionQuery query) {
@@ -49,7 +49,7 @@ class TravelSuggestionRepository
           controller.add(cachedPlaces);
           controller.close();
         } else {
-          if (appModeProvider.isAppOffline) {
+          if (appSettingsProvider.isAppOffline) {
             controller.addError(AppException(AppErrorType.needNetwork));
             controller.close();
             return;
@@ -64,6 +64,7 @@ class TravelSuggestionRepository
                   basePlace: query.basePlace,
                   dislikes: query.dislikes,
                   likes: query.likes,
+                  language: appSettingsProvider.appLanguage,
                 ),
               )
               .map<List<Place>>(
@@ -135,7 +136,7 @@ class TravelSuggestionRepository
       return decoded.map((e) => e.toString()).toList();
     }
 
-    if (appModeProvider.isAppOffline) {
+    if (appSettingsProvider.isAppOffline) {
       return [];
     }
 

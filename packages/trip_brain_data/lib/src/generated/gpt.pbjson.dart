@@ -16,11 +16,12 @@ const TravelSuggestionRequest$json = const {
     const {'1': 'basePlace', '3': 2, '4': 1, '5': 9, '10': 'basePlace'},
     const {'1': 'likes', '3': 3, '4': 3, '5': 9, '10': 'likes'},
     const {'1': 'dislikes', '3': 4, '4': 3, '5': 9, '10': 'dislikes'},
+    const {'1': 'language', '3': 5, '4': 1, '5': 9, '10': 'language'},
   ],
 };
 
 /// Descriptor for `TravelSuggestionRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List travelSuggestionRequestDescriptor = $convert.base64Decode('ChdUcmF2ZWxTdWdnZXN0aW9uUmVxdWVzdBIgCgthY2Nlc3NUb2tlbhgBIAEoCVILYWNjZXNzVG9rZW4SHAoJYmFzZVBsYWNlGAIgASgJUgliYXNlUGxhY2USFAoFbGlrZXMYAyADKAlSBWxpa2VzEhoKCGRpc2xpa2VzGAQgAygJUghkaXNsaWtlcw==');
+final $typed_data.Uint8List travelSuggestionRequestDescriptor = $convert.base64Decode('ChdUcmF2ZWxTdWdnZXN0aW9uUmVxdWVzdBIgCgthY2Nlc3NUb2tlbhgBIAEoCVILYWNjZXNzVG9rZW4SHAoJYmFzZVBsYWNlGAIgASgJUgliYXNlUGxhY2USFAoFbGlrZXMYAyADKAlSBWxpa2VzEhoKCGRpc2xpa2VzGAQgAygJUghkaXNsaWtlcxIaCghsYW5ndWFnZRgFIAEoCVIIbGFuZ3VhZ2U=');
 @$core.Deprecated('Use travelSuggestionResponseDescriptor instead')
 const TravelSuggestionResponse$json = const {
   '1': 'TravelSuggestionResponse',
@@ -124,11 +125,12 @@ const GetDetailRequest$json = const {
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
     const {'1': 'place', '3': 2, '4': 1, '5': 9, '10': 'place'},
     const {'1': 'detail', '3': 3, '4': 1, '5': 9, '10': 'detail'},
+    const {'1': 'language', '3': 4, '4': 1, '5': 9, '10': 'language'},
   ],
 };
 
 /// Descriptor for `GetDetailRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getDetailRequestDescriptor = $convert.base64Decode('ChBHZXREZXRhaWxSZXF1ZXN0EhQKBXRva2VuGAEgASgJUgV0b2tlbhIUCgVwbGFjZRgCIAEoCVIFcGxhY2USFgoGZGV0YWlsGAMgASgJUgZkZXRhaWw=');
+final $typed_data.Uint8List getDetailRequestDescriptor = $convert.base64Decode('ChBHZXREZXRhaWxSZXF1ZXN0EhQKBXRva2VuGAEgASgJUgV0b2tlbhIUCgVwbGFjZRgCIAEoCVIFcGxhY2USFgoGZGV0YWlsGAMgASgJUgZkZXRhaWwSGgoIbGFuZ3VhZ2UYBCABKAlSCGxhbmd1YWdl');
 @$core.Deprecated('Use getDetailResponseDescriptor instead')
 const GetDetailResponse$json = const {
   '1': 'GetDetailResponse',

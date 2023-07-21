@@ -10,18 +10,18 @@ class PaymentRepository implements PaymentManager {
   PaymentRepository({
     required APIClient client,
     required this.authProvider,
-    required this.appModeProvider,
+    required this.appSettingsProvider,
   }) : client = PaymentClient(client.grpcChannel) {
     Stripe.publishableKey =
         "pk_test_51NPmXZKTTuS399b7KRgomoxGmopcwI7bFgJTZAXKwru3wYSERZeF0wOtFJoRXVaUHvb8hm3ZkYnXx0yX1BpWNgOM007czCNlKC";
   }
   final AuthInfoProvider authProvider;
-  final AppModeProvider appModeProvider;
+  final AppSettingsProvider appSettingsProvider;
   final PaymentClient client;
 
   @override
   Future<bool> buyBalance(int amount) async {
-    if (appModeProvider.isAppOffline) {
+    if (appSettingsProvider.isAppOffline) {
       throw AppException(AppErrorType.needNetwork);
     }
     try {

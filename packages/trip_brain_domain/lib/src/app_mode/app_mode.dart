@@ -1,1 +1,0 @@
-enum AppMode { online, offline }

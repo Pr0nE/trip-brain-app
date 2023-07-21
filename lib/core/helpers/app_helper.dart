@@ -15,7 +15,7 @@ void checkAppError({
   VoidCallback? onCancel,
 }) {
   final dialogManager = context.read<DialogManager>();
-  final appModeManager = context.read<AppModeCubit>();
+  final appModeManager = context.read<AppSettingsCubit>();
 
   onAppExceptionEvent(error);
 

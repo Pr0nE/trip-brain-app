@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/src/core/state_stream_builder.dart';
+import 'package:trip_brain_ui/trip_brain_ui.dart';
 
 class AuthLayout extends StatelessWidget {
   const AuthLayout({
@@ -41,7 +42,9 @@ class AuthLayout extends StatelessWidget {
                 }
 
                 if (authState is AuthLoggedInState) {
-                  return Text('Welcome ${authState.loggedInUser.name}');
+                  return Text(
+                    context.localization.welcome(authState.loggedInUser.name),
+                  );
                 }
 
                 return _buildLoginButtons();

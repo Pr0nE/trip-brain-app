@@ -16,10 +16,8 @@ export 'src/place_details/place_detail_fetcher.dart';
 
 export 'src/payment/payment_manager.dart';
 
-export 'src/app_mode/pinger.dart';
-export 'src/app_mode/app_mode.dart';
-export 'src/app_mode/app_mode_manager.dart';
-export 'src/app_mode/app_mode_provider.dart';
+export 'src/app_settings/pinger.dart';
+export 'src/app_settings/app_settings.dart';
 
 export 'src/auth/user.dart';
 export 'src/auth/authenticator.dart';

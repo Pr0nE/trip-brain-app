@@ -1,0 +1,11 @@
+{
+  "welcome": "Bienvenida {name}",
+  "@welcome": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Bob"
+      }
+    }
+  }
+}
