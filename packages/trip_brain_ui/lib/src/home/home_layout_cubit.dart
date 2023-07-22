@@ -32,7 +32,11 @@ class HomeLayoutCubit extends CubitPlus<HomeLayoutState> {
       .map((state) => state.user.balance);
 
   void onLayoutInit() => addSubscription(
-        Stream.periodic(const Duration(seconds: 2)).listen((_) => _fetchUser()),
+        Stream.periodic(const Duration(seconds: 2)).listen((_) {
+          if (!isClosed) {
+            _fetchUser();
+          }
+        }),
       );
 
   void _fetchUser() => userFetcher.fetchUser().on(

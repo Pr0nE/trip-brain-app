@@ -21,9 +21,9 @@ class TripBrainApp extends StatelessWidget {
             create: (context) => APIClient(
               //host: '23.94.120.138',
               grpcClientInfo: GRPClientInfo(
-                host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051,
-                // host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
-                // port: 5051,
+                //  host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051,
+                host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
+                port: 5051,
               ),
             ),
           ),
