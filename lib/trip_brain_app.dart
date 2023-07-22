@@ -23,7 +23,7 @@ class TripBrainApp extends StatelessWidget {
               grpcClientInfo: GRPClientInfo(
                 //  host: Platform.isAndroid ? '10.0.2.2' : 'localhost', port: 5051,
                 host: Platform.isAndroid ? '45.142.122.232' : 'localhost',
-                port: 5051,
+                port: 8000,
               ),
             ),
           ),
@@ -88,8 +88,6 @@ class TripBrainApp extends StatelessWidget {
             brightness: Brightness.dark,
             textTheme: GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
           ),
-          // TODO: theme:
-          // TODO: localizationsDelegates:
           builder: (context, child) => AppManager(
             appSettingsManager: context.read<AppSettingsCubit>(),
             child: child ?? ErrorWidget('Empty App!'),
