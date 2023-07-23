@@ -18,7 +18,7 @@ class SplashPage extends StatelessWidget {
           builder: (context) => SplashLayout(
             authIO: context.read<AuthCubit>(),
             onUserExist: (user) => context.goHome(),
-            onNewUser: () => context.goAuth(),
+            onNewUser: () => context.goHome(),
             onError: (error, retryCallback) => checkAppError(
               context: context,
               error: error,

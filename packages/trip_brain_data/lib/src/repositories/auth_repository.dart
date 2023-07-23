@@ -10,16 +10,17 @@ class AuthRepository implements Authenticator {
   AuthRepository({
     required APIClient apiClient,
     required this.appSettingsProvider,
-  }) : authClient = AuthClient(
-          apiClient.grpcChannel,
-          //  options: CallOptions(timeout: Duration(seconds: 5)),
-        );
+  }) : authClient = AuthClient(apiClient.grpcChannel);
 
   final AuthClient authClient;
   final AppSettingsProvider appSettingsProvider;
 
   @override
   Future<User> googleLogin() async {
+    if (appSettingsProvider.isAppOffline) {
+      throw AppException(AppErrorType.needNetwork);
+    }
+
     try {
       final GoogleSignInAccount? account = await GoogleSignIn().signIn();
 

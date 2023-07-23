@@ -1,11 +1,15 @@
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/src/core/cubit_plus.dart';
 
-abstract class HomeLayoutState {}
+abstract class HomeLayoutState {
+  User? get getUser => asOrNull<HomeLayoutUserLoadedState>()?.user;
+}
 
 class HomeLayoutInitialState extends HomeLayoutState {}
 
-class HomeLayoutLoadingState extends HomeLayoutState {}
+class HomeLayoutLoadingState extends HomeLayoutUserLoadedState {
+  HomeLayoutLoadingState({User? user}) : super(user: user ?? User.empty());
+}
 
 class HomeLayoutErrorState extends HomeLayoutState {
   HomeLayoutErrorState(this.error, this.retryCallback);
@@ -40,9 +44,16 @@ class HomeLayoutCubit extends CubitPlus<HomeLayoutState> {
       );
 
   void _fetchUser() => userFetcher.fetchUser().on(
-        onLoading: () => emit(HomeLayoutLoadingState()),
-        onData: (user) => emit(HomeLayoutUserLoadedState(user: user)),
-        onError: (AppException error) =>
-            emit(HomeLayoutErrorState(error, _fetchUser)),
+        onLoading: () => emit(HomeLayoutLoadingState(user: state.getUser)),
+        onData: (user) {
+          if (!isClosed) {
+            emit(HomeLayoutUserLoadedState(user: user));
+          }
+        },
+        onError: (AppException error) {
+          if (!isClosed) {
+            emit(HomeLayoutErrorState(error, _fetchUser));
+          }
+        },
       );
 }

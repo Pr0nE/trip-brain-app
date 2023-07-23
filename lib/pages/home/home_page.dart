@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
             context.read<AuthCubit>().logout();
             context.goAuth();
           },
-          onBuyBalanceTapped: () => showBuyBalanceBottomSheet(
+          onBuySuggestionTapped: () => showBuyBalanceBottomSheet(
             context,
             context.read<PaymentManager>(),
           ),

@@ -7,5 +7,6 @@
         "example": "Bob"
       }
     }
-  }
+  },
+  "guest": "Invitado"
 }

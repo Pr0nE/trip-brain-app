@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
 import 'package:trip_brain_data/src/mappers/place_dto_mappers.dart';
 import 'package:trip_brain_data/src/mappers/place_suggestion_query_dto_mappers.dart';
@@ -117,8 +118,7 @@ class TravelSuggestionRepository
           final jsonMap = jsonDecode(json) as Map<String, dynamic>;
           return jsonMap.toSuggestionQuery();
         })
-        .toList()
-        .reversed
+        .sortedBy((element) => element.creationDate)
         .toList();
   }
 

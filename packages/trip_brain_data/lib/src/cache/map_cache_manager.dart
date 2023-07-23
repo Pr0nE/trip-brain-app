@@ -54,6 +54,7 @@ class HiveCacheManager implements CacheManager {
   Future<Map<String, String>> getTableEntries(String tableKey) async {
     await initTasksCompleter.future;
     final box = await getBox(tableKey);
+
     return Map.fromEntries(
       box.toMap().entries.map((e) => MapEntry(e.key.toString(), e.value)),
     );

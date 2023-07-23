@@ -5,6 +5,7 @@ extension SuggestionQueryFromJson on Map<String, dynamic> {
         basePlace: this['basePlace'],
         likes: List<String>.from(this['likes']),
         dislikes: List<String>.from(this['dislikes']),
+        creationDate: DateTime.fromMillisecondsSinceEpoch(this['creationDate']),
       );
 }
 
@@ -13,5 +14,6 @@ extension SuggestionQueryToJson on PlaceSuggestionQuery {
         'basePlace': basePlace,
         'likes': likes,
         'dislikes': dislikes,
+        'creationDate': creationDate.millisecondsSinceEpoch,
       };
 }

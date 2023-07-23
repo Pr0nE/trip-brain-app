@@ -37,9 +37,9 @@ class _SplashLayoutState extends State<SplashLayout> {
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Welcome To App'),
+              Text('Just a moment...'),
               SizedBox(height: 16),
-              CircularProgressIndicator(),
+              CircularProgressIndicator(strokeWidth: 3),
             ],
           )),
         ),
@@ -54,6 +54,7 @@ class _SplashLayoutState extends State<SplashLayout> {
       final error = state.error;
 
       if (error.type == AppErrorType.needAuth) {
+        widget.authIO.guestLogin();
         widget.onNewUser();
 
         return;
@@ -63,6 +64,7 @@ class _SplashLayoutState extends State<SplashLayout> {
     }
 
     if (state is AuthLoggedOutState) {
+      widget.authIO.guestLogin();
       widget.onNewUser();
     }
   }

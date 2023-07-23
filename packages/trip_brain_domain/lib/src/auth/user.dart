@@ -1,4 +1,6 @@
 class User {
+  static const _guestToken = 'guest';
+
   User({
     required this.id,
     required this.name,
@@ -10,8 +12,10 @@ class User {
     return User(id: '', name: '', token: '');
   }
   factory User.guest() {
-    return User(id: '', name: 'Guest', token: 'guest');
+    return User(id: '', name: '', token: _guestToken);
   }
+
+  bool get isGuest => token == _guestToken;
 
   final String id;
   final String name;

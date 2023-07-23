@@ -15,23 +15,68 @@ class RecentSearchList extends StatelessWidget {
   Widget build(BuildContext context) => FutureBuilder(
         future: fetcher.fetchRecentSuggestions(),
         builder: (context, snapshot) {
-          return ListView.separated(
-            itemBuilder: (context, index) => ListTile(
-              title: Text(snapshot.data?[index].basePlace ?? ''),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Likes: ${snapshot.data?[index].likes.join(',') ?? ''}'),
-                  Text(
-                      'Dislikes: ${snapshot.data?[index].dislikes.join(',') ?? ''}'),
-                ],
+          final searchList = snapshot.data ?? [];
+
+          if (searchList.isEmpty) {
+            //TODO return a new user guid, app feature showcase
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Recent Suggestions',
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-              onTap: () => onRecentSearchTapped(snapshot.data![index]),
-            ),
-            separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemCount: snapshot.data?.length ?? 0,
+              Expanded(child: _buildRecentList(searchList))
+            ],
           );
         },
+      );
+
+  Widget _buildRecentList(List<PlaceSuggestionQuery> searches) => ShaderMask(
+        shaderCallback: (Rect rect) {
+          return const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.purple,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.purple
+            ],
+            stops: [0.0, 0.1, 0.9, 1.0],
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          itemBuilder: (context, index) => ListTile(
+            tileColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+            title: Text(
+              searches[index].basePlace,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  searches[index].likes.isNotEmpty
+                      ? 'likes: ${searches[index].likes.join(', ')}'
+                      : 'no likes',
+                ),
+                Text(
+                  searches[index].dislikes.isNotEmpty
+                      ? 'dislikes: ${searches[index].dislikes.join(', ')}'
+                      : 'no dislikes',
+                )
+              ],
+            ),
+            onTap: () => onRecentSearchTapped(searches[index]),
+          ),
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          itemCount: searches.length,
+        ),
       );
 }

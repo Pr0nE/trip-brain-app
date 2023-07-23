@@ -43,7 +43,11 @@ class AuthLayout extends StatelessWidget {
 
                 if (authState is AuthLoggedInState) {
                   return Text(
-                    context.localization.welcome(authState.loggedInUser.name),
+                    context.localization.welcome(
+                      authState.loggedInUser.isGuest
+                          ? context.localization.guest
+                          : authState.loggedInUser.name,
+                    ),
                   );
                 }
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/src/home/home_layout_cubit.dart';
 import 'package:trip_brain_ui/src/home/recent_search_list.dart';
+import 'package:trip_brain_ui/src/localization/localization_extensions.dart';
 
 import 'balance_viewer.dart';
 
@@ -14,7 +15,7 @@ class HomeLayout extends StatefulWidget {
     required this.onSuggestPlacesTapped,
     required this.onRecentSearchTapped,
     required this.onLogoutTapped,
-    required this.onBuyBalanceTapped,
+    required this.onBuySuggestionTapped,
     required this.onError,
     super.key,
   });
@@ -24,7 +25,7 @@ class HomeLayout extends StatefulWidget {
   final RecentSuggestionsFetcher recentSearchFetcher;
   final void Function(String basePlace) onSuggestPlacesTapped;
   final VoidCallback onLogoutTapped;
-  final VoidCallback onBuyBalanceTapped;
+  final VoidCallback onBuySuggestionTapped;
   final void Function(PlaceSuggestionQuery query) onRecentSearchTapped;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
@@ -60,23 +61,21 @@ class _HomeLayoutState extends State<HomeLayout> {
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
-                leading: Center(
-                  child: BalanceViewer(
-                    balanceStream: _cubit.balanceStream,
-                  ),
+                elevation: 3,
+                centerTitle: false,
+                title: BalanceViewer(
+                  balanceStream: _cubit.balanceStream,
+                  onBuySuggestionTapped: widget.onBuySuggestionTapped,
                 ),
                 actions: [
-                  Builder(
-                    builder: (context) => TextButton.icon(
-                      onPressed: widget.onBuyBalanceTapped,
-                      icon: const Icon(Icons.credit_card),
-                      label: const Text('Buy Credit'),
+                  BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
+                    bloc: _cubit,
+                    builder: (context, state) => TextButton.icon(
+                      onPressed: widget.onLogoutTapped,
+                      icon: const Icon(Icons.logout),
+                      label:
+                          Text('Logout ${getUsername(state.getUser, context)}'),
                     ),
-                  ),
-                  TextButton.icon(
-                    onPressed: widget.onLogoutTapped,
-                    icon: const Icon(Icons.logout),
-                    label: const Text('Logout'),
                   ),
                 ]),
             body: Padding(
@@ -90,24 +89,40 @@ class _HomeLayoutState extends State<HomeLayout> {
                   ),
                   Text(
                     'I want travel to ',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: Colors.white),
                   ),
                   TextField(
                     controller: _travelPlaceTextFieldController,
                     style: Theme.of(context).textTheme.headlineMedium,
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Beach places',
-                        hintStyle: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(color: Colors.white38)),
+                      border: InputBorder.none,
+                      hintText: 'Type Here...',
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(color: Colors.white38),
+                    ),
                   ),
-                  TextButton.icon(
-                    onPressed: () => widget.onSuggestPlacesTapped(travelPlace),
-                    icon: const Icon(Icons.search),
-                    label: const Text('Suggest'),
+                  Center(
+                    child: TextButton.icon(
+                      onPressed: () =>
+                          widget.onSuggestPlacesTapped(travelPlace),
+                      icon: const Icon(
+                        Icons.travel_explore,
+                        size: 30,
+                      ),
+                      label: Text(
+                        'Suggest',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                    ),
                   ),
+                  const SizedBox(height: 16),
                   Expanded(
                     child: RecentSearchList(
                       fetcher: widget.recentSearchFetcher,
@@ -120,6 +135,18 @@ class _HomeLayoutState extends State<HomeLayout> {
           ),
         ),
       );
+
+  String getUsername(User? user, BuildContext context) {
+    if (user == null) {
+      return '';
+    }
+
+    if (user.isGuest) {
+      return context.localization.guest;
+    }
+
+    return user.name;
+  }
 
   @override
   void dispose() {

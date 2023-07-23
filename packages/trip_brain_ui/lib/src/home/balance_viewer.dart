@@ -1,20 +1,40 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class BalanceViewer extends StatelessWidget {
-  const BalanceViewer({required this.balanceStream, super.key});
+  const BalanceViewer({
+    required this.balanceStream,
+    required this.onBuySuggestionTapped,
+    super.key,
+  });
 
   final Stream<int> balanceStream;
+  final VoidCallback onBuySuggestionTapped;
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
         stream: balanceStream,
         builder: (context, snap) {
-          final balance = getBalance(snap);
+          if (snap.hasData) {
+            final balance = snap.data!;
 
-          return Text(balance);
+            if (balance > 0) {
+              return Text(
+                'You have $balance suggestions left',
+                style: TextStyle(
+                    fontSize: 14, color: Theme.of(context).colorScheme.primary),
+              );
+            }
+
+            return _buildBuySuggestionsButton();
+          }
+
+          return const SizedBox(width: 100, child: LinearProgressIndicator());
         },
       );
 
-  String getBalance(AsyncSnapshot<int> snap) =>
-      snap.hasData ? snap.data!.toString() : '0';
+  Widget _buildBuySuggestionsButton() => TextButton.icon(
+        onPressed: onBuySuggestionTapped,
+        icon: const Icon(Icons.add),
+        label: const Text('Get more suggestions'),
+      );
 }

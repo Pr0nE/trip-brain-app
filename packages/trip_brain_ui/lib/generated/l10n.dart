@@ -59,6 +59,16 @@ class AppLocalization {
       args: [name],
     );
   }
+
+  /// `Guest`
+  String get guest {
+    return Intl.message(
+      'Guest',
+      name: 'guest',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
