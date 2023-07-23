@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:trip_brain_data/src/cache/cache_manager.dart';
+import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class HiveCacheManager implements CacheManager {
   HiveCacheManager() {

@@ -50,7 +50,12 @@
     "packages/trip_brain_ui/.flutter-plugins-dependencies": true,
     ".vscode": true,
     "analysis_options.yaml": true,
-    "packages/trip_brain_data/analysis_options.yaml": true
+    "packages/trip_brain_data/analysis_options.yaml": true,
+    "android": true,
+    "packages/trip_brain_ui/l10n.yaml": true,
+    "packages/trip_brain_ui/.vscode": true,
+    "packages/trip_brain_ui/lib/generated": true,
+    "lib/firebase_options.dart": true
   },
   "hide-files.files": [
     ".dart_tool",
@@ -96,6 +101,11 @@
     "packages/trip_brain_ui/.flutter-plugins-dependencies",
     ".vscode",
     "analysis_options.yaml",
-    "packages/trip_brain_data/analysis_options.yaml"
+    "packages/trip_brain_data/analysis_options.yaml",
+    "android",
+    "packages/trip_brain_ui/l10n.yaml",
+    "packages/trip_brain_ui/.vscode",
+    "packages/trip_brain_ui/lib/generated",
+    "lib/firebase_options.dart"
   ]
 }

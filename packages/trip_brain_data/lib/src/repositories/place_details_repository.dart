@@ -4,7 +4,6 @@ import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
-import 'package:trip_brain_data/src/cache/cache_manager.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
 
 class PlaceDetailsRepository implements PlaceDetailFetcher {
