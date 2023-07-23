@@ -97,6 +97,9 @@ class _HomeLayoutState extends State<HomeLayout> {
                   TextField(
                     controller: _travelPlaceTextFieldController,
                     style: Theme.of(context).textTheme.headlineMedium,
+                    onSubmitted: (_) =>
+                        widget.onSuggestPlacesTapped(travelPlace),
+                    textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Type Here...',
