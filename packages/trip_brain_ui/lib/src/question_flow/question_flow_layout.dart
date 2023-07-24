@@ -176,7 +176,10 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
           newAnswer: place,
           onError: print,
           onChecked: (answer) => setState(
-            () => _queryModel = _queryModel.copyWith(basePlace: answer),
+            () {
+              _queryModel = _queryModel.copyWith(basePlace: answer);
+              _step = QuestionFlowStep.likes;
+            },
           ),
         ),
       );
@@ -208,7 +211,6 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
         onAnswer: (like) => _checkNewAnswer(
           currentAnswers: _queryModel.likes,
           newAnswer: like,
-          onError: print,
           onChecked: (answer) => setState(
             () => _queryModel = _queryModel.copyWith(addLike: answer),
           ),
@@ -218,18 +220,27 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
   void _checkNewAnswer({
     required List<String> currentAnswers,
     required String newAnswer,
-    required Function(String) onError,
-    required Function(String) onChecked,
+    void Function(String)? onError,
+    required void Function(String) onChecked,
   }) {
     final checkedAnswered = newAnswer.trim().toLowerCase();
 
     if (checkedAnswered.isEmpty) {
-      onError('Empty input');
+      onError?.call('Empty input');
       return;
     }
 
     if (currentAnswers.contains(checkedAnswered)) {
-      onError('Duplicate input');
+      onError?.call('Duplicate input');
+      return;
+    }
+
+    if (newAnswer.length > 20) {
+      onError?.call('input is too long');
+      return;
+    }
+    if (currentAnswers.length > 5) {
+      onError?.call('Max number of input is 5');
       return;
     }
 
