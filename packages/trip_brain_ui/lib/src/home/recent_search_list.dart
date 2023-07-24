@@ -34,24 +34,11 @@ class RecentSearchList extends StatelessWidget {
         },
       );
 
-  Widget _buildRecentList(List<PlaceSuggestionQuery> searches) => ShaderMask(
-        shaderCallback: (Rect rect) {
-          return const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.purple,
-              Colors.transparent,
-              Colors.transparent,
-              Colors.purple
-            ],
-            stops: [0.0, 0.1, 0.9, 1.0],
-          ).createShader(rect);
-        },
-        blendMode: BlendMode.dstOut,
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          itemBuilder: (context, index) => ListTile(
+  Widget _buildRecentList(List<PlaceSuggestionQuery> searches) =>
+      ListView.separated(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        itemBuilder: (context, index) => Card(
+          child: ListTile(
             tileColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
             title: Text(
               searches[index].basePlace,
@@ -75,8 +62,8 @@ class RecentSearchList extends StatelessWidget {
             ),
             onTap: () => onRecentSearchTapped(searches[index]),
           ),
-          separatorBuilder: (context, index) => const SizedBox(height: 8),
-          itemCount: searches.length,
         ),
+        separatorBuilder: (context, index) => const SizedBox(height: 8),
+        itemCount: searches.length,
       );
 }

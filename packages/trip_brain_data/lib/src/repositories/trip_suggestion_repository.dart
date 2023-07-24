@@ -8,7 +8,6 @@ import 'package:trip_brain_data/src/mappers/place_suggestion_query_dto_mappers.d
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
-import 'package:trip_brain_domain/src/core/cache_manager.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
 
 class TravelSuggestionRepository
@@ -119,6 +118,7 @@ class TravelSuggestionRepository
           return jsonMap.toSuggestionQuery();
         })
         .sortedBy((element) => element.creationDate)
+        .reversed
         .toList();
   }
 

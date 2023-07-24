@@ -36,14 +36,16 @@ class _QuestionAnswerWidgetState extends State<QuestionAnswerWidget> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.question,
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Input field
             TextField(
-              decoration: InputDecoration(hintText: 'Your answer...'),
+              decoration: const InputDecoration(
+                  hintText:
+                      'Type Your answer here or pick from below words...'),
               controller: _answerTextfieldController,
               onSubmitted: (value) {
                 widget.onAnswer(value);

@@ -16,7 +16,7 @@ class QuestionFlowLayout extends StatefulWidget {
   final PlaceSuggestionQuery baseQueryModel;
   final void Function() onPagePop;
 
-  final Function({required PlaceSuggestionQuery finishedQueryModel})
+  final void Function({required PlaceSuggestionQuery finishedQueryModel})
       onQuestionsFinished;
 
   @override
@@ -24,7 +24,7 @@ class QuestionFlowLayout extends StatefulWidget {
 }
 
 class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
-  static const _basePlaceSuggestions = ['bali', 'japan', 'paris'];
+  static const _basePlaceSuggestions = ['bali', 'france', 'africa', 'anywhere'];
   static const _likesSuggestions = ['historical', 'sunny', 'beaches'];
   static const _dislikeSuggestions = ['crowded', 'rainy', 'cold'];
 
@@ -33,45 +33,62 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
 
   @override
   void initState() {
-    _step = QuestionFlowStep.likes;
+    _step = widget.baseQueryModel.basePlace.isEmpty
+        ? QuestionFlowStep.basePlace
+        : QuestionFlowStep.likes;
     _queryModel = widget.baseQueryModel.copyWith();
 
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Column(
-            children: [
-              Container(
-                color: Colors.black12,
-                child: Center(
-                  child: _buildFlowPreview(),
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () {
+          switch (_step) {
+            case QuestionFlowStep.basePlace:
+              return Future.value(true);
+            case QuestionFlowStep.likes:
+              setState(() => _step = QuestionFlowStep.basePlace);
+              return Future.value(false);
+            case QuestionFlowStep.dislikes:
+              setState(() => _step = QuestionFlowStep.likes);
+              return Future.value(false);
+          }
+        },
+        child: SafeArea(
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Column(
+              children: [
+                Container(
+                  color: Colors.black12,
+                  child: Center(
+                    child: _buildFlowPreview(),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              Expanded(
-                child: switch (_step) {
-                  QuestionFlowStep.basePlace => _buildBasePlaceStep(),
-                  QuestionFlowStep.likes => _buildLikesStep(),
-                  QuestionFlowStep.dislikes => _buildDislikesStep(),
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildPreviousStepButton(),
-                  _buildNextStepButton(),
-                ],
-              )
-            ],
+                const SizedBox(height: 32),
+                Expanded(
+                  child: switch (_step) {
+                    QuestionFlowStep.basePlace => _buildBasePlaceStep(),
+                    QuestionFlowStep.likes => _buildLikesStep(),
+                    QuestionFlowStep.dislikes => _buildDislikesStep(),
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildPreviousStepButton(),
+                    _buildNextStepButton(),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       );
 
   Widget _buildFlowPreview() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListItemPreviewWidget<String>(
             items: [_queryModel.basePlace],
@@ -101,54 +118,56 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
         ],
       );
 
-  IconButton _buildNextStepButton() => IconButton(
-        iconSize: 50,
-        onPressed: () {
-          switch (_step) {
-            case QuestionFlowStep.basePlace:
-              setState(() {
-                _step = QuestionFlowStep.likes;
-              });
-              break;
-            case QuestionFlowStep.likes:
-              setState(() {
-                _step = QuestionFlowStep.dislikes;
-              });
-              break;
-            case QuestionFlowStep.dislikes:
-              widget.onQuestionsFinished(
-                finishedQueryModel: _queryModel.copyWith(),
-              );
-              break;
-          }
-        },
-        icon: const Icon(Icons.arrow_circle_right_outlined),
+  Widget _buildNextStepButton() => Directionality(
+        textDirection: TextDirection.rtl,
+        child: TextButton.icon(
+          label: Text(
+            switch (_step) {
+              QuestionFlowStep.basePlace => 'Next Step',
+              QuestionFlowStep.likes => 'Next Step',
+              QuestionFlowStep.dislikes => 'Suggest',
+            },
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          onPressed: switch (_step) {
+            QuestionFlowStep.basePlace => () =>
+                setState(() => _step = QuestionFlowStep.likes),
+            QuestionFlowStep.likes => () =>
+                setState(() => _step = QuestionFlowStep.dislikes),
+            QuestionFlowStep.dislikes => () => widget.onQuestionsFinished(
+                  finishedQueryModel: _queryModel.copyWith(),
+                ),
+          },
+          icon: const Icon(
+            Icons.arrow_circle_right_outlined,
+            size: 45,
+          ),
+        ),
       );
-
-  IconButton _buildPreviousStepButton() => IconButton(
-        iconSize: 50,
-        onPressed: () {
+  Widget _buildPreviousStepButton() => TextButton.icon(
+        label: Text(
           switch (_step) {
-            case QuestionFlowStep.basePlace:
-              widget.onPagePop();
-              break;
-            case QuestionFlowStep.likes:
-              setState(() {
-                _step = QuestionFlowStep.basePlace;
-              });
-              break;
-            case QuestionFlowStep.dislikes:
-              setState(() {
-                _step = QuestionFlowStep.likes;
-              });
-              break;
-          }
+            QuestionFlowStep.basePlace => 'Back to home',
+            QuestionFlowStep.likes => 'Previous Step',
+            QuestionFlowStep.dislikes => 'Previous Step',
+          },
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        onPressed: switch (_step) {
+          QuestionFlowStep.basePlace => widget.onPagePop,
+          QuestionFlowStep.likes => () =>
+              setState(() => _step = QuestionFlowStep.basePlace),
+          QuestionFlowStep.dislikes => () =>
+              setState(() => _step = QuestionFlowStep.likes),
         },
-        icon: const Icon(Icons.arrow_circle_left_outlined),
+        icon: const Icon(
+          Icons.arrow_circle_left_outlined,
+          size: 45,
+        ),
       );
 
   Widget _buildBasePlaceStep() => QuestionAnswerWidget(
-        question: "ٌWhere do you want to travel?",
+        question: "Where do you want to travel?",
         suggestions: _basePlaceSuggestions
             .where((suggestion) => _queryModel.basePlace != suggestion)
             .toList(),

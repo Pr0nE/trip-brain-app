@@ -23,39 +23,57 @@ class ListItemPreviewWidget<T> extends StatelessWidget {
         onTap: isEnabled ? null : onWidgetTap,
         child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
           _buildPrefixTitle(context, prefixTitle),
-          ..._buildItems(context)
+          if (items.isNotEmpty) ..._buildItems(context),
+          if (items.isEmpty)
+            const TextButton(
+              onPressed: null,
+              child: Text(''),
+            ),
         ]),
       );
 
-  Widget _buildPrefixTitle(BuildContext context, String title) => Text(title);
+  Widget _buildPrefixTitle(BuildContext context, String title) => Text(
+        title,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: isEnabled ? FontWeight.bold : FontWeight.normal,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onBackground
+                  .withOpacity(isEnabled ? 1 : 0.5),
+            ),
+      );
   List<Widget> _buildItems(BuildContext context) =>
       items.map((item) => _buildItem(context, item)).toList();
 
-  Widget _buildItem(BuildContext context, T item) => TextButton(
-        onPressed:
-            onItemTap != null && isEnabled ? () => onItemTap!(item) : null,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                item.toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(fontSize: isEnabled ? 30 : 12),
-              ),
+  Widget _buildItem(BuildContext context, T item) => Stack(
+        children: [
+          TextButton(
+            onPressed:
+                onItemTap != null && isEnabled ? () => onItemTap!(item) : null,
+            child: Text(
+              item.toString(),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: isEnabled ? FontWeight.bold : FontWeight.normal,
+                  color: isEnabled
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.5)),
             ),
-            if (isEnabled && closeIcon)
-              Positioned(
-                top: 0,
-                right: 0,
+          ),
+          if (isEnabled && closeIcon)
+            Positioned(
+              top: 5,
+              right: 5,
+              child: IgnorePointer(
                 child: Icon(
-                  Icons.close_rounded,
+                  Icons.close,
+                  size: 14,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-              )
-          ],
-        ),
+              ),
+            )
+        ],
       );
 }
