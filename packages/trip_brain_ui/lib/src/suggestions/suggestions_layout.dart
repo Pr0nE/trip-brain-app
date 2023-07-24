@@ -49,16 +49,18 @@ class SuggestionsLayout extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text('I want travel to ${queryModel.basePlace}'),
-                              Text('I Like ${queryModel.likes.join(',')}'),
-                              Text(
-                                  'I Dislike ${queryModel.dislikes.join(',')}'),
+                              if (queryModel.likes.isNotEmpty)
+                                Text('I like ${queryModel.likes.join(', ')}'),
+                              if (queryModel.dislikes.isNotEmpty)
+                                Text(
+                                    'I dislike ${queryModel.dislikes.join(',')}'),
                             ],
                           ),
                           TextButton.icon(
                             onPressed: () => onChangeSuggestionQuery(
                               queryModel: queryModel.copyWith(),
                             ),
-                            icon: Icon(Icons.settings),
+                            icon: const Icon(Icons.settings),
                             label: Text('Change'),
                           )
                         ],

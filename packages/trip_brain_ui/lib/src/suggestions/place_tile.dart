@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class PlaceTile extends StatefulWidget {
@@ -76,10 +77,6 @@ class _PlaceTileState extends State<PlaceTile> {
               child: FutureBuilder<List<String>>(
                 future: imageUrls,
                 builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-
                   if (snapshot.hasData) {
                     final urls = snapshot.data!;
 
@@ -92,6 +89,13 @@ class _PlaceTileState extends State<PlaceTile> {
                           tag: urls[index],
                           child: CachedNetworkImage(
                             imageUrl: urls[index],
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                             fit: BoxFit.cover,
                             width: 300,
                             height: 300,
