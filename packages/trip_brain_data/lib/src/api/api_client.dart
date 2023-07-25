@@ -32,14 +32,14 @@ class HTTPClientInfo {
 class APIClient {
   APIClient({
     required this.grpcClientInfo,
+    List<int>? certificates,
   }) : grpcChannel = ClientChannel(
           grpcClientInfo.host,
           port: grpcClientInfo.port,
-          options: // TODO: tls
-              const ChannelOptions(
+          options: ChannelOptions(
             connectTimeout: _timeoutDuration,
             connectionTimeout: _timeoutDuration,
-            credentials: ChannelCredentials.insecure(),
+            credentials: ChannelCredentials.secure(certificates: certificates),
           ),
         );
 

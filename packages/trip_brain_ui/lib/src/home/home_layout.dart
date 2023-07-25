@@ -70,6 +70,8 @@ class _HomeLayoutState extends State<HomeLayout> {
                 actions: [
                   BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
                     bloc: _cubit,
+                    buildWhen: (previous, current) =>
+                        current is HomeLayoutUserLoadedState,
                     builder: (context, state) => TextButton.icon(
                       onPressed: widget.onLogoutTapped,
                       icon: const Icon(Icons.logout),

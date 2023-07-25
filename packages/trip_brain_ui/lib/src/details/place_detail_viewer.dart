@@ -43,7 +43,12 @@ class _PlaceDetailViewerState extends State<PlaceDetailViewer> {
             widget.onError(state.error, state.retryCallback);
           }
         },
-        builder: (context, state) =>
-            Markdown(data: state.loaded?.content ?? ''),
+        builder: (context, state) => state is PlaceDetailViewerLoadingState
+            ? const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              )
+            : Markdown(data: state.loaded?.content ?? ''),
       );
 }

@@ -57,6 +57,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
         },
         child: SafeArea(
           child: Scaffold(
+            // TODO buttons should be float
             resizeToAvoidBottomInset: false,
             body: Column(
               children: [

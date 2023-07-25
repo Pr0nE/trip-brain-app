@@ -7,8 +7,8 @@ abstract class HomeLayoutState {
 
 class HomeLayoutInitialState extends HomeLayoutState {}
 
-class HomeLayoutLoadingState extends HomeLayoutUserLoadedState {
-  HomeLayoutLoadingState({User? user}) : super(user: user ?? User.empty());
+class HomeLayoutLoadingState extends HomeLayoutState {
+  HomeLayoutLoadingState({User? user});
 }
 
 class HomeLayoutErrorState extends HomeLayoutState {

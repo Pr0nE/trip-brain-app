@@ -114,7 +114,7 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                           ),
                           Expanded(
                             child: IndexedStack(
-                              index: PlaceDetail.values.indexOf(selectedDetail),
+                              index: visitedDetails.indexOf(selectedDetail),
                               children: visitedDetails
                                   .map(
                                     (detail) => PlaceDetailViewer(
