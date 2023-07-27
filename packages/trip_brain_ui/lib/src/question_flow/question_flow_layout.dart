@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:trip_brain_domain/trip_brain_domain.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 
 import 'list_item_preview_widget.dart';
 import 'question_answer_widget.dart';
@@ -128,7 +129,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
               QuestionFlowStep.likes => 'Next Step',
               QuestionFlowStep.dislikes => 'Suggest',
             },
-            style: Theme.of(context).textTheme.titleMedium,
+            style: context.textTheme.titleLarge,
           ),
           onPressed: switch (_step) {
             QuestionFlowStep.basePlace => () =>
@@ -152,7 +153,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
             QuestionFlowStep.likes => 'Previous Step',
             QuestionFlowStep.dislikes => 'Previous Step',
           },
-          style: Theme.of(context).textTheme.titleMedium,
+          style: context.textTheme.titleLarge,
         ),
         onPressed: switch (_step) {
           QuestionFlowStep.basePlace => widget.onPagePop,
@@ -186,7 +187,7 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
       );
 
   Widget _buildDislikesStep() => QuestionAnswerWidget(
-        question: "What kind of place you don`t like?",
+        question: "What kind of place you don't like?",
         suggestions: _dislikeSuggestions
             .where(
               (suggestion) => !_queryModel.dislikes.contains(suggestion),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 
 class QuestionAnswerWidget extends StatefulWidget {
   const QuestionAnswerWidget({
@@ -36,16 +37,16 @@ class _QuestionAnswerWidgetState extends State<QuestionAnswerWidget> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.question,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: context.textTheme.headlineLarge?.copyWith(
+                    color: context.onBackground, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 16),
             // Input field
             TextField(
-              decoration: const InputDecoration(
-                  hintText:
-                      'Type Your answer here or pick from below words...'),
+              decoration:
+                  const InputDecoration(hintText: 'Type or pick from below...'),
               controller: _answerTextfieldController,
               onSubmitted: (value) {
                 widget.onAnswer(value);
@@ -53,12 +54,16 @@ class _QuestionAnswerWidgetState extends State<QuestionAnswerWidget> {
               },
             ),
             // Suggestions
-            Row(
+            Wrap(
               children: widget.suggestions
                   .map(
                     (String suggestion) => TextButton(
                       onPressed: () => widget.onAnswer(suggestion),
-                      child: Text(suggestion),
+                      child: Text(
+                        suggestion,
+                        style: context.textTheme.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   )
                   .toList(),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 
 class PlaceTile extends StatefulWidget {
   const PlaceTile({
@@ -58,17 +59,19 @@ class _PlaceTileState extends State<PlaceTile> {
               tag: place.title,
               child: Text(
                 place.title,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: context.textTheme.titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Hero(
                 tag: place.description,
                 child: Text(
                   place.description,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: context.textTheme.bodyMedium
+                      ?.copyWith(color: context.onBackground.withOpacity(0.7)),
                 ),
               ),
             ),
@@ -89,13 +92,10 @@ class _PlaceTileState extends State<PlaceTile> {
                           tag: urls[index],
                           child: CachedNetworkImage(
                             imageUrl: urls[index],
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey.shade300,
-                              highlightColor: Colors.grey.shade100,
-                              child: Container(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
+                            errorWidget: (context, url, error) =>
+                                _buildShimmerPlaceHolder(),
+                            placeholder: (context, url) =>
+                                _buildShimmerPlaceHolder(),
                             fit: BoxFit.cover,
                             width: 300,
                             height: 300,
@@ -112,6 +112,14 @@ class _PlaceTileState extends State<PlaceTile> {
               ),
             )
           ],
+        ),
+      );
+
+  Widget _buildShimmerPlaceHolder() => Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          color: context.primaryColor,
         ),
       );
 }

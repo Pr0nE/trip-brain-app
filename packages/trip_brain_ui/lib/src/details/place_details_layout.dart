@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
+import 'package:trip_brain_ui/src/core/fade_indexed_stack.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 import 'package:trip_brain_ui/src/details/place_detail_viewer.dart';
 
 class PlaceDetailsLayout extends StatefulWidget {
@@ -45,18 +48,20 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                   tag: widget.place.title,
                   child: Text(
                     widget.place.title,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: context.textTheme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Hero(
                   tag: widget.place.description,
                   child: Text(
                     widget.place.description,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                        color: context.onBackground.withOpacity(0.7)),
                   ),
                 ),
               ),
@@ -74,6 +79,10 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                             tag: widget.place.imageUrls[index],
                             child: CachedNetworkImage(
                               imageUrl: widget.place.imageUrls[index],
+                              errorWidget: (context, url, error) =>
+                                  _buildShimmerPlaceHolder(),
+                              placeholder: (context, url) =>
+                                  _buildShimmerPlaceHolder(),
                               fit: BoxFit.cover,
                               width: 300,
                               height: 300,
@@ -94,8 +103,7 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                               children: PlaceDetail.values
                                   .map(
                                     (detail) => ChoiceChip(
-                                      selectedColor:
-                                          Theme.of(context).colorScheme.primary,
+                                      selectedColor: context.primaryColor,
                                       onSelected: (value) => setState(() {
                                         widget.onDetailTapped(detail);
 
@@ -105,7 +113,10 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                                           visitedDetails.add(selectedDetail);
                                         }
                                       }),
-                                      label: Text(detail.name),
+                                      label: Text(
+                                        _getDetailDisplayName(detail, context),
+                                        style: context.textTheme.titleMedium,
+                                      ),
                                       selected: selectedDetail == detail,
                                     ),
                                   )
@@ -113,7 +124,7 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
                             ),
                           ),
                           Expanded(
-                            child: IndexedStack(
+                            child: FadeIndexedStack(
                               index: visitedDetails.indexOf(selectedDetail),
                               children: visitedDetails
                                   .map(
@@ -137,4 +148,19 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
           ),
         ),
       );
+
+  Widget _buildShimmerPlaceHolder() => Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          color: context.primaryColor,
+        ),
+      );
+
+  String _getDetailDisplayName(PlaceDetail detail, BuildContext context) =>
+      switch (detail) {
+        PlaceDetail.facts => 'Facts',
+        PlaceDetail.features => 'Features',
+        PlaceDetail.travelNotes => 'Travel Notes',
+      };
 }

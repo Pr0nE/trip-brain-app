@@ -12,7 +12,8 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 import 'package:trip_brain_ui/trip_brain_ui.dart';
 
 class TripBrainApp extends StatelessWidget {
-  const TripBrainApp({super.key});
+  const TripBrainApp({this.certificates, super.key});
+  final List<int>? certificates;
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -22,9 +23,10 @@ class TripBrainApp extends StatelessWidget {
               //host: '23.94.120.138',
               grpcClientInfo: GRPClientInfo(
                 // host: Platform.isAndroid ? '10.0.2.2' : 'localhost',
-                host: Platform.isAndroid ? '91.107.170.236' : 'localhost',
-                port: 8000,
+                host: Platform.isAndroid ? 'app.lockonme.store' : 'localhost',
+                port: 7000,
               ),
+              certificates: certificates,
             ),
           ),
           Provider<AppLocalRepository>(

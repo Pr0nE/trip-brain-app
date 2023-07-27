@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:trip_brain_domain/trip_brain_domain.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 import 'package:trip_brain_ui/src/suggestions/place_tile.dart';
 import 'package:trip_brain_ui/src/suggestions/suggestions_page_cubit.dart';
 import 'package:trip_brain_ui/src/suggestions/suggestions_page_state.dart';
@@ -48,12 +49,64 @@ class SuggestionsLayout extends StatelessWidget {
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('I want travel to ${queryModel.basePlace}'),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                        text: 'I want travel to ',
+                                        style: context.textTheme.bodyLarge
+                                            ?.copyWith(
+                                                color: context.onBackground
+                                                    .withOpacity(0.7))),
+                                    TextSpan(
+                                      text: queryModel.basePlace,
+                                      style: context.textTheme.bodyLarge
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               if (queryModel.likes.isNotEmpty)
-                                Text('I like ${queryModel.likes.join(', ')}'),
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: 'I like ',
+                                          style: context.textTheme.bodyLarge
+                                              ?.copyWith(
+                                                  color: context.onBackground
+                                                      .withOpacity(0.7))),
+                                      TextSpan(
+                                        text: queryModel.likes.join(', '),
+                                        style: context.textTheme.bodyLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               if (queryModel.dislikes.isNotEmpty)
-                                Text(
-                                    'I dislike ${queryModel.dislikes.join(',')}'),
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'I dislike ',
+                                        style: context.textTheme.bodyLarge
+                                            ?.copyWith(
+                                          color: context.onBackground
+                                              .withOpacity(0.7),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: queryModel.dislikes.join(','),
+                                        style: context.textTheme.bodyLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                             ],
                           ),
                           TextButton.icon(
@@ -61,7 +114,12 @@ class SuggestionsLayout extends StatelessWidget {
                               queryModel: queryModel.copyWith(),
                             ),
                             icon: const Icon(Icons.settings),
-                            label: Text('Change'),
+                            label: Text(
+                              'Change',
+                              style: context.textTheme.titleMedium?.copyWith(
+                                  color: context.primaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       ),

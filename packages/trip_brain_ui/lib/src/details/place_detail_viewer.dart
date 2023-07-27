@@ -49,6 +49,11 @@ class _PlaceDetailViewerState extends State<PlaceDetailViewer> {
                   strokeWidth: 2,
                 ),
               )
-            : Markdown(data: state.loaded?.content ?? ''),
+            : Markdown(
+                data: state.loaded?.content ?? '',
+                selectable: true,
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                    .copyWith(textScaleFactor: 1.2),
+              ),
       );
 }

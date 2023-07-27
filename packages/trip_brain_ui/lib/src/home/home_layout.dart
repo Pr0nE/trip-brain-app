@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 import 'package:trip_brain_ui/src/home/home_layout_cubit.dart';
 import 'package:trip_brain_ui/src/home/recent_search_list.dart';
 import 'package:trip_brain_ui/src/localization/localization_extensions.dart';
@@ -75,8 +76,11 @@ class _HomeLayoutState extends State<HomeLayout> {
                     builder: (context, state) => TextButton.icon(
                       onPressed: widget.onLogoutTapped,
                       icon: const Icon(Icons.logout),
-                      label:
-                          Text('Logout ${getUsername(state.getUser, context)}'),
+                      label: Text(
+                        'Logout ${getUsername(state.getUser, context)}',
+                        style: context.textTheme.bodyLarge
+                            ?.copyWith(color: context.primaryColor),
+                      ),
                     ),
                   ),
                 ]),
@@ -94,21 +98,19 @@ class _HomeLayoutState extends State<HomeLayout> {
                     style: Theme.of(context)
                         .textTheme
                         .displaySmall
-                        ?.copyWith(color: Colors.white),
+                        ?.copyWith(color: context.onBackground),
                   ),
                   TextField(
                     controller: _travelPlaceTextFieldController,
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: context.textTheme.headlineMedium,
                     onSubmitted: (_) =>
                         widget.onSuggestPlacesTapped(travelPlace),
                     textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Type Here...',
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: Colors.white38),
+                      hintStyle: context.textTheme.headlineMedium?.copyWith(
+                          color: context.onBackground.withOpacity(0.3)),
                     ),
                   ),
                   Center(
@@ -121,9 +123,9 @@ class _HomeLayoutState extends State<HomeLayout> {
                       ),
                       label: Text(
                         'Suggest',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                        style: context.textTheme.titleLarge?.copyWith(
+                          color: context.primaryColor,
+                        ),
                       ),
                     ),
                   ),

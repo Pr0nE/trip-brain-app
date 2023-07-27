@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_brain_ui/src/core/theme_helpers.dart';
 
 class BalanceViewer extends StatelessWidget {
   const BalanceViewer({
@@ -20,21 +21,25 @@ class BalanceViewer extends StatelessWidget {
             if (balance > 0) {
               return Text(
                 'You have $balance suggestions left',
-                style: TextStyle(
-                    fontSize: 14, color: Theme.of(context).colorScheme.primary),
+                style: context.textTheme.bodyLarge
+                    ?.copyWith(color: context.primaryColor),
               );
             }
 
-            return _buildBuySuggestionsButton();
+            return _buildBuySuggestionsButton(context);
           }
 
           return const SizedBox(width: 100, child: LinearProgressIndicator());
         },
       );
 
-  Widget _buildBuySuggestionsButton() => TextButton.icon(
+  Widget _buildBuySuggestionsButton(BuildContext context) => TextButton.icon(
         onPressed: onBuySuggestionTapped,
         icon: const Icon(Icons.add),
-        label: const Text('Get more suggestions'),
+        label: Text(
+          'Get more suggestions',
+          style: context.textTheme.bodyLarge
+              ?.copyWith(color: context.primaryColor),
+        ),
       );
 }
