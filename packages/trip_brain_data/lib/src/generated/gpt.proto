@@ -88,8 +88,20 @@ message BuyCreditResponse {
     string clientSecret = 1;
 }
 
+message FetchPricesRequest {}
+
+message SuggestionPrice {
+    float price = 1;
+    int32 suggestionAmount = 2;
+}
+
+message FetchPricesResponse {
+    repeated SuggestionPrice prices = 1;
+}
+
 service Payment {
     rpc BuyCredit(BuyCreditRequest) returns (BuyCreditResponse) {}
+    rpc FetchPrices(FetchPricesRequest) returns (FetchPricesResponse) {}
 }
 
 message PingRequest {}

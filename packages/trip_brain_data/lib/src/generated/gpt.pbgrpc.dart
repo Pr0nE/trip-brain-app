@@ -210,6 +210,12 @@ class PaymentClient extends $grpc.Client {
           ($0.BuyCreditRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.BuyCreditResponse.fromBuffer(value));
+  static final _$fetchPrices =
+      $grpc.ClientMethod<$0.FetchPricesRequest, $0.FetchPricesResponse>(
+          '/Payment/FetchPrices',
+          ($0.FetchPricesRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.FetchPricesResponse.fromBuffer(value));
 
   PaymentClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -220,6 +226,12 @@ class PaymentClient extends $grpc.Client {
       $0.BuyCreditRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$buyCredit, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.FetchPricesResponse> fetchPrices(
+      $0.FetchPricesRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$fetchPrices, request, options: options);
   }
 }
 
@@ -234,6 +246,15 @@ abstract class PaymentServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.BuyCreditRequest.fromBuffer(value),
         ($0.BuyCreditResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.FetchPricesRequest, $0.FetchPricesResponse>(
+            'FetchPrices',
+            fetchPrices_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.FetchPricesRequest.fromBuffer(value),
+            ($0.FetchPricesResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.BuyCreditResponse> buyCredit_Pre($grpc.ServiceCall call,
@@ -241,8 +262,15 @@ abstract class PaymentServiceBase extends $grpc.Service {
     return buyCredit(call, await request);
   }
 
+  $async.Future<$0.FetchPricesResponse> fetchPrices_Pre($grpc.ServiceCall call,
+      $async.Future<$0.FetchPricesRequest> request) async {
+    return fetchPrices(call, await request);
+  }
+
   $async.Future<$0.BuyCreditResponse> buyCredit(
       $grpc.ServiceCall call, $0.BuyCreditRequest request);
+  $async.Future<$0.FetchPricesResponse> fetchPrices(
+      $grpc.ServiceCall call, $0.FetchPricesRequest request);
 }
 
 class GeneralClient extends $grpc.Client {

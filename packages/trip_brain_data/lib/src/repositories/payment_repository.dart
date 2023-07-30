@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:trip_brain_data/src/api/api_client.dart';
 import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
-import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
+import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart'
+    hide SuggestionPrice;
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class PaymentRepository implements PaymentManager {
@@ -50,6 +51,28 @@ class PaymentRepository implements PaymentManager {
           amount: amount,
         ),
       );
+    } catch (error) {
+      throw error.toAppException();
+    }
+  }
+
+  @override
+  Future<List<SuggestionPrice>> getSuggestionPrices() async {
+    if (appSettingsProvider.isAppOffline) {
+      throw AppException(AppErrorType.needNetwork);
+    }
+
+    try {
+      final response = await client.fetchPrices(FetchPricesRequest());
+
+      return response.prices
+          .map(
+            (price) => SuggestionPrice(
+              amount: price.suggestionAmount,
+              price: price.price,
+            ),
+          )
+          .toList();
     } catch (error) {
       throw error.toAppException();
     }

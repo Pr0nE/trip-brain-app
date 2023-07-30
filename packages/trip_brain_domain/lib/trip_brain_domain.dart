@@ -16,6 +16,7 @@ export 'src/place_details/place_detail.dart';
 export 'src/place_details/place_detail_fetcher.dart';
 
 export 'src/payment/payment_manager.dart';
+export 'src/payment/suggestion_price.dart';
 
 export 'src/app_settings/pinger.dart';
 export 'src/app_settings/app_settings.dart';

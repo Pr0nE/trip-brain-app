@@ -163,6 +163,34 @@ const BuyCreditResponse$json = const {
 
 /// Descriptor for `BuyCreditResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List buyCreditResponseDescriptor = $convert.base64Decode('ChFCdXlDcmVkaXRSZXNwb25zZRIiCgxjbGllbnRTZWNyZXQYASABKAlSDGNsaWVudFNlY3JldA==');
+@$core.Deprecated('Use fetchPricesRequestDescriptor instead')
+const FetchPricesRequest$json = const {
+  '1': 'FetchPricesRequest',
+};
+
+/// Descriptor for `FetchPricesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List fetchPricesRequestDescriptor = $convert.base64Decode('ChJGZXRjaFByaWNlc1JlcXVlc3Q=');
+@$core.Deprecated('Use suggestionPriceDescriptor instead')
+const SuggestionPrice$json = const {
+  '1': 'SuggestionPrice',
+  '2': const [
+    const {'1': 'price', '3': 1, '4': 1, '5': 2, '10': 'price'},
+    const {'1': 'suggestionAmount', '3': 2, '4': 1, '5': 5, '10': 'suggestionAmount'},
+  ],
+};
+
+/// Descriptor for `SuggestionPrice`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List suggestionPriceDescriptor = $convert.base64Decode('Cg9TdWdnZXN0aW9uUHJpY2USFAoFcHJpY2UYASABKAJSBXByaWNlEioKEHN1Z2dlc3Rpb25BbW91bnQYAiABKAVSEHN1Z2dlc3Rpb25BbW91bnQ=');
+@$core.Deprecated('Use fetchPricesResponseDescriptor instead')
+const FetchPricesResponse$json = const {
+  '1': 'FetchPricesResponse',
+  '2': const [
+    const {'1': 'prices', '3': 1, '4': 3, '5': 11, '6': '.SuggestionPrice', '10': 'prices'},
+  ],
+};
+
+/// Descriptor for `FetchPricesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List fetchPricesResponseDescriptor = $convert.base64Decode('ChNGZXRjaFByaWNlc1Jlc3BvbnNlEigKBnByaWNlcxgBIAMoCzIQLlN1Z2dlc3Rpb25QcmljZVIGcHJpY2Vz');
 @$core.Deprecated('Use pingRequestDescriptor instead')
 const PingRequest$json = const {
   '1': 'PingRequest',

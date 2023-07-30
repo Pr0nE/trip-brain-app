@@ -857,6 +857,137 @@ class BuyCreditResponse extends $pb.GeneratedMessage {
   void clearClientSecret() => clearField(1);
 }
 
+class FetchPricesRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FetchPricesRequest', createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  FetchPricesRequest._() : super();
+  factory FetchPricesRequest() => create();
+  factory FetchPricesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FetchPricesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  FetchPricesRequest clone() => FetchPricesRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  FetchPricesRequest copyWith(void Function(FetchPricesRequest) updates) => super.copyWith((message) => updates(message as FetchPricesRequest)) as FetchPricesRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FetchPricesRequest create() => FetchPricesRequest._();
+  FetchPricesRequest createEmptyInstance() => create();
+  static $pb.PbList<FetchPricesRequest> createRepeated() => $pb.PbList<FetchPricesRequest>();
+  @$core.pragma('dart2js:noInline')
+  static FetchPricesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FetchPricesRequest>(create);
+  static FetchPricesRequest? _defaultInstance;
+}
+
+class SuggestionPrice extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SuggestionPrice', createEmptyInstance: create)
+    ..a<$core.double>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.OF)
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'suggestionAmount', $pb.PbFieldType.O3, protoName: 'suggestionAmount')
+    ..hasRequiredFields = false
+  ;
+
+  SuggestionPrice._() : super();
+  factory SuggestionPrice({
+    $core.double? price,
+    $core.int? suggestionAmount,
+  }) {
+    final _result = create();
+    if (price != null) {
+      _result.price = price;
+    }
+    if (suggestionAmount != null) {
+      _result.suggestionAmount = suggestionAmount;
+    }
+    return _result;
+  }
+  factory SuggestionPrice.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SuggestionPrice.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SuggestionPrice clone() => SuggestionPrice()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SuggestionPrice copyWith(void Function(SuggestionPrice) updates) => super.copyWith((message) => updates(message as SuggestionPrice)) as SuggestionPrice; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SuggestionPrice create() => SuggestionPrice._();
+  SuggestionPrice createEmptyInstance() => create();
+  static $pb.PbList<SuggestionPrice> createRepeated() => $pb.PbList<SuggestionPrice>();
+  @$core.pragma('dart2js:noInline')
+  static SuggestionPrice getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SuggestionPrice>(create);
+  static SuggestionPrice? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.double get price => $_getN(0);
+  @$pb.TagNumber(1)
+  set price($core.double v) { $_setFloat(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPrice() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPrice() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get suggestionAmount => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set suggestionAmount($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSuggestionAmount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSuggestionAmount() => clearField(2);
+}
+
+class FetchPricesResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FetchPricesResponse', createEmptyInstance: create)
+    ..pc<SuggestionPrice>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'prices', $pb.PbFieldType.PM, subBuilder: SuggestionPrice.create)
+    ..hasRequiredFields = false
+  ;
+
+  FetchPricesResponse._() : super();
+  factory FetchPricesResponse({
+    $core.Iterable<SuggestionPrice>? prices,
+  }) {
+    final _result = create();
+    if (prices != null) {
+      _result.prices.addAll(prices);
+    }
+    return _result;
+  }
+  factory FetchPricesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FetchPricesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  FetchPricesResponse clone() => FetchPricesResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  FetchPricesResponse copyWith(void Function(FetchPricesResponse) updates) => super.copyWith((message) => updates(message as FetchPricesResponse)) as FetchPricesResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FetchPricesResponse create() => FetchPricesResponse._();
+  FetchPricesResponse createEmptyInstance() => create();
+  static $pb.PbList<FetchPricesResponse> createRepeated() => $pb.PbList<FetchPricesResponse>();
+  @$core.pragma('dart2js:noInline')
+  static FetchPricesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FetchPricesResponse>(create);
+  static FetchPricesResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<SuggestionPrice> get prices => $_getList(0);
+}
+
 class PingRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PingRequest', createEmptyInstance: create)
     ..hasRequiredFields = false

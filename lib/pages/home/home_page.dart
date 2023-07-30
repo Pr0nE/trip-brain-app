@@ -15,28 +15,31 @@ class HomePage extends StatelessWidget {
     return Provider(
       create: (context) => DialogManager(context),
       child: Builder(
-        builder: (context) => HomeLayout(
-          onSuggestPlacesTapped: (basePlace) => onSuggestPlacesTapped(
-            context: context,
-            basePlace: basePlace,
-          ),
-          paymentManager: context.read<PaymentManager>(),
-          userFetcher: context.read<AuthCubit>(),
-          recentSearchFetcher: context.read<TravelSuggestionRepository>(),
-          onRecentSearchTapped: (query) =>
-              onRecentSearchTapped(context: context, query: query),
-          onLogoutTapped: () {
-            context.read<AuthCubit>().logout();
-            context.goAuth();
-          },
-          onBuySuggestionTapped: () => showBuyBalanceBottomSheet(
-            context,
-            context.read<PaymentManager>(),
-          ),
-          onError: (error, retryCallback) => checkAppError(
-            context: context,
-            error: error,
-            onRetry: retryCallback,
+        builder: (context) => WillPopScope(
+          onWillPop: () => Future.value(false),
+          child: HomeLayout(
+            onSuggestPlacesTapped: (basePlace) => onSuggestPlacesTapped(
+              context: context,
+              basePlace: basePlace,
+            ),
+            paymentManager: context.read<PaymentManager>(),
+            userFetcher: context.read<AuthCubit>(),
+            recentSearchFetcher: context.read<TravelSuggestionRepository>(),
+            onRecentSearchTapped: (query) =>
+                onRecentSearchTapped(context: context, query: query),
+            onLogoutTapped: () {
+              context.read<AuthCubit>().logout();
+              context.goAuth();
+            },
+            onBuySuggestionTapped: () => showBuyBalanceBottomSheet(
+              context,
+              context.read<PaymentManager>(),
+            ),
+            onError: (error, retryCallback) => checkAppError(
+              context: context,
+              error: error,
+              onRetry: retryCallback,
+            ),
           ),
         ),
       ),

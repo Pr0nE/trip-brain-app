@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
         child: Builder(
           builder: (context) => SplashLayout(
             updateStatusFetcher: context.read<GeneralRepository>(),
-            onUpdate: (status, {onSkipUpdate}) => onUpdate(
+            onUpdate: (status, {onSkipUpdate}) => onAppUpdate(
                 context: context, status: status, onSkipUpdate: onSkipUpdate),
             authIO: context.read<AuthCubit>(),
             onUserExist: (user) => context.goHome(),

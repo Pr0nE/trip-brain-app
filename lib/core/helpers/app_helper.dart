@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:trip_brain_app/core/dialog/dialog_manager.dart';
 import 'package:trip_brain_app/core/helpers/event_helper.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
-
-import '../dialog/dialog_manager.dart';
+import 'package:trip_brain_ui/trip_brain_ui.dart';
 
 void checkAppError({
   required BuildContext context,
@@ -53,7 +53,7 @@ void checkAppError({
   }
 }
 
-void onUpdate({
+void onAppUpdate({
   required BuildContext context,
   required UpdateStatus status,
   VoidCallback? onSkipUpdate,
@@ -202,79 +202,29 @@ extension DialogExtension on DialogManager {
 }
 
 void showBuyBalanceBottomSheet(
-        BuildContext context, PaymentManager paymentManager) =>
+  BuildContext context,
+  PaymentManager paymentManager,
+) =>
     showModalBottomSheet(
       routeSettings: const RouteSettings(name: 'BalanceSelectorBottomSheet'),
       context: context,
       enableDrag: false,
-      builder: (context) => BuyBalanceBottomSheet(
-        paymentManager: context.read<PaymentManager>(),
-      ),
-    );
-
-class BuyBalanceBottomSheet extends StatefulWidget {
-  const BuyBalanceBottomSheet({required this.paymentManager, super.key});
-
-  final PaymentManager paymentManager;
-
-  @override
-  State<BuyBalanceBottomSheet> createState() => _BuyBalanceBottomSheetState();
-}
-
-class _BuyBalanceBottomSheetState extends State<BuyBalanceBottomSheet> {
-  bool isLoading = false;
-
-  @override
-  Widget build(BuildContext context) => Provider(
+      builder: (context) => Provider(
         create: (context) => DialogManager(context),
         child: Builder(
-          builder: (context) => BottomSheet(
-            builder: (context) => Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Opacity(
-                  opacity: isLoading ? 0.1 : 1,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextButton(
-                        onPressed: () => onAmountSelected(context, 10),
-                        child: Text('10'),
-                      ),
-                      TextButton(
-                        onPressed: () => onAmountSelected(context, 25),
-                        child: Text('25'),
-                      ),
-                      TextButton(
-                        onPressed: () => onAmountSelected(context, 50),
-                        child: Text('50'),
-                      ),
-                    ],
-                  ),
-                ),
-                if (isLoading) CircularProgressIndicator()
-              ],
-            ),
-            onClosing: () {},
+          builder: (context) => SuggestionPricesBottomSheet(
+            paymentManager: context.read<PaymentManager>(),
+            onSuggestionPriceTapped: onBuyBalanceEvent,
+            onSuccess: () => context.pop(),
+            onError: (error, {retryCallback}) {
+              context.pop();
+              checkAppError(
+                context: context,
+                error: error,
+                onRetry: retryCallback,
+              );
+            },
           ),
         ),
-      );
-
-  void onAmountSelected(BuildContext context, int selectedAmount) {
-    onBuyBalanceEvent(selectedAmount);
-
-    widget.paymentManager.buyBalance(selectedAmount).on(
-          onLoading: () => setState(() => isLoading = true),
-          onError: (AppException error) {
-            context.pop();
-            setState(() => isLoading = false);
-            checkAppError(context: context, error: error);
-          },
-          onData: (result) {
-            // TODO: show success message
-            context.pop();
-            setState(() => isLoading = false);
-          },
-        );
-  }
-}
+      ),
+    );

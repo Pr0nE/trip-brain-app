@@ -71,6 +71,7 @@ class APIClient {
     );
     paymentClient = PaymentClient(
       grpcChannel,
+      options: CallOptions(timeout: _timeoutDuration),
     );
     placeDetailsClient = PlaceDetailsClient(
       grpcChannel,
