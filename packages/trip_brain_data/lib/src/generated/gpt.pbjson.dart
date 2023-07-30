@@ -177,3 +177,20 @@ const PingResponse$json = const {
 
 /// Descriptor for `PingResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List pingResponseDescriptor = $convert.base64Decode('CgxQaW5nUmVzcG9uc2U=');
+@$core.Deprecated('Use getCurrentVersionRequestDescriptor instead')
+const GetCurrentVersionRequest$json = const {
+  '1': 'GetCurrentVersionRequest',
+};
+
+/// Descriptor for `GetCurrentVersionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCurrentVersionRequestDescriptor = $convert.base64Decode('ChhHZXRDdXJyZW50VmVyc2lvblJlcXVlc3Q=');
+@$core.Deprecated('Use getCurrentVersionResponseDescriptor instead')
+const GetCurrentVersionResponse$json = const {
+  '1': 'GetCurrentVersionResponse',
+  '2': const [
+    const {'1': 'version', '3': 1, '4': 1, '5': 9, '10': 'version'},
+  ],
+};
+
+/// Descriptor for `GetCurrentVersionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCurrentVersionResponseDescriptor = $convert.base64Decode('ChlHZXRDdXJyZW50VmVyc2lvblJlc3BvbnNlEhgKB3ZlcnNpb24YASABKAlSB3ZlcnNpb24=');

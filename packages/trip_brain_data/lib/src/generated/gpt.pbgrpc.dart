@@ -250,6 +250,12 @@ class GeneralClient extends $grpc.Client {
       '/General/Ping',
       ($0.PingRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.PingResponse.fromBuffer(value));
+  static final _$getCurrentVersion = $grpc.ClientMethod<
+          $0.GetCurrentVersionRequest, $0.GetCurrentVersionResponse>(
+      '/General/GetCurrentVersion',
+      ($0.GetCurrentVersionRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.GetCurrentVersionResponse.fromBuffer(value));
 
   GeneralClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -259,6 +265,12 @@ class GeneralClient extends $grpc.Client {
   $grpc.ResponseFuture<$0.PingResponse> ping($0.PingRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$ping, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetCurrentVersionResponse> getCurrentVersion(
+      $0.GetCurrentVersionRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getCurrentVersion, request, options: options);
   }
 }
 
@@ -273,6 +285,15 @@ abstract class GeneralServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.PingRequest.fromBuffer(value),
         ($0.PingResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetCurrentVersionRequest,
+            $0.GetCurrentVersionResponse>(
+        'GetCurrentVersion',
+        getCurrentVersion_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.GetCurrentVersionRequest.fromBuffer(value),
+        ($0.GetCurrentVersionResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.PingResponse> ping_Pre(
@@ -280,6 +301,14 @@ abstract class GeneralServiceBase extends $grpc.Service {
     return ping(call, await request);
   }
 
+  $async.Future<$0.GetCurrentVersionResponse> getCurrentVersion_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetCurrentVersionRequest> request) async {
+    return getCurrentVersion(call, await request);
+  }
+
   $async.Future<$0.PingResponse> ping(
       $grpc.ServiceCall call, $0.PingRequest request);
+  $async.Future<$0.GetCurrentVersionResponse> getCurrentVersion(
+      $grpc.ServiceCall call, $0.GetCurrentVersionRequest request);
 }

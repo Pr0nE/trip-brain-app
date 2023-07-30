@@ -159,7 +159,7 @@ class _PlaceDetailsLayoutState extends State<PlaceDetailsLayout> {
 
   String _getDetailDisplayName(PlaceDetail detail, BuildContext context) =>
       switch (detail) {
-        PlaceDetail.facts => 'Facts',
+        PlaceDetail.history => 'History',
         PlaceDetail.features => 'Features',
         PlaceDetail.travelNotes => 'Travel Notes',
       };

@@ -8,9 +8,9 @@ import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class AuthRepository implements Authenticator {
   AuthRepository({
-    required APIClient apiClient,
+    required APIClient client,
     required this.appSettingsProvider,
-  }) : authClient = AuthClient(apiClient.grpcChannel);
+  }) : authClient = client.authClient;
 
   final AuthClient authClient;
   final AppSettingsProvider appSettingsProvider;

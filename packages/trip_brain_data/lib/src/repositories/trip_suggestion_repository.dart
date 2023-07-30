@@ -17,7 +17,7 @@ class TravelSuggestionRepository
     required this.authProvider,
     required this.appSettingsProvider,
     required APIClient client,
-  }) : client = TravelSuggestionClient(client.grpcChannel);
+  }) : client = client.travelSuggestionClient;
 
   static const _suggestionSearchesTableKey = 'suggestionSearchesTableKey';
 

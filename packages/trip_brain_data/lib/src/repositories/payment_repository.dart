@@ -11,7 +11,7 @@ class PaymentRepository implements PaymentManager {
     required APIClient client,
     required this.authProvider,
     required this.appSettingsProvider,
-  }) : client = PaymentClient(client.grpcChannel) {
+  }) : client = client.paymentClient {
     Stripe.publishableKey =
         "pk_test_51NPmXZKTTuS399b7KRgomoxGmopcwI7bFgJTZAXKwru3wYSERZeF0wOtFJoRXVaUHvb8hm3ZkYnXx0yX1BpWNgOM007czCNlKC";
   }

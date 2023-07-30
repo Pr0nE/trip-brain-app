@@ -20,7 +20,7 @@ class BalanceViewer extends StatelessWidget {
 
             if (balance > 0) {
               return Text(
-                'You have $balance suggestions left',
+                '$balance suggestions left',
                 style: context.textTheme.bodyLarge
                     ?.copyWith(color: context.primaryColor),
               );

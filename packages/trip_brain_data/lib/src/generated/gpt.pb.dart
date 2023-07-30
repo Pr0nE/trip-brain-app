@@ -915,3 +915,79 @@ class PingResponse extends $pb.GeneratedMessage {
   static PingResponse? _defaultInstance;
 }
 
+class GetCurrentVersionRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'GetCurrentVersionRequest', createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  GetCurrentVersionRequest._() : super();
+  factory GetCurrentVersionRequest() => create();
+  factory GetCurrentVersionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCurrentVersionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCurrentVersionRequest clone() => GetCurrentVersionRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCurrentVersionRequest copyWith(void Function(GetCurrentVersionRequest) updates) => super.copyWith((message) => updates(message as GetCurrentVersionRequest)) as GetCurrentVersionRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static GetCurrentVersionRequest create() => GetCurrentVersionRequest._();
+  GetCurrentVersionRequest createEmptyInstance() => create();
+  static $pb.PbList<GetCurrentVersionRequest> createRepeated() => $pb.PbList<GetCurrentVersionRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetCurrentVersionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCurrentVersionRequest>(create);
+  static GetCurrentVersionRequest? _defaultInstance;
+}
+
+class GetCurrentVersionResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'GetCurrentVersionResponse', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'version')
+    ..hasRequiredFields = false
+  ;
+
+  GetCurrentVersionResponse._() : super();
+  factory GetCurrentVersionResponse({
+    $core.String? version,
+  }) {
+    final _result = create();
+    if (version != null) {
+      _result.version = version;
+    }
+    return _result;
+  }
+  factory GetCurrentVersionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCurrentVersionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCurrentVersionResponse clone() => GetCurrentVersionResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCurrentVersionResponse copyWith(void Function(GetCurrentVersionResponse) updates) => super.copyWith((message) => updates(message as GetCurrentVersionResponse)) as GetCurrentVersionResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static GetCurrentVersionResponse create() => GetCurrentVersionResponse._();
+  GetCurrentVersionResponse createEmptyInstance() => create();
+  static $pb.PbList<GetCurrentVersionResponse> createRepeated() => $pb.PbList<GetCurrentVersionResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetCurrentVersionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCurrentVersionResponse>(create);
+  static GetCurrentVersionResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get version => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set version($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasVersion() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearVersion() => clearField(1);
+}
+

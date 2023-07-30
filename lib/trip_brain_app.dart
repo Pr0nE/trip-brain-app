@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,13 +18,13 @@ class TripBrainApp extends StatelessWidget {
         providers: [
           Provider<APIClient>(
             create: (context) => APIClient(
-              //host: '23.94.120.138',
               grpcClientInfo: GRPClientInfo(
-                // host: Platform.isAndroid ? '10.0.2.2' : 'localhost',
-                host: Platform.isAndroid ? 'app.lockonme.store' : 'localhost',
-                port: 7000,
+                // host: '37.120.185.251',
+                host: 'app.lockonme.store',
+                //host: Platform.isAndroid ? '10.0.2.2' : 'localhost',
+                port: 8000,
               ),
-              certificates: certificates,
+              // certificates: certificates,
             ),
           ),
           Provider<AppLocalRepository>(
@@ -38,11 +36,12 @@ class TripBrainApp extends StatelessWidget {
           ),
           Provider<AppSettingsCubit>(
             create: (context) => AppSettingsCubit(
+                apiClient: context.read<APIClient>(),
                 serverPinger: context.read<GeneralRepository>()),
           ),
           Provider<AuthRepository>(
             create: (context) => AuthRepository(
-              apiClient: context.read<APIClient>(),
+              client: context.read<APIClient>(),
               appSettingsProvider: context.read<AppSettingsCubit>(),
             ),
           ),

@@ -95,6 +95,12 @@ service Payment {
 message PingRequest {}
 message PingResponse {}
 
+message GetCurrentVersionRequest {}
+message GetCurrentVersionResponse {
+    string version = 1;
+}
+
 service General{
     rpc Ping(PingRequest) returns (PingResponse){}
+    rpc GetCurrentVersion(GetCurrentVersionRequest) returns (GetCurrentVersionResponse){}
 }

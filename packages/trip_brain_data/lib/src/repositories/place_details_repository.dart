@@ -12,7 +12,7 @@ class PlaceDetailsRepository implements PlaceDetailFetcher {
     required this.authProvider,
     required this.appSettingsProvider,
     required APIClient client,
-  }) : client = PlaceDetailsClient(client.grpcChannel);
+  }) : client = client.placeDetailsClient;
 
   static const _placeDetailsTableKey = 'placeDetailsTableKey';
   final PlaceDetailsClient client;

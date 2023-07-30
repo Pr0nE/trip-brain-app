@@ -19,6 +19,8 @@ export 'src/payment/payment_manager.dart';
 
 export 'src/app_settings/pinger.dart';
 export 'src/app_settings/app_settings.dart';
+export 'src/app_settings/app_version.dart';
+export 'src/app_settings/update_status.dart';
 
 export 'src/auth/user.dart';
 export 'src/auth/authenticator.dart';

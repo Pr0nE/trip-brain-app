@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:trip_brain_app/core/helpers/event_helper.dart';
 import 'package:trip_brain_app/core/router/router_config.dart';
 import 'package:trip_brain_data/trip_brain_data.dart';
@@ -52,12 +53,68 @@ void checkAppError({
   }
 }
 
+void onUpdate({
+  required BuildContext context,
+  required UpdateStatus status,
+  VoidCallback? onSkipUpdate,
+}) {
+  final dialogManager = context.read<DialogManager>();
+
+  if (status == UpdateStatus.mandatoryUpdate) {
+    dialogManager.showMandatoryUpdateDialog(context);
+  } else if (status == UpdateStatus.optionalUpdate && onSkipUpdate != null) {
+    dialogManager.showOptionalUpdateDialog(context, onSkipUpdate);
+  }
+}
+
 extension DialogExtension on DialogManager {
+  void showOptionalUpdateDialog(
+    BuildContext context,
+    VoidCallback onSkipUpdate,
+  ) {
+    add(
+      (context, popDialog) => AlertDialog(
+        title: const Text('Update'),
+        content: const Text("New update is available"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              onSkipUpdate();
+              popDialog();
+            },
+            child: const Text("Skip"),
+          ),
+          TextButton(
+            onPressed: () => StoreRedirect.redirect(),
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+      onClose: onSkipUpdate,
+    );
+  }
+
+  void showMandatoryUpdateDialog(BuildContext context) {
+    add(
+      (context, popDialog) => AlertDialog(
+        title: const Text('Important Update'),
+        content: const Text("New mandatory update is available"),
+        actions: [
+          TextButton(
+            onPressed: () => StoreRedirect.redirect(),
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+      dismissible: false,
+    );
+  }
+
   void showInsufficientBalanceDialog(BuildContext context) {
     add(
       (context, popDialog) => AlertDialog(
         title: const Text('Error'),
-        content: Text("You don't have enough balance"),
+        content: const Text("You don't have enough balance"),
         actions: [
           TextButton(
             onPressed: () => popDialog(),

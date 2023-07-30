@@ -13,7 +13,9 @@ extension ExceptionMapper on Object {
       switch (error.code) {
         case StatusCode.resourceExhausted:
           return AppException(AppErrorType.insufficientBalance);
-        case StatusCode.unavailable || StatusCode.unknown:
+        case StatusCode.unavailable ||
+              StatusCode.unknown ||
+              StatusCode.deadlineExceeded:
           return AppException(AppErrorType.network);
         case StatusCode.unauthenticated:
           return AppException(AppErrorType.needAuth);

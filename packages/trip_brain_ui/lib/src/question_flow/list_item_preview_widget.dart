@@ -65,7 +65,7 @@ class ListItemPreviewWidget<T> extends StatelessWidget {
               child: IgnorePointer(
                 child: Icon(
                   Icons.close,
-                  size: 14,
+                  size: 12,
                   color: context.primaryColor,
                 ),
               ),

@@ -20,6 +20,7 @@ class RecentSearchList extends StatelessWidget {
 
           if (searchList.isEmpty) {
             //TODO return a new user guid, app feature showcase
+            return const SizedBox();
           }
 
           return Column(

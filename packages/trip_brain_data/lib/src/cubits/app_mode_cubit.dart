@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:trip_brain_data/src/api/api_client.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 class AppSettingsState {
@@ -23,7 +24,7 @@ class AppSettingsState {
 
 class AppSettingsCubit extends Cubit<AppSettingsState>
     implements AppSettingsManager {
-  AppSettingsCubit({required this.serverPinger})
+  AppSettingsCubit({required this.serverPinger, required this.apiClient})
       : super(AppSettingsState(appLanguage: 'en', appMode: AppMode.online)) {
     appModeStream
         .where((event) => event == AppMode.offline)
@@ -31,6 +32,7 @@ class AppSettingsCubit extends Cubit<AppSettingsState>
   }
 
   final Pinger serverPinger;
+  final APIClient apiClient;
 
   @override
   void setAppMode(AppMode mode) => emit(state.copyWith(appMode: mode));
@@ -54,6 +56,7 @@ class AppSettingsCubit extends Cubit<AppSettingsState>
     if (hasConnection) {
       setAppMode(AppMode.online);
     } else {
+      apiClient.reconnect();
       await Future.delayed(Duration(seconds: 1));
       _listenOnConnectionBack();
     }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:grpc/grpc.dart';
 import 'package:trip_brain_data/src/api/api_exception.dart';
+import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
 
 enum APIRequestMethod { get, post, patch, delete, put }
 
@@ -32,23 +33,56 @@ class HTTPClientInfo {
 class APIClient {
   APIClient({
     required this.grpcClientInfo,
-    List<int>? certificates,
-  }) : grpcChannel = ClientChannel(
-          grpcClientInfo.host,
-          port: grpcClientInfo.port,
-          options: ChannelOptions(
-            connectTimeout: _timeoutDuration,
-            connectionTimeout: _timeoutDuration,
-            credentials: ChannelCredentials.secure(certificates: certificates),
-          ),
-        );
+    this.certificates,
+  }) {
+    _init();
+  }
+
+  static const _timeoutDuration = Duration(seconds: 8);
+  static const defaultHeaders = {'Content-Type': 'application/json'};
 
   final GRPClientInfo grpcClientInfo;
+  final List<int>? certificates;
+  late ClientChannel grpcChannel;
 
-  final ClientChannel grpcChannel;
+  late GeneralClient generalClient;
+  late AuthClient authClient;
+  late PaymentClient paymentClient;
+  late PlaceDetailsClient placeDetailsClient;
+  late TravelSuggestionClient travelSuggestionClient;
 
-  static const _timeoutDuration = Duration(seconds: 5);
-  static const defaultHeaders = {'Content-Type': 'application/json'};
+  void _init() {
+    grpcChannel = ClientChannel(
+      grpcClientInfo.host,
+      port: grpcClientInfo.port,
+      options: ChannelOptions(
+        credentials: certificates != null
+            ? ChannelCredentials.secure(certificates: certificates)
+            : ChannelCredentials.insecure(),
+      ),
+    );
+    generalClient = GeneralClient(
+      grpcChannel,
+      options: CallOptions(timeout: _timeoutDuration),
+    );
+    authClient = AuthClient(
+      grpcChannel,
+      options: CallOptions(timeout: _timeoutDuration),
+    );
+    paymentClient = PaymentClient(
+      grpcChannel,
+    );
+    placeDetailsClient = PlaceDetailsClient(
+      grpcChannel,
+    );
+    travelSuggestionClient = TravelSuggestionClient(
+      grpcChannel,
+    );
+  }
+
+  void reconnect() {
+    _init();
+  }
 
   //TODO remove
   Future<dynamic> request(

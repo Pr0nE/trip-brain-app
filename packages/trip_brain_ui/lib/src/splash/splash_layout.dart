@@ -5,14 +5,19 @@ import 'package:trip_brain_ui/src/core/state_stream_listener.dart';
 class SplashLayout extends StatefulWidget {
   const SplashLayout({
     required this.authIO,
+    required this.updateStatusFetcher,
     required this.onUserExist,
     required this.onNewUser,
+    required this.onUpdate,
     required this.onError,
     super.key,
   });
 
   final AuthIO authIO;
+  final UpdateStatusFetcher updateStatusFetcher;
   final void Function(User user) onUserExist;
+  final void Function(UpdateStatus status, {VoidCallback? onSkipUpdate})
+      onUpdate;
   final VoidCallback onNewUser;
   final void Function(AppException error, VoidCallback retryCallback) onError;
 
@@ -23,7 +28,7 @@ class SplashLayout extends StatefulWidget {
 class _SplashLayoutState extends State<SplashLayout> {
   @override
   void initState() {
-    widget.authIO.checkLatestSavedUser();
+    _onInit();
 
     super.initState();
   }
@@ -44,6 +49,30 @@ class _SplashLayoutState extends State<SplashLayout> {
           )),
         ),
       );
+
+  void _onInit() async {
+    try {
+      final updateStatus =
+          await widget.updateStatusFetcher.getAppUpdateStatus();
+
+      switch (updateStatus) {
+        case UpdateStatus.noUpdates:
+          widget.authIO.checkLatestSavedUser();
+          break;
+        case UpdateStatus.mandatoryUpdate:
+          widget.onUpdate(UpdateStatus.mandatoryUpdate);
+          break;
+        case UpdateStatus.optionalUpdate:
+          widget.onUpdate(
+            UpdateStatus.optionalUpdate,
+            onSkipUpdate: widget.authIO.checkLatestSavedUser,
+          );
+          break;
+      }
+    } on AppException catch (error) {
+      widget.onError(error, widget.authIO.checkLatestSavedUser);
+    }
+  }
 
   void onAuthState(AuthState state) {
     if (state is AuthLoggedInState) {

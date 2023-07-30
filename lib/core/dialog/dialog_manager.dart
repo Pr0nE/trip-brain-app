@@ -12,6 +12,7 @@ class DialogManager {
   void add(
     Widget Function(BuildContext, DialogPopper) dialogBuilder, {
     bool dismissible = true,
+    VoidCallback? onClose,
   }) {
     if (_activeDialog != null) {
       return;
@@ -23,7 +24,7 @@ class DialogManager {
         builder: (context) => WillPopScope(
               onWillPop: () => Future.value(dismissible),
               child: GestureDetector(
-                onTap: dismissible ? remove : null,
+                onTap: dismissible ? () => remove(onClose: onClose) : null,
                 child: Container(
                   color: Colors.black.withOpacity(0.4),
                   width: double.infinity,
@@ -37,8 +38,9 @@ class DialogManager {
     overlay!.insert(entry);
   }
 
-  void remove() {
+  void remove({VoidCallback? onClose}) {
     _activeDialog?.remove();
     _activeDialog = null;
+    onClose?.call();
   }
 }

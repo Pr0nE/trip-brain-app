@@ -1,5 +1,5 @@
 enum PlaceDetail {
   features,
-  facts,
+  history,
   travelNotes,
 }
