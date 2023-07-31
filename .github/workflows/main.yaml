@@ -1,8 +1,8 @@
 on:
-    push:
-        branches:
-            - main
-    pull_request:
+  push:
+    branches:
+      - main
+  pull_request:
 jobs:
   test:
     runs-on: macos-latest
@@ -12,29 +12,23 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-        
+
       - uses: actions/setup-java@v2
         with:
-            distribution: 'zulu'
-            java-version: '11'
-        
+          distribution: "zulu"
+          java-version: "11"
+
       - name: flutter setup
         uses: subosito/flutter-action@v2
         with:
-            channel: 'stable'
+          channel: "stable"
       - run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
-        
-      - name: AVD cache
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
 
       - name: create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
@@ -45,6 +39,15 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
 
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
