@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-class StateStreamListener<T> extends StatefulWidget {
-  const StateStreamListener({
+class StreamListener<T> extends StatefulWidget {
+  const StreamListener({
     required this.stream,
     required this.child,
     required this.onState,
@@ -15,10 +15,10 @@ class StateStreamListener<T> extends StatefulWidget {
   final Function(T state) onState;
 
   @override
-  State<StateStreamListener<T>> createState() => _StateStreamListenerState<T>();
+  State<StreamListener<T>> createState() => _StreamListenerState<T>();
 }
 
-class _StateStreamListenerState<T> extends State<StateStreamListener<T>> {
+class _StreamListenerState<T> extends State<StreamListener<T>> {
   late final StreamSubscription subscription;
 
   T? state;

@@ -1,5 +1,5 @@
 name: trip_brain_data
-description: A starting point for Dart libraries or applications.
+description: Provides TripBrain data layer 
 version: 1.0.0
 publish_to: none
 
@@ -9,7 +9,6 @@ environment:
 dependencies:
   trip_brain_domain:
     path: ../trip_brain_domain/
-  http: ^0.13.6
   protobuf: ^2.1.0
   grpc: ^3.1.0
   collection: ^1.17.1

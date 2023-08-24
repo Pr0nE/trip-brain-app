@@ -18,10 +18,6 @@ class HiveCacheManager implements CacheManager {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
 
-    // final ss = await getBox('placeImagesTableKey');
-
-    // ss.clear();
-
     globalBox = await Hive.openBox<String>('global');
 
     initTasksCompleter.complete();

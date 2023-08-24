@@ -82,7 +82,7 @@ class _SuggestionPricesBottomSheetState
                       }),
                 ),
               ),
-              if (isLoading) CircularProgressIndicator()
+              if (isLoading) const CircularProgressIndicator()
             ],
           ),
         ),

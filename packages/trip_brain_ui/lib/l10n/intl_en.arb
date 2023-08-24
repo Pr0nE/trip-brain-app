@@ -8,5 +8,8 @@
       }
     }
   },
-  "guest": "Guest"
+  "guest": "Guest",
+  "splashWait": "Just a moment...",
+  "guestLogin": "Login as guest",
+  "googleLogin": "Google Login"
 }

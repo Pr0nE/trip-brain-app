@@ -69,6 +69,36 @@ class AppLocalization {
       args: [],
     );
   }
+
+  /// `Just a moment...`
+  String get splashWait {
+    return Intl.message(
+      'Just a moment...',
+      name: 'splashWait',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login as guest`
+  String get guestLogin {
+    return Intl.message(
+      'Login as guest',
+      name: 'guestLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google Login`
+  String get googleLogin {
+    return Intl.message(
+      'Google Login',
+      name: 'googleLogin',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

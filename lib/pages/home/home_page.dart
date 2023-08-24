@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
             ),
             paymentManager: context.read<PaymentManager>(),
             userFetcher: context.read<AuthCubit>(),
-            recentSearchFetcher: context.read<TravelSuggestionRepository>(),
+            recentSearchFetcher: context.read<PlaceSuggestionRepository>(),
             onRecentSearchTapped: (query) =>
                 onRecentSearchTapped(context: context, query: query),
             onLogoutTapped: () {

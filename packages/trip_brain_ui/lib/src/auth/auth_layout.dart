@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
-import 'package:trip_brain_ui/src/core/state_stream_builder.dart';
+import 'package:trip_brain_ui/src/core/stream_consumer.dart';
 import 'package:trip_brain_ui/trip_brain_ui.dart';
 
 class AuthLayout extends StatelessWidget {
@@ -24,9 +24,9 @@ class AuthLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Center(
-          child: StateStreamBuilder<AuthState>(
+          child: StreamConsumer<AuthState>(
               stream: authIO.out,
-              onState: (authState) {
+              listener: (authState) {
                 if (authState is AuthLoggedInState) {
                   Timer(const Duration(seconds: 1), () {
                     onSuccessLogin(authState.loggedInUser);
@@ -36,7 +36,7 @@ class AuthLayout extends StatelessWidget {
                   onError(authState.error, authState.retryCallback);
                 }
               },
-              onStateBuilder: (BuildContext context, AuthState? authState) {
+              builder: (BuildContext context, AuthState? authState) {
                 if (authState is AuthLoadingState) {
                   return const CircularProgressIndicator();
                 }
@@ -51,27 +51,27 @@ class AuthLayout extends StatelessWidget {
                   );
                 }
 
-                return _buildLoginButtons();
+                return _buildLoginButtons(context);
               }),
         ),
       );
 
-  Widget _buildLoginButtons() => Row(
+  Widget _buildLoginButtons(BuildContext context) => Row(
         children: [
           TextButton.icon(
               onPressed: () {
                 onGuestLoginTapped();
                 authIO.guestLogin();
               },
-              icon: Icon(Icons.person),
-              label: Text('Login as guest')),
+              icon: const Icon(Icons.person),
+              label: Text(context.localization.guestLogin)),
           TextButton.icon(
               onPressed: () {
                 onSocialLoginTapped();
                 authIO.googleLogin();
               },
-              icon: Icon(Icons.login),
-              label: Text('Google Login')),
+              icon: const Icon(Icons.login),
+              label: Text(context.localization.googleLogin)),
         ],
       );
 }

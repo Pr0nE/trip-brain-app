@@ -8,5 +8,6 @@
       }
     }
   },
-  "guest": "Invitado"
+  "guest": "Invitado",
+  "splashWait": ""
 }

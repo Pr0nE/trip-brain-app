@@ -17,8 +17,8 @@ class SuggestionsPage extends StatelessWidget {
         create: (context) => DialogManager(context),
         child: Builder(
           builder: (context) => SuggestionsLayout(
-            imageFetcher: context.read<TravelSuggestionRepository>(),
-            placeSuggester: context.read<TravelSuggestionRepository>(),
+            imageFetcher: context.read<PlaceSuggestionRepository>(),
+            placeSuggester: context.read<PlaceSuggestionRepository>(),
             onChangeSuggestionQuery: ({required queryModel}) =>
                 onChangeSuggestionQuery(context, queryModel),
             queryModel: queryModel,

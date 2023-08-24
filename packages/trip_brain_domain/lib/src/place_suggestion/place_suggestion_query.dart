@@ -35,7 +35,7 @@ class PlaceSuggestionQuery extends Equatable {
       basePlace: basePlace ?? this.basePlace,
       likes: _updateList(this.likes, addLike, removeLike),
       dislikes: _updateList(this.dislikes, addDislike, removeDislike),
-      creationDate: suggestDate ?? this.creationDate,
+      creationDate: suggestDate ?? creationDate,
     );
   }
 

@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "guest": MessageLookupByLibrary.simpleMessage("Invitado"),
+        "splashWait": MessageLookupByLibrary.simpleMessage(""),
         "welcome": m0
       };
 }

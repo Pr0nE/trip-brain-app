@@ -3,16 +3,16 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:trip_brain_data/src/exceptions/exception_mappers.dart';
-import 'package:trip_brain_data/src/mappers/place_dto_mappers.dart';
-import 'package:trip_brain_data/src/mappers/place_suggestion_query_dto_mappers.dart';
+import 'package:trip_brain_data/src/place_suggestion/place_dto_mappers.dart';
+import 'package:trip_brain_data/src/place_suggestion/place_suggestion_query_dto_mappers.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
 
 import 'package:trip_brain_data/src/api/api_client.dart';
 import 'package:trip_brain_data/src/generated/gpt.pbgrpc.dart';
 
-class TravelSuggestionRepository
+class PlaceSuggestionRepository
     implements PlaceSuggester, PlaceImageFetcher, RecentSuggestionsFetcher {
-  TravelSuggestionRepository({
+  PlaceSuggestionRepository({
     required this.cacheManager,
     required this.authProvider,
     required this.appSettingsProvider,

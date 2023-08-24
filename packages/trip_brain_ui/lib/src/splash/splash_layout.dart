@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trip_brain_domain/trip_brain_domain.dart';
-import 'package:trip_brain_ui/src/core/state_stream_listener.dart';
+import 'package:trip_brain_ui/src/core/stream_listener.dart';
+import 'package:trip_brain_ui/src/localization/localization_extensions.dart';
 
 class SplashLayout extends StatefulWidget {
   const SplashLayout({
@@ -34,17 +35,17 @@ class _SplashLayoutState extends State<SplashLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => StateStreamListener<AuthState>(
+  Widget build(BuildContext context) => StreamListener<AuthState>(
         stream: widget.authIO.out,
         onState: onAuthState,
-        child: const Scaffold(
+        child: Scaffold(
           body: Center(
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Just a moment...'),
-              SizedBox(height: 16),
-              CircularProgressIndicator(strokeWidth: 3),
+              Text(context.localization.splashWait),
+              const SizedBox(height: 16),
+              const CircularProgressIndicator(strokeWidth: 3),
             ],
           )),
         ),

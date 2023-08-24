@@ -1,9 +1,10 @@
 export 'src/core/app_error.dart';
-export 'src/core/storage.dart';
 export 'src/core/future_extensions.dart';
 export 'src/core/object_extensions.dart';
 export 'src/core/stream_extensions.dart';
-export 'src/core/cache_manager.dart';
+
+export 'src/storage/cache_manager.dart';
+export 'src/storage/storage.dart';
 
 export 'src/place_suggestion/question_flow_step.dart';
 export 'src/place_suggestion/place_suggestion_query.dart';

@@ -12,7 +12,7 @@ Future<void> main() async {
     testWidgets('Initial loading is visible', (tester) async {
       // Load app widget.
       await tester.pumpWidget(const TripBrainApp());
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       expect(find.text('Just a moment...'), findsOneWidget);
     });

@@ -24,7 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "googleLogin": MessageLookupByLibrary.simpleMessage("Google Login"),
         "guest": MessageLookupByLibrary.simpleMessage("Guest"),
+        "guestLogin": MessageLookupByLibrary.simpleMessage("Login as guest"),
+        "splashWait": MessageLookupByLibrary.simpleMessage("Just a moment..."),
         "welcome": m0
       };
 }

@@ -140,7 +140,7 @@ extension DialogExtension on DialogManager {
     add(
       (context, popDialog) => AlertDialog(
         title: const Text('Error'),
-        content: Text('You need internet connection to continue'),
+        content: const Text('You need internet connection to continue'),
         actions: [
           TextButton(
             onPressed: () => popDialog(),
@@ -156,7 +156,7 @@ extension DialogExtension on DialogManager {
     add(
       (context, popDialog) => AlertDialog(
         title: const Text('Error'),
-        content: Text('Please login to continue'),
+        content: const Text('Please login to continue'),
         actions: [
           TextButton(
             onPressed: () {
