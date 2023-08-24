@@ -101,6 +101,7 @@ class _HomeLayoutState extends State<HomeLayout> {
                         ?.copyWith(color: context.onBackground),
                   ),
                   TextField(
+                    key: const Key('travelToTextField'),
                     controller: _travelPlaceTextFieldController,
                     style: context.textTheme.headlineMedium,
                     onSubmitted: (_) =>

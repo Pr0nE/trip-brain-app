@@ -79,8 +79,8 @@ class _QuestionFlowLayoutState extends State<QuestionFlowLayout> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildPreviousStepButton(),
-                    _buildNextStepButton(),
+                    Expanded(child: _buildPreviousStepButton()),
+                    Expanded(child: _buildNextStepButton()),
                   ],
                 )
               ],
