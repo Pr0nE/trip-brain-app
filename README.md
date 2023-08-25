@@ -1,64 +1,84 @@
-# Travel Suggestion App
+# Travel Brain 🌍✈️
 
-Welcome to the Travel Suggestion App, a minimal real-world example that covers essential features from frontend to backend. This app is designed to suggest travel destinations based on your interests and dislikes, providing insightful information such as travel notes, historical background, and more.
+Welcome to Travel Brain! 🎉 Your go-to app for personalized travel suggestions tailored to your interests and dislikes. Get travel notes, historical background, and more!
 
-## Features
+## Features 🌟
 
-- **Travel Suggestions**: Personalized travel destinations based on user preferences.
-- **Insightful Information**: Detailed insights about each suggested place.
-- **gRPC Communication**: Utilizes gRPC for efficient communication with the backend.
-- **Offline Support**: Access your travel suggestions even without an internet connection.
+- **Travel Suggestions 🗺️**: Get destinations that match your vibe.
+- **Insightful Information 📚**: Learn more about each place.
+- **gRPC Communication ⚡**: Fast and efficient backend communication.
+- **Offline Support 📴**: No internet? No problem!
 
-## Architecture
+## Architecture 🏗️
 
-The project consists of three main layers: UI, Data, and Domain. Each layer resides in its own package to (100%)prevent mixing data/UI code.
+This project is organized into three main layers: UI, Data, and Domain. Each layer is in its own package to prevent code mixing.
 
-- **UI Package**: All Widgets. they depend on domain only.
-- **Data Package**: All classes that help produce domain language.
-- **Domain Package**: All interfaces and models. no implementation allowed.
-- **App Package**: Connects all three packages and is the runnable application.
+- **UI Package 🎨**: Widgets only, depends on domain.
+- **Data Package 💾**: Classes that produce domain language.
+- **Domain Package 🛠️**: Interfaces and models only.
+- **App Package 📦**: The glue that binds everything.
 
-A complete article regarding this architecture will be available in the future.
+📝 **Upcoming**: Detailed article on architecture.
 
-## Getting Started
+## Getting Started 🚀
 
-### Prerequisites
+### Prerequisites 🛠️
 
 - Flutter SDK
+- Docker
+- Firebase project
 
-### Firebase Configuration
+### Firebase Setup 🔥
 
-You'll need to setup a firebase project and provide the following files:
+Provide these files for Firebase:
 
 - `android/app/google-services.json`
 - `lib/firebase_options.dart`
 - `ios/firebase_app_id_file.json`
 - `ios/Runner/GoogleService-Info.plist`
 
-### Running the Backend
+### Step 1: Env Setup 🌱
 
-Follow the guide [here](https://github.com/Pr0nE/trip-brain-back) in the backend repository.
+Rename `.env.example` to `.env` and fill it out.
 
-### Running the Flutter Project
+```bash
+mv .env.example .env
+```
+
+📝 **Note**: Open `.env` and complete the variables.
+
+### Step 2: Docker Up 🐳
+
+Run this to start Docker containers:
+
+```bash
+docker compose up -d
+```
+
+🟢 **Success**: Containers should be running.
+
+### Step 3: Flutter Run 🏃‍♂️
+
+Run your Flutter app:
 
 ```bash
 flutter run
 ```
 
-## Remaining Tasks
+🎉 **Done**: Backend is up and running!
 
-1. **Platform Testing**: Currently tested on Android only. Help needed for iOS and web testing.
-2. **Testing**: Tests are not done yet, only initiated a simple integration test.
+## Contributing 🤝
 
-## Contributing
+We welcome your help! Here's what you can do:
 
-Your contributions are welcome! Whether it's testing on different platforms or writing tests, your help is appreciated.
+1. **Platform Testing 📱**: Help needed for iOS and web.
+2. **Testing 🧪**: Tests are in progress.
+3. **UI/UX 🎨**: Room for improvement.
 
-## License
+## License 📄
 
 [License Information]
 
-## Contact
+## Contact 📞
 
-For any inquiries, please contact [Mohammad Teimouri](mailto:moshi1376@yahoo.com).
-
+Questions? Reach out to [Mohammad Teimouri](mailto:moshi1376@yahoo.com).
