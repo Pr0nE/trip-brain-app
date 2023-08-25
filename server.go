@@ -197,7 +197,7 @@ func NewServerImpl() *server {
 }
 
 func getStreamChat(prompt string) (*openai.ChatCompletionStream, error) {
-	client := openai.NewClient(os.Getenv("OPENAPI_API_KEY"))
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY_API_KEY"))
 
 	stream, err := client.CreateChatCompletionStream(
 		context.Background(),

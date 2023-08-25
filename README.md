@@ -27,6 +27,15 @@ This project is organized into three main layers: UI, Data, and Domain. Each lay
 - Flutter SDK
 - Docker
 - Firebase project
+- OpenAI API Key
+- Unsplash API Key
+- Google Client ID
+
+### API Keys and Client ID Setup 🔑
+
+1. **OpenAI API Key**: Required for natural language processing features.
+2. **Unsplash API Key**: Needed for fetching dynamic travel images.
+3. **Google Client ID**: For Google Sign-In authentication.
 
 ### Firebase Setup 🔥
 
@@ -71,6 +80,7 @@ flutter run
 
 We welcome your help! Here's what you can do:
 
+0. **Backend Refactor 🛠️**: Assistance needed for refactoring Go code.
 1. **Platform Testing 📱**: Help needed for iOS and web.
 2. **Testing 🧪**: Tests are in progress.
 3. **UI/UX 🎨**: Room for improvement.
