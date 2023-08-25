@@ -1,65 +1,64 @@
-# Travel Brain Pages
+# Travel Suggestion App
 
-> ## Auth
+Welcome to the Travel Suggestion App, a minimal real-world example that covers essential features from frontend to backend. This app is designed to suggest travel destinations based on your interests and dislikes, providing insightful information such as travel notes, historical background, and more.
 
-### User stories
+## Features
 
-- User be able to login/register with Google
-- User be able to return to Home
+- **Travel Suggestions**: Personalized travel destinations based on user preferences.
+- **Insightful Information**: Detailed insights about each suggested place.
+- **gRPC Communication**: Utilizes gRPC for efficient communication with the backend.
+- **Offline Support**: Access your travel suggestions even without an internet connection.
 
-### Widgets
+## Architecture
 
-- Google auth button
-- Continue As Guest Button
+The project consists of three main layers: UI, Data, and Domain. Each layer resides in its own package to (100%)prevent mixing data/UI code.
 
-> ## Home
+- **UI Package**: All Widgets. they depend on domain only.
+- **Data Package**: All classes that help produce domain language.
+- **Domain Package**: All interfaces and models. no implementation allowed.
+- **App Package**: Connects all three packages and is the runnable application.
 
-### User stories
+A complete article regarding this architecture will be available in the future.
 
-- User answer "I Want Travel To ..."
-- User able to see list of his recent searched queries(+ answers)
+## Getting Started
 
-### Widgets
+### Prerequisites
 
-- TextField for entering interest or location
-- List of popular places/interest
+- Flutter SDK
 
-> ## Question flow
+### Firebase Configuration
 
-### User stories
+You'll need to setup a firebase project and provide the following files:
 
-- User answers list of questions regarding his desire trip (e.g. like relaxing, dislike crowded)
+- `android/app/google-services.json`
+- `lib/firebase_options.dart`
+- `ios/firebase_app_id_file.json`
+- `ios/Runner/GoogleService-Info.plist`
 
-### Widgets
-- a Sentence which holds all entered info till now.(each answer clickable)
-- Each step
-  - Question title
-  - Answer box
-  - Answer suggestions
-  - Next
-  - Back
+### Running the Backend
 
-> ## Suggested Places
+Follow the guide [here](https://github.com/Pr0nE/trip-brain-back) in the backend repository.
 
-### User stories
+### Running the Flutter Project
 
-- User click on each place for more info/pic
-- User click "more" for more results
-- User back to home
-- User back to question flow
+```bash
+flutter run
+```
 
-### Widgets
+## Remaining Tasks
 
-- List of places
-- "suggest more" button
-- all current searchQuery parameters(on click each, back to question flow)
-- back to home button
-- back to question flow button
+1. **Platform Testing**: Currently tested on Android only. Help needed for iOS and web testing.
+2. **Testing**: Tests are not done yet, only initiated a simple integration test.
 
+## Contributing
 
-> ## Prompt
->
-> I Want Travel To breath-taking places which includes ... and exclude ...
-> Suggest list of 10 places in below .md format, no extra info:
+Your contributions are welcome! Whether it's testing on different platforms or writing tests, your help is appreciated.
 
-- place1: why its a good fit in 1 sentence
+## License
+
+[License Information]
+
+## Contact
+
+For any inquiries, please contact [Mohammad Teimouri](mailto:moshi1376@yahoo.com).
+
