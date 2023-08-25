@@ -1,6 +1,6 @@
 # Travel Brain 🌍✈️
 
-Welcome to Travel Brain! 🎉 Your go-to app for personalized travel suggestions tailored to your interests and dislikes. Get travel notes, historical background, and more!
+Welcome to Travel Brain! Your go-to app for personalized travel suggestions tailored to your interests and dislikes. Get travel notes, historical background, and more!
 
 ## Features 🌟
 
@@ -73,8 +73,6 @@ Run your Flutter app:
 ```bash
 flutter run
 ```
-
-🎉 **Done**: Backend is up and running!
 
 ## Contributing 🤝
 
