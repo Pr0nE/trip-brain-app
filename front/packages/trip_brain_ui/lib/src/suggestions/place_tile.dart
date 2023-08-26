@@ -59,6 +59,7 @@ class _PlaceTileState extends State<PlaceTile> {
               tag: place.title,
               child: Text(
                 place.title,
+                textAlign: TextAlign.center,
                 style: context.textTheme.titleLarge
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),

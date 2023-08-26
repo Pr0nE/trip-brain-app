@@ -75,6 +75,7 @@ class TripBrainApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
