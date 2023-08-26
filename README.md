@@ -9,6 +9,11 @@ Welcome to Travel Brain! Your go-to app for personalized travel suggestions tail
 - **gRPC Communication ⚡**: Fast and efficient backend communication.
 - **Offline Support 📴**: No internet? No problem!
 
+## Demo video
+
+https://github.com/Pr0nE/trip-brain-app/assets/25032492/fbfaa7cf-057b-4380-acd9-17a3329fff5c
+
+
 ## Architecture 🏗️
 
 This project is organized into three main layers: UI, Data, and Domain. Each layer is in its own package to prevent code mixing.
