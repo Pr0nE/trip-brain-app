@@ -85,7 +85,7 @@ We welcome your help! Here's what you can do:
 
 ## License 📄
 
-[License Information]
+[MIT](https://github.com/Pr0nE/trip-brain-app/blob/main/LICENSE)
 
 ## Contact 📞
 
